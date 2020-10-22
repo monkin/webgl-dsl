@@ -1,15 +1,15 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "strict": true,
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "baseUrl": "src",
-      "noImplicitAny": true,
-    },
-    "include": [
-      "src"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": true
+  },
+  "include": ["src"]
+}

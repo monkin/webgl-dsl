@@ -546,16 +546,16 @@ export class Settings {
             this.cache.enabledAttributes = newValue;
 
             const applyDiff = (source: Set<number>, target: Set<number>) => {
-                for (let i of source) {
+                source.forEach(i => {
                     if (!target.has(i)) {
                         handle.disableVertexAttribArray(i);
                     }
-                }
-                for (let i of target) {
+                });
+                target.forEach(i => {
                     if (!source.has(i)) {
                         handle.enableVertexAttribArray(i);
                     }
-                }
+                });
             };
 
             try {
@@ -576,16 +576,16 @@ export class Settings {
             this.cache.instancedAttributes = newValue;
 
             const applyDiff = (source: Set<number>, target: Set<number>) => {
-                for (let i of source) {
+                source.forEach(i => {
                     if (!target.has(i)) {
                         handle.vertexAttribDivisorANGLE(i, 0);
                     }
-                }
-                for (let i of target) {
+                });
+                target.forEach(i => {
                     if (!source.has(i)) {
                         handle.vertexAttribDivisorANGLE(i, 1);
                     }
-                }
+                });
             };
 
             try {
