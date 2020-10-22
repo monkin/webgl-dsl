@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": "src",
+      "noImplicitAny": true,
+    },
+    "include": [
+      "src"
+    ]
+  }
+  
