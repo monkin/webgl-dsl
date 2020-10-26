@@ -1,4 +1,5 @@
 node_modules
 lib
+examples/build
 .cache
 .vscode
