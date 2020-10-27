@@ -6,7 +6,8 @@
   },
   "scripts": {
     "start": "parcel --out-dir examples/build examples/index.html",
-    "build": "tsc --project tsconfig.lib.json && parcel build --public-url ./ --out-dir examples/build examples/index.html",
+    "build": "npm run clean && tsc --project tsconfig.lib.json && parcel build --public-url ./ --out-dir examples/build examples/index.html",
+    "clean": "rm -rf lib examples/build",
     "test": "jest"
   },
   "dependencies": {

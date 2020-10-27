@@ -1,12 +1,5 @@
 import { Gl, PrimitivesType, Type, val } from "../src";
 
-function eachFrame(callback: () => void) {
-    requestAnimationFrame(() => {
-        callback();
-        eachFrame(callback);
-    });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const width = canvas.width = canvas.clientWidth * devicePixelRatio;
@@ -44,13 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
         { aColor: [0, 0, 1, 1], aPosition: [1, -1] },
     ]);
     
-    eachFrame(() => {
-        gl.settings()
-            .viewport(0, 0, width, height)
-            .clearColor(0, 0, 0, 1)
-            .apply(() => {
-                gl.cleanColorBuffer();
-                drawTriangles.draw();
-            });
-    });
+
+    gl.settings()
+        .viewport(0, 0, width, height)
+        .clearColor(0, 0, 0, 1)
+        .apply(() => {
+            gl.cleanColorBuffer();
+            drawTriangles.draw();
+        });
 });
