@@ -15,7 +15,7 @@ import {
 } from "./webgl";
 import { Disposable } from "./disposable";
 
-class Command<
+export class Command<
     Uniforms extends TypeMap,
     Attributes extends TypeMap,
     Instances extends TypeMap,
@@ -67,9 +67,9 @@ class Command<
     private prepareData<M extends TypeMap>(stride: number, layout: TypeMap.LayoutItem[], items: TypeMap.JsTypeMap<M>[]) {
         const data = new Float32Array(stride * items.length);
         items.forEach((item, i) => {
-            const offset = stride * i;
             this.attributesLayout.forEach(layout => {
                 const value = item[layout.name];
+                const offset = stride * i + layout.offset;
                 if (Array.isArray(value)) {
                     for (let j = 0; j < value.length; j++) {
                         data[offset + j] = value[j];

@@ -1,3 +1,5 @@
+import { command } from "./command";
+import { SourceConfig, TypeMap } from "dsl";
 import { Disposable, use, uses } from "./disposable";
 import {
     GlEnum,
@@ -143,6 +145,9 @@ export class Gl implements Disposable {
         return this;
     }
 
+    /**
+     * Create empty settings object
+     */
     settings() {
         return new Settings(this, this.settingsCache);
     }
@@ -158,6 +163,9 @@ export class Gl implements Disposable {
         return new ElementsBuffer(this, data, usage);
     }
 
+    /**
+     * Create program with specified vertex and fragment shader source
+     */
     program(vertex: string, fragment: string) {
         return uses(
             () => new Shader(this, ShaderType.Vertex, vertex),
@@ -167,6 +175,27 @@ export class Gl implements Disposable {
         });
     }
 
+    /**
+     * The main function of this library, creates a command with specified parameters and shaders
+     * @param gl 
+     * @param primitivesType Type of primitives to draw
+     * @param config Description of attributes, uniforms, varyings, and shaders
+     */
+    command<
+        Uniforms extends TypeMap,
+        Attributes extends TypeMap,
+        Instances extends TypeMap,
+        Varyings extends TypeMap = {},
+    >(
+        primitivesType: PrimitivesType,
+        config: SourceConfig<Uniforms, Attributes, Instances, Varyings>
+    ) {
+        return command(this, primitivesType, config);
+    }
+
+    /**
+     * Destroy WebGL context
+     */
     dispose() {
         const ex = this.handle.getExtension("WEBGL_lose_context");
         if (ex) {
@@ -911,6 +940,7 @@ export class Program implements Disposable {
         gl.handle.attachShader(handle, vertex.handle);
         gl.handle.attachShader(handle, fragment.handle);
         gl.handle.linkProgram(handle);
+        gl.handle.validateProgram(handle);
         if (gl.handle.getProgramParameter(handle, GlEnum.LINK_STATUS) === false) {
             throw new Error(gl.handle.getProgramInfoLog(handle) || `Program linking error:\n${vertex.source};\n${fragment.source}`);
         }
