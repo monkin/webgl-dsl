@@ -54,7 +54,7 @@ export class Command<
         });
 
         this.instancesLayout.forEach(a => {
-            this.program.setAttribute(a.name, this.attributes, a.stride, a.offset);
+            this.program.setAttribute(a.name, this.instances, a.stride, a.offset);
         });
 
         for (const name in source.uniforms) {
@@ -67,13 +67,15 @@ export class Command<
     private prepareData<M extends TypeMap>(stride: number, layout: TypeMap.LayoutItem[], items: TypeMap.JsTypeMap<M>[]) {
         const data = new Float32Array(stride * items.length);
         items.forEach((item, i) => {
-            this.attributesLayout.forEach(layout => {
+            layout.forEach(layout => {
                 const value = item[layout.name];
                 const offset = stride * i + layout.offset;
                 if (Array.isArray(value)) {
                     for (let j = 0; j < value.length; j++) {
                         data[offset + j] = value[j];
                     }
+                } else if (layout.size === 1 && typeof value === "number") {
+                    data[offset] = value;
                 } else if (layout.size === 2) {
                     const { x, y } = value as { x: number, y: number };
                     data[offset] = x;

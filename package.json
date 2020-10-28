@@ -5,19 +5,20 @@
     "email": "monkin.andrey@gmail.com"
   },
   "scripts": {
-    "start": "parcel --out-dir examples/build examples/index.html",
-    "build": "npm run clean && tsc --project tsconfig.lib.json && parcel build --public-url ./ --out-dir examples/build examples/index.html",
+    "start": "parcel --out-dir examples/build examples/*.html",
+    "build": "npm run clean && tsc --project tsconfig.lib.json && parcel build --public-url ./ --out-dir examples/build examples/*.html && npm run readme-to-index",
     "clean": "rm -rf lib examples/build",
+    "readme-to-index": "cat readme.md | ghmd --template index.pug --stdin > index.html",
     "test": "jest"
   },
-  "dependencies": {
-    "command": "0.0.5"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "typescript": "4.0.3",
-    "jest": "26.6.0",
+    "typescript": "4.0.5",
+    "jest": "26.6.1",
     "@types/jest": "26.0.15",
-    "ts-jest": "26.4.1",
-    "parcel-bundler": "1.12.4"
+    "ts-jest": "26.4.3",
+    "parcel-bundler": "1.12.4",
+    "github-markdown": "3.2.0",
+    "milligram": "1.4.1"
   }
 }

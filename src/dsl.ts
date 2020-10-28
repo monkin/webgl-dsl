@@ -369,7 +369,7 @@ export class Glsl<T extends Type = Type> {
      * Division 
      */
     div<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number): Glsl.AnyNumeric | Glsl.AnyMatrix {
-        return Glsl.call("+", [this, other], ([t]) => t) as T;
+        return Glsl.call("/", [this, other], ([t]) => t) as T;
     }
 
     mul<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number ): T;
@@ -519,6 +519,33 @@ export class Glsl<T extends Type = Type> {
                     return "xyzw".charAt(i);
                 }).join("")}`,
             }
+        });
+    }
+
+    vec2(this: Glsl.Scalar): Glsl.Vector2 {
+        return new Glsl((builder) => {
+            return {
+                type: Type.Vector2,
+                content: `vec2(${this.getValue(builder).content})`,
+            };
+        });
+    }
+
+    vec3(this: Glsl.Scalar): Glsl.Vector3 {
+        return new Glsl((builder) => {
+            return {
+                type: Type.Vector3,
+                content: `vec3(${this.getValue(builder).content})`,
+            };
+        });
+    }
+
+    vec4(this: Glsl.Scalar): Glsl.Vector4 {
+        return new Glsl((builder) => {
+            return {
+                type: Type.Vector4,
+                content: `vec4(${this.getValue(builder).content})`,
+            };
         });
     }
     

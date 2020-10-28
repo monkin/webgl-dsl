@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         },
         fragment({ vColor }) {
-            const p = 1 / 2.2;
             return {
-                gl_FragColor: vColor.pow(val(p, p, p, p)),
+                gl_FragColor: vColor.pow(val(1 / 2.2).vec4()),
             };
         },
     });
