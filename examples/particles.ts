@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             0.9 * (i % 3 === 0 ? 1 : 0),
             0.9 * (i % 3 === 1 ? 1 : 0),
             0.9 * (i % 3 === 2 ? 1 : 0),
-            Math.random() * 0.15 + 0.25
+            Math.random() * 0.15 + 0.45
         ],
         iPhase: Math.random(),
         iScale: Math.random() * 0.2 + 0.9,
