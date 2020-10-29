@@ -6,6 +6,7 @@
   },
   "scripts": {
     "start": "npm run readme-to-index && parcel --out-dir examples/build examples/*.html",
+    "doc": "typedoc --out doc src",
     "build": "npm run clean && tsc --project tsconfig.lib.json && npm run readme-to-index && parcel build --public-url ./ --out-dir examples/build examples/*.html",
     "clean": "rm -rf lib examples/build",
     "readme-to-index": "cat readme.md | ghmd --template index.pug --stdin > index.html",
@@ -19,6 +20,7 @@
     "ts-jest": "26.4.3",
     "parcel-bundler": "1.12.4",
     "github-markdown": "3.2.0",
-    "milligram": "1.4.1"
+    "milligram": "1.4.1",
+    "typedoc": "0.19.2"
   }
 }

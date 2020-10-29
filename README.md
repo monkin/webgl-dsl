@@ -1,5 +1,14 @@
 # WebGL wrapper with strong typed GLSL DSL
 
+[Documentation](https://monkin.github.io/webgl-dsl/doc)
+
+## Examples
+
+* [Minimal triangle](https://monkin.github.io/webgl-dsl/examples/build/triangle.html)
+    ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/triangle.ts))
+* [Draw particles with ANGLE_instanced_arrays](https://monkin.github.io/webgl-dsl/examples/build/particles.html)
+    ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts))
+
 ## Code sample
 
 Here is a code you need to draw a triangle using WebGL-DSL
@@ -49,10 +58,3 @@ gl.settings()
         drawTriangles.draw();
     });
 ```
-
-## Examples
-
-* [Minimal triangle](https://monkin.github.io/webgl-dsl/examples/build/triangle.html)
-    ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/triangle.ts))
-* [Draw particles with ANGLE_instanced_arrays](https://monkin.github.io/webgl-dsl/examples/build/particles.html)
-    ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts))
