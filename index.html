@@ -11,6 +11,52 @@
   </head>
   <body>
     <main><h1>WebGL wrapper with strong typed GLSL DSL</h1>
+<h2>Code sample</h2>
+<p>Here is a code you need to draw a triangle using WebGL-DSL</p>
+<pre><code class="hljs typescript"><span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"canvas"</span>) <span class="hljs-keyword">as</span> HTMLCanvasElement;
+<span class="hljs-keyword">const</span> width = canvas.width = canvas.clientWidth * devicePixelRatio;
+<span class="hljs-keyword">const</span> height = canvas.height = canvas.clientHeight * devicePixelRatio;
+
+<span class="hljs-keyword">const</span> gl = <span class="hljs-keyword">new</span> Gl(canvas, { preserveDrawingBuffer: <span class="hljs-literal">true</span> });
+
+<span class="hljs-keyword">const</span> drawTriangles = gl.command(PrimitivesType.Triangles, {
+    uniforms: {},
+    instances: {},
+    attributes: {
+        aPosition: Type.Vector2,
+        aColor: Type.Vector4,
+    },
+    varyings: {
+        vColor: Type.Vector4,
+    },
+    vertex({ aPosition, aColor }) {
+        <span class="hljs-keyword">return</span> {
+            gl_Position: val(aPosition.mul(<span class="hljs-number">0.75</span>), <span class="hljs-number">0</span>, <span class="hljs-number">1</span>),
+            vColor: aColor,
+        };
+    },
+    fragment({ vColor }) {
+        <span class="hljs-keyword">return</span> {
+            gl_FragColor: vColor.pow(val(<span class="hljs-number">1</span> / <span class="hljs-number">2.2</span>).vec4()),
+        };
+    },
+});
+
+drawTriangles.setAttributes([
+    { aColor: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], aPosition: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>] },
+    { aColor: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], aPosition: [<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>] },
+    { aColor: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], aPosition: [<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>] },
+]);
+
+
+gl.settings()
+    .viewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height)
+    .clearColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)
+    .apply(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        gl.cleanColorBuffer();
+        drawTriangles.draw();
+    });
+</code></pre>
 <h2>Examples</h2>
 <ul>
 <li><a href="https://monkin.github.io/webgl-dsl/examples/build/triangle.html">Minimal triangle</a>

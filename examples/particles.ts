@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             vColor: Type.Vector4,
         },
         vertex({ uTime, uSource, uTarget, iOffset, aPhase, iAmplitude, aPeriod, iPhase, iColor, iScale, iSpeed }) {
-            const t = uTime.div(aPeriod.mul(iScale)).add(aPhase).memHQ();
-            const n = uTarget.sub(uSource).take(1, 0).mul(val(-1, 1)).normalize().memHQ();
-            const shift = t.add(iPhase).add(aPhase).mul(Math.PI * 2).sin().mul(n).mul(iAmplitude).mul(n).add(iOffset);
+            const t = uTime.div(aPeriod.mul(iScale)).add(aPhase).memMQ();
+            const n = uTarget.sub(uSource).take(1, 0).mul(val(-1, 1)).normalize().memMQ();
+            const shift = t.add(iPhase).add(aPhase).mul(Math.PI * 2).sin().mul(n).mul(iAmplitude).mul(n).add(iOffset).memMQ();
             const position = uSource.mix(uTarget, t.mul(iSpeed).mod(1).vec2()).add(shift).cat(val(0, 1)).memHQ();
             return {
                 gl_Position: position.add(val(0, position.x().add(1).mul(Math.PI).sin().mul(0.25), 0, 0)),

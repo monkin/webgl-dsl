@@ -116,6 +116,13 @@ export namespace Type {
         T extends Type.Matrix4 ? number[] :
         T extends Type.Sampler ? Texture :
         never;
+    
+    export function isVector(v: Type): v is AnyVector {
+        return v === Type.Vector2 || v === Type.Vector3 || v === Type.Vector4;
+    }
+    export function isMatrix(v: Type): v is AnyMatrix {
+        return v === Type.Matrix2 || v === Type.Matrix3 || v === Type.Matrix4;
+    }
 }
 
 export type Value<T extends Type = Type> = Readonly<{
@@ -384,7 +391,19 @@ export class Glsl<T extends Type = Type> {
      * Multiplication operation 
      */
     mul<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number ): T {
-        return Glsl.call("*", [this, other], ([t]) => t) as T;
+        return Glsl.call("*", [this, other], ([t1, t2]) => {
+            if (t1 === Type.Scalar || t1 === t2) {
+                return t2;
+            } else if (t2 === Type.Scalar) {
+                return t1;
+            } else if (Type.isVector(t1)) {
+                return t1;
+            } else if (Type.isVector(t2)) {
+                return t2;
+            } else {
+                return t1;
+            }
+        }) as T;
     }
 
     private static bool(name: string) {
