@@ -1,9 +1,11 @@
 {
   "name": "webgl-dsl",
+  "version": "0.0.1",
   "author": {
     "name": "Andrei Monkin",
     "email": "monkin.andrey@gmail.com"
   },
+  "license": "MIT",
   "scripts": {
     "start": "npm run readme-to-index && parcel --out-dir examples/build examples/*.html",
     "doc": "typedoc --out doc src",
