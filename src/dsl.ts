@@ -358,7 +358,7 @@ export class Glsl<T extends Type = Type> {
      * Addition
      */
     add<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number): Glsl.AnyNumeric | Glsl.AnyMatrix {
-        return Glsl.call("+", [this, other], ([t]) => t) as T;
+        return Glsl.call("+", [this, other], ([t1, t2]) => t1 === Type.Scalar ? t2 : t1) as T;
     }
 
     sub<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number): T;
@@ -367,7 +367,7 @@ export class Glsl<T extends Type = Type> {
      * Substraction
      */
     sub<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number): Glsl.AnyNumeric | Glsl.AnyMatrix {
-        return Glsl.call("-", [this, other], ([t]) => t) as T;
+        return Glsl.call("-", [this, other], ([t1, t2]) => t1 === Type.Scalar ? t2 : t1) as T;
     }
 
     div<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number): T;
@@ -376,7 +376,7 @@ export class Glsl<T extends Type = Type> {
      * Division 
      */
     div<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number): Glsl.AnyNumeric | Glsl.AnyMatrix {
-        return Glsl.call("/", [this, other], ([t]) => t) as T;
+        return Glsl.call("/", [this, other], ([t1, t2]) => t1 === Type.Scalar ? t2 : t1) as T;
     }
 
     mul<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(this: T, other: T | Glsl.Scalar | number ): T;
