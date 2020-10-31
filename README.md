@@ -8,6 +8,8 @@
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/triangle.ts))
 * [Draw particles with ANGLE_instanced_arrays](https://monkin.github.io/webgl-dsl/examples/build/particles.html)
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts))
+* [Normals map](https://monkin.github.io/webgl-dsl/examples/build/normals-map.html)
+    ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/normals-map.ts))
 
 ## Code sample
 

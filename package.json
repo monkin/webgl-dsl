@@ -1,11 +1,15 @@
 {
   "name": "webgl-dsl",
+  "displayName": "WebGL DSL",
   "version": "0.0.1",
   "author": {
     "name": "Andrei Monkin",
     "email": "monkin.andrey@gmail.com"
   },
   "license": "MIT",
+  "homepage": "https://github.com/monkin/webgl-dsl",
+  "main": "lib/index.js",
+  "keywords": ["WebGL", "GLSL", "DSL"],
   "scripts": {
     "start": "npm run readme-to-index && parcel --out-dir examples/build examples/*.html",
     "doc": "typedoc --out doc src",

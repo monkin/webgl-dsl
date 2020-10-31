@@ -605,9 +605,9 @@ export class Glsl<T extends Type = Type> {
     cat(this: Glsl.Scalar, v: Glsl.Scalar | number): Glsl.Vector2;
     cat(this: Glsl.Scalar, v: Glsl.Vector2): Glsl.Vector3;
     cat(this: Glsl.Scalar, v: Glsl.Vector3): Glsl.Vector4;
-    cat(this: Glsl.Vector2, v: Glsl.Scalar): Glsl.Vector3;
+    cat(this: Glsl.Vector2, v: Glsl.Scalar | number): Glsl.Vector3;
     cat(this: Glsl.Vector2, v: Glsl.Vector2): Glsl.Vector4;
-    cat(this: Glsl.Vector3, v: Glsl.Scalar): Glsl.Vector4;
+    cat(this: Glsl.Vector3, v: Glsl.Scalar | number): Glsl.Vector4;
     /**
      * Create vector as a concatenation of current value and argument
      */
@@ -807,7 +807,7 @@ export type SourceConfig<
 > = {
     uniforms: Uniforms,
     attributes: Attributes,
-    instances: Instances,
+    instances?: Instances,
     varyings?: Varyings,
     vertex: (
         input: & TypeMap.ToValues<Uniforms>
@@ -867,7 +867,7 @@ export function source<
     }: SourceConfig<Uniforms, Attributes, Instances, Varyings>
 ): ProgramSource<TypeMap.WithoutPrecision<Uniforms>, TypeMap.WithoutPrecision<Attributes>, TypeMap.WithoutPrecision<Instances>> {
     const uValues = TypeMap.values("uniform", uniforms);
-    const aValues = TypeMap.values("attribute", { ...attributes, ...instances });
+    const aValues = TypeMap.values("attribute", { ...attributes, ...(instances || {}) });
     const vValues = varyings ? TypeMap.values("varying", varyings) : {};
 
     // vertex
@@ -933,7 +933,7 @@ export function source<
         fragment: fragmentSource,
         uniforms: TypeMap.withoutPrecision(uniforms),
         attributes: TypeMap.withoutPrecision(attributes),
-        instances: TypeMap.withoutPrecision(instances),
+        instances: TypeMap.withoutPrecision(instances || {} as Instances),
     };
 }
 

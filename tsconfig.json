@@ -2,11 +2,13 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["DOM"],
     "strict": true,
-    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "src",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*", "examples/*"]
+    },
     "noImplicitAny": true,
     "outDir": "lib",
     "declaration": true,
