@@ -10,20 +10,32 @@ const charsInfo = font.chars.reduce((r, v) => {
     r[v.char] = v;
     return r;
 }, {} as { [key: string]: CharInfo });
+const kerningInfo = font.kernings;
 
 function textToGeometry(text: string) {
     return text.split("").map(char => {
         return charsInfo[char];
     }).reduce((r, char, i, chars) => {
+        let kerning = 0;
+
+        if (i !== 0) {
+            const previous = chars[i - 1];
+            kerningInfo.forEach(({ first, second, amount }) => {
+                if (char.id === second && previous.id === first) {
+                    kerning = amount;
+                }
+            });
+        }
+
         r.chars.push({
             iXY: [
-                r.width + char.xoffset,
+                r.width + char.xoffset + kerning,
                 char.yoffset,
             ],
             iUV: [char.x, char.y],
             iSize: [char.width, char.height]
         });
-        r.width += char.xadvance;
+        r.width += char.xadvance + kerning;
         return r;
     }, {
         width: 0,
@@ -144,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     gl.cleanColorBuffer();
                     const scale = 1.8 / textWidth;
                     const shiftX = -0.9;
-                    const shiftY = 0.05 / textWidth * width;
+                    const shiftY = 52 / textWidth;
                     drawChars.setUniforms({
                         uTransform: [
                             scale, 0, 2,
