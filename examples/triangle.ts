@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const drawTriangles = gl.command(PrimitivesType.Triangles, {
         uniforms: {},
-        instances: {},
         attributes: {
             aPosition: Type.Vector2,
             aColor: Type.Vector4,

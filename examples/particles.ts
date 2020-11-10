@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = canvas.width = canvas.clientWidth * devicePixelRatio;
     const height = canvas.height = canvas.clientHeight * devicePixelRatio;
 
-    const gl = new Gl(canvas, { preserveDrawingBuffer: true });
+    const gl = new Gl(canvas);
 
     const drawParticles = gl.command(PrimitivesType.Points, {
         uniforms: {

@@ -1,5 +1,3 @@
-/// <reference types="./modules"/>
-
 import { BlendFunction, Gl, PrimitivesType, TextureFilter, Type, val } from "../src";
 
 import imageX1 from "./normals-map-x1.png";
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     canvas.width = canvas.clientWidth * devicePixelRatio;
     canvas.height = canvas.clientHeight * devicePixelRatio;
 
-    const gl = new Gl(canvas, { preserveDrawingBuffer: true });
+    const gl = new Gl(canvas);
     const texture = gl.texture({
         image: image,
         filter: TextureFilter.Linear,

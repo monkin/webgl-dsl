@@ -305,9 +305,9 @@ export class Glsl<T extends Type = Type> {
     }
 
     
+    smoothstep(this: Glsl.Scalar, edge1: Glsl.Scalar | number, edge2: Glsl.Scalar | number): Glsl.Scalar;
     smoothstep<T extends Glsl.AnyNumeric>(this: T, edge1: T, edge2: T): T;
     smoothstep<T extends Glsl.AnyNumeric>(this: Glsl.Scalar, edge1: Glsl.Scalar | number, edge2: Glsl.Scalar | number): T;
-    smoothstep(this: Glsl.Scalar, edge1: Glsl.Scalar | number, edge2: Glsl.Scalar | number): Glsl.Scalar;
     smoothstep(edge1: Glsl | number, edge2: Glsl | number): Glsl {
         return Glsl.call("smoothstep", [edge1, edge2, this], ([t]) => t);
     }

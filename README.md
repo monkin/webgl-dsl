@@ -10,6 +10,8 @@
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts))
 * [Normals map](https://monkin.github.io/webgl-dsl/examples/build/normals-map.html)
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/normals-map.ts))
+* [MSDF font rendering](https://monkin.github.io/webgl-dsl/examples/build/roboto.html)
+    ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/roboto.ts))
 
 ## Code sample
 
@@ -24,7 +26,6 @@ const gl = new Gl(canvas, { preserveDrawingBuffer: true });
 
 const drawTriangles = gl.command(PrimitivesType.Triangles, {
     uniforms: {},
-    instances: {},
     attributes: {
         aPosition: Type.Vector2,
         aColor: Type.Vector4,

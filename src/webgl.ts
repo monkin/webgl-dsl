@@ -521,8 +521,13 @@ export class Gl implements Disposable {
     
     private readonly settingsCache = SettingsCache.initial();
 
-    constructor(source: HTMLCanvasElement, settings: WebGLContextAttributes = {}) {
-        this.handle = source.getContext("webgl", settings)!;
+    constructor(...source: [HTMLCanvasElement, WebGLContextAttributes?] | [WebGLRenderingContext]) {
+        const [a1, a2] = source;
+        if (typeof HTMLCanvasElement !== "undefined" && a1 instanceof HTMLCanvasElement) {
+            this.handle = a1.getContext("webgl", a2)!;
+        } else {
+            this.handle = a1 as WebGLRenderingContext;
+        }
         this.instancedArrays = this.handle.getExtension("ANGLE_instanced_arrays")!;
     }
 
