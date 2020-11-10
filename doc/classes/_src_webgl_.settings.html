@@ -139,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L686">src/webgl.ts:686</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L686">src/webgl.ts:686</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -203,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">active<wbr>Texture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;number&gt;({read: cache &#x3D;&gt; cache.activeTexture,write: (cache, value) &#x3D;&gt; {cache.activeTexture &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.activeTexture(TEXTURE0 + value);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L897">src/webgl.ts:897</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L897">src/webgl.ts:897</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -213,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">:</span> &lt;T&gt;<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L690">src/webgl.ts:690</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L690">src/webgl.ts:690</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -262,7 +262,7 @@
 					<div class="tsd-signature tsd-kind-icon">array<wbr>Buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;ArrayBuffer | null&gt;({read: cache &#x3D;&gt; cache.arrayBuffer,write: (cache, value) &#x3D;&gt; {cache.arrayBuffer &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.bindBuffer(ARRAY_BUFFER, value?.handle ?? null);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L941">src/webgl.ts:941</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L941">src/webgl.ts:941</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -272,7 +272,7 @@
 					<div class="tsd-signature tsd-kind-icon">blend<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;boolean&gt;({read: cache &#x3D;&gt; cache.blend,write: (cache, value) &#x3D;&gt; {cache.blend &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {if (value) {gl.handle.enable(BLEND);} else {gl.handle.disable(BLEND);}},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L728">src/webgl.ts:728</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L728">src/webgl.ts:728</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -282,7 +282,7 @@
 					<div class="tsd-signature tsd-kind-icon">blend<wbr>Equation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = (() &#x3D;&gt; {const setting &#x3D; Settings.cached&lt;[BlendEquation, BlendEquation]&gt;({read: cache &#x3D;&gt; cache.blendEquation,write: (cached, value) &#x3D;&gt; {cached.blendEquation &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1.every((x, i) &#x3D;&gt; x &#x3D;&#x3D;&#x3D; v2[i]),apply: (gl, [rgb, alpha]) &#x3D;&gt; {gl.handle.blendEquationSeparate(rgb, alpha);},});return function (this: Settings, rgb: BlendEquation, alpha: BlendEquation &#x3D; rgb) {return setting.call(this, [rgb, alpha]);};})()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L829">src/webgl.ts:829</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L829">src/webgl.ts:829</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -292,7 +292,7 @@
 					<div class="tsd-signature tsd-kind-icon">blend<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = (() &#x3D;&gt; {const setting &#x3D; Settings.cached&lt;[BlendFunction, BlendFunction, BlendFunction, BlendFunction]&gt;({read: cache &#x3D;&gt; cache.blendFunction,write: (cached, value) &#x3D;&gt; {cached.blendFunction &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1.every((x, i) &#x3D;&gt; x &#x3D;&#x3D;&#x3D; v2[i]),apply: (gl, [srcRgb, dstRgb, srcAlpha, dstAlpha]) &#x3D;&gt; {gl.handle.blendFuncSeparate(srcRgb, dstRgb, srcAlpha, dstAlpha);},});return function (this: Settings,srcRgb: BlendFunction,dstRgb: BlendFunction,srcAlpha: BlendFunction &#x3D; srcRgb,dstAlpha: BlendFunction &#x3D; dstRgb,) {return setting.call(this, [srcRgb, dstRgb, srcAlpha, dstAlpha]);};})()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L846">src/webgl.ts:846</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L846">src/webgl.ts:846</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -302,7 +302,7 @@
 					<div class="tsd-signature tsd-kind-icon">cache<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_webgl_.settingscache.html" class="tsd-signature-type">SettingsCache</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L689">src/webgl.ts:689</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L689">src/webgl.ts:689</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -312,7 +312,7 @@
 					<div class="tsd-signature tsd-kind-icon">clear<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = (() &#x3D;&gt; {const setting &#x3D; Settings.cached&lt;[number, number, number, number]&gt;({read: cache &#x3D;&gt; cache.clearColor,write: (cached, value) &#x3D;&gt; {cached.clearColor &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1.every((x, i) &#x3D;&gt; x &#x3D;&#x3D;&#x3D; v2[i]),apply: (gl, [r, g, b, a]) &#x3D;&gt; {gl.handle.clearColor(r, g, b, a);},});return function (this: Settings, r: number, g: number, b: number, a: number) {return setting.call(this, [r, g, b, a]);};})()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L880">src/webgl.ts:880</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L880">src/webgl.ts:880</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -322,7 +322,7 @@
 					<div class="tsd-signature tsd-kind-icon">clear<wbr>Depth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;number&gt;({read: cache &#x3D;&gt; cache.clearDepth,write: (cache, value) &#x3D;&gt; {cache.clearDepth &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.clearDepth(value);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L807">src/webgl.ts:807</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L807">src/webgl.ts:807</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -332,7 +332,7 @@
 					<div class="tsd-signature tsd-kind-icon">depth<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;DepthFunction&gt;({read: cache &#x3D;&gt; cache.depthFunction,write: (cache, value) &#x3D;&gt; {cache.depthFunction &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.depthFunc(value);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L869">src/webgl.ts:869</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L869">src/webgl.ts:869</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -342,7 +342,7 @@
 					<div class="tsd-signature tsd-kind-icon">depth<wbr>Test<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;boolean&gt;({read: cache &#x3D;&gt; cache.depthTest,write: (cache, value) &#x3D;&gt; {cache.depthTest &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {if (value) {gl.handle.enable(DEPTH_TEST);} else {gl.handle.disable(DEPTH_TEST);}},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L792">src/webgl.ts:792</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L792">src/webgl.ts:792</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -352,7 +352,7 @@
 					<div class="tsd-signature tsd-kind-icon">elements<wbr>Buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;ElementsBuffer | null&gt;({read: cache &#x3D;&gt; cache.elementsBuffer,write: (cache, value) &#x3D;&gt; {cache.elementsBuffer &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.bindBuffer(ELEMENT_ARRAY_BUFFER, value?.handle ?? null);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L952">src/webgl.ts:952</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L952">src/webgl.ts:952</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -362,7 +362,7 @@
 					<div class="tsd-signature tsd-kind-icon">frame<wbr>Buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;FrameBuffer | null&gt;({read: cache &#x3D;&gt; cache.frameBuffer,write: (cache, value) &#x3D;&gt; {cache.frameBuffer &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.bindFramebuffer(FRAMEBUFFER, value ? value.handle : null);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L985">src/webgl.ts:985</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L985">src/webgl.ts:985</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -372,7 +372,7 @@
 					<div class="tsd-signature tsd-kind-icon">gl<span class="tsd-signature-symbol">:</span> <a href="_src_webgl_.gl.html" class="tsd-signature-type">Gl</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L688">src/webgl.ts:688</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L688">src/webgl.ts:688</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -382,7 +382,7 @@
 					<div class="tsd-signature tsd-kind-icon">line<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;number&gt;({read: cache &#x3D;&gt; cache.lineWidth,write: (cache, value) &#x3D;&gt; {cache.lineWidth &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.lineWidth(value);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L818">src/webgl.ts:818</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L818">src/webgl.ts:818</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -392,7 +392,7 @@
 					<div class="tsd-signature tsd-kind-icon">program<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;Program | null&gt;({read: cache &#x3D;&gt; cache.program,write: (cache, value) &#x3D;&gt; {cache.program &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.useProgram(value ? value.handle : null);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L963">src/webgl.ts:963</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L963">src/webgl.ts:963</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -402,7 +402,7 @@
 					<div class="tsd-signature tsd-kind-icon">render<wbr>Buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;RenderBuffer | null&gt;({read: cache &#x3D;&gt; cache.renderBuffer,write: (cache, value) &#x3D;&gt; {cache.renderBuffer &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.handle.bindRenderbuffer(RENDERBUFFER, value ? value.handle : null);},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L974">src/webgl.ts:974</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L974">src/webgl.ts:974</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -412,7 +412,7 @@
 					<div class="tsd-signature tsd-kind-icon">scissor<wbr>Box<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = (() &#x3D;&gt; {const setting &#x3D; Settings.cached&lt;[number, number, number, number]&gt;({read: cache &#x3D;&gt; cache.scissorBox,write: (cached, value) &#x3D;&gt; {cached.scissorBox &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1.every((x, i) &#x3D;&gt; x &#x3D;&#x3D;&#x3D; v2[i]),apply: (gl, [x, y, width, heigth]) &#x3D;&gt; {gl.handle.scissor(x, y, width, heigth);},});return function (this: Settings, x: number, y: number, width: number, height: number) {return setting.call(this, [x, y, width, height]);};})()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L775">src/webgl.ts:775</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L775">src/webgl.ts:775</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -422,7 +422,7 @@
 					<div class="tsd-signature tsd-kind-icon">scissor<wbr>Test<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = Settings.cached&lt;boolean&gt;({read: cache &#x3D;&gt; cache.scissorTest,write: (cache, value) &#x3D;&gt; {cache.scissorTest &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {if (value) {gl.handle.enable(SCISSOR_TEST);} else {gl.handle.disable(SCISSOR_TEST);}},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L760">src/webgl.ts:760</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L760">src/webgl.ts:760</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -432,7 +432,7 @@
 					<div class="tsd-signature tsd-kind-icon">texture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = (() &#x3D;&gt; {const textures &#x3D; new Array(16).fill(null).map((_, i) &#x3D;&gt; {return Settings.cached&lt;Texture | null&gt;({read: cache &#x3D;&gt; cache.textures.get(i) || null,write: (cache, texture) &#x3D;&gt; {if (texture) {cache.textures.set(i, texture);} else {cache.textures.delete(i);}},equals: (v1, v2) &#x3D;&gt; v1 &#x3D;&#x3D;&#x3D; v2,apply: (gl, value) &#x3D;&gt; {gl.settings().activeTexture(i).apply(() &#x3D;&gt; {gl.handle.bindTexture(TEXTURE_2D, value?.handle || null);});}});});return function(this: Settings, i: number, texture: Texture | null) {return textures[i].call(this, texture);};})()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L908">src/webgl.ts:908</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L908">src/webgl.ts:908</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -442,7 +442,7 @@
 					<div class="tsd-signature tsd-kind-icon">viewport<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = (() &#x3D;&gt; {const setting &#x3D; Settings.cached&lt;[number, number, number, number]&gt;({read: cache &#x3D;&gt; cache.viewport,write: (cached, value) &#x3D;&gt; {cached.viewport &#x3D; value;},equals: (v1, v2) &#x3D;&gt; v1.every((x, i) &#x3D;&gt; x &#x3D;&#x3D;&#x3D; v2[i]),apply: (gl, [x, y, width, heigth]) &#x3D;&gt; {gl.handle.viewport(x, y, width, heigth);},});return function (this: Settings, x: number, y: number, width: number, height: number) {return setting.call(this, [x, y, width, height]);};})()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L743">src/webgl.ts:743</a></li>
+							<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L743">src/webgl.ts:743</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -459,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L996">src/webgl.ts:996</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L996">src/webgl.ts:996</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -482,7 +482,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L1026">src/webgl.ts:1026</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L1026">src/webgl.ts:1026</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -505,7 +505,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L1056">src/webgl.ts:1056</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L1056">src/webgl.ts:1056</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -528,7 +528,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L933">src/webgl.ts:933</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L933">src/webgl.ts:933</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -551,7 +551,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L720">src/webgl.ts:720</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L720">src/webgl.ts:720</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -574,7 +574,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/feed668/src/webgl.ts#L695">src/webgl.ts:695</a></li>
+									<li>Defined in <a href="https://github.com/monkin/webgl-dsl/blob/6f9fa6c/src/webgl.ts#L695">src/webgl.ts:695</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>

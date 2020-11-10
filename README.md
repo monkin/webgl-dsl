@@ -1,4 +1,4 @@
-# WebGL wrapper with strong typed GLSL DSL
+# Thin functional WebGL wrapper with strong typed GLSL DSL
 
 [Documentation](https://monkin.github.io/webgl-dsl/doc)
 

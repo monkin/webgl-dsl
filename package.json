@@ -1,7 +1,8 @@
 {
   "name": "webgl-dsl",
   "displayName": "WebGL DSL",
-  "version": "0.0.1",
+  "description": "Thin functional WebGL wrapper with strong typed GLSL DSL",
+  "version": "0.0.2",
   "author": {
     "name": "Andrei Monkin",
     "email": "monkin.andrey@gmail.com"
