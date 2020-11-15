@@ -2,6 +2,14 @@
 
 [Documentation](https://monkin.github.io/webgl-dsl/doc)
 
+## Installation
+
+This library could be installed from npm repository
+
+```
+npm i --save webgl-dsl
+```
+
 ## Examples
 
 * [Minimal triangle](https://monkin.github.io/webgl-dsl/examples/build/triangle.html)
