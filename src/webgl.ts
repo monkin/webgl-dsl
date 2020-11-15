@@ -1,5 +1,5 @@
 import { command } from "./command";
-import { SourceConfig, TypeMap } from "dsl";
+import { SourceConfig, TypeMap } from "./dsl";
 import { Disposable, use, uses } from "./disposable";
 
 /**
