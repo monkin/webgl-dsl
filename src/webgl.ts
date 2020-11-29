@@ -582,6 +582,18 @@ export class Gl implements Disposable {
         return new Texture(this, config);
     }
 
+    /**
+     * 
+     * @param width Depth buffer
+     */
+    renderBuffer(width: number, height: number) {
+        return new RenderBuffer(this, width, height);
+    }
+
+    frameBuffer(texture: Texture, renderBuffer?: RenderBuffer) {
+        return new FrameBuffer(this, texture, renderBuffer);
+    }
+
     arrayBuffer(data: Float32Array | number[] | null = null, usage: BufferUsage = BufferUsage.Dynamic) {
         return new ArrayBuffer(this, data, usage);
     }
