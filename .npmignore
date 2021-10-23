@@ -1,6 +1,6 @@
 examples
 doc
-.cache
+.parcel-cache
 .nojekyll
 index.html
 index.pug

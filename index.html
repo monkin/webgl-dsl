@@ -30,7 +30,7 @@ main {
 <p><a href="https://monkin.github.io/webgl-dsl/doc">Documentation</a></p>
 <h2>Installation</h2>
 <p>This library could be installed from npm repository</p>
-<pre><code>npm i <span class="hljs-comment">--save webgl-dsl</span>
+<pre><code>npm i --save webgl-dsl
 </code></pre>
 <h2>Examples</h2>
 <ul>
@@ -45,13 +45,13 @@ main {
 </ul>
 <h2>Code sample</h2>
 <p>Here is a code you need to draw a triangle using WebGL-DSL</p>
-<pre><code class="hljs typescript"><span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"canvas"</span>) <span class="hljs-keyword">as</span> HTMLCanvasElement;
-<span class="hljs-keyword">const</span> width = canvas.width = canvas.clientWidth * devicePixelRatio;
-<span class="hljs-keyword">const</span> height = canvas.height = canvas.clientHeight * devicePixelRatio;
+<pre><code class="language-typescript">const canvas = document.getElementById(&quot;canvas&quot;) as HTMLCanvasElement;
+const width = canvas.width = canvas.clientWidth * devicePixelRatio;
+const height = canvas.height = canvas.clientHeight * devicePixelRatio;
 
-<span class="hljs-keyword">const</span> gl = <span class="hljs-keyword">new</span> Gl(canvas, { preserveDrawingBuffer: <span class="hljs-literal">true</span> });
+const gl = new Gl(canvas, { preserveDrawingBuffer: true });
 
-<span class="hljs-keyword">const</span> drawTriangles = gl.command(PrimitivesType.Triangles, {
+const drawTriangles = gl.command(PrimitivesType.Triangles, {
     uniforms: {},
     attributes: {
         aPosition: Type.Vector2,
@@ -61,29 +61,29 @@ main {
         vColor: Type.Vector4,
     },
     vertex({ aPosition, aColor }) {
-        <span class="hljs-keyword">return</span> {
-            gl_Position: val(aPosition.mul(<span class="hljs-number">0.75</span>), <span class="hljs-number">0</span>, <span class="hljs-number">1</span>),
+        return {
+            gl_Position: val(aPosition.mul(0.75), 0, 1),
             vColor: aColor,
         };
     },
     fragment({ vColor }) {
-        <span class="hljs-keyword">return</span> {
-            gl_FragColor: vColor.pow(val(<span class="hljs-number">1</span> / <span class="hljs-number">2.2</span>).vec4()),
+        return {
+            gl_FragColor: vColor.pow(val(1 / 2.2).vec4()),
         };
     },
 });
 
 drawTriangles.setAttributes([
-    { aColor: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], aPosition: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>] },
-    { aColor: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], aPosition: [<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>] },
-    { aColor: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], aPosition: [<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>] },
+    { aColor: [1, 0, 0, 1], aPosition: [0, 1] },
+    { aColor: [0, 1, 0, 1], aPosition: [-1, -1] },
+    { aColor: [0, 0, 1, 1], aPosition: [1, -1] },
 ]);
 
 
 gl.settings()
-    .viewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height)
-    .clearColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)
-    .apply(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    .viewport(0, 0, width, height)
+    .clearColor(0, 0, 0, 1)
+    .apply(() =&gt; {
         gl.cleanColorBuffer();
         drawTriangles.draw();
     });
