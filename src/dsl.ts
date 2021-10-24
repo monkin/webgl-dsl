@@ -783,7 +783,7 @@ export namespace TypeMap {
     export function layout(map: TypeMap): LayoutItem[] {
         const s = stride(map);
 
-        return Object.keys(map).reduce((r, name) => {
+        return Object.keys(map).sort().reduce((r, name) => {
             const previous = r.length ? r[r.length - 1] : null;
             r.push({
                 name: name,
