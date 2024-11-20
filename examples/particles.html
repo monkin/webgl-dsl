@@ -1,24 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Particles Example - WebGL DSL</title>
-    <link rel="stylesheet" href="../node_modules/milligram/dist/milligram.css">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <main>
-        <h1>Particles Example</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Back</a></li>
-                <li><a href="https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts">Source</a></li>
-            </ul>
-        </nav>
-        <p>Draw 250_000 animated dots using <a href="https://developer.mozilla.org/ru/docs/Web/API/ANGLE_instanced_arrays">ANGLE_instanced_arrays</a> for better performance</p>
-        <canvas id="canvas" style="width: 640px; height: 480px;" aria-label="Particles rendered with WebGL DSL"></canvas>
-        <script type="module" src="./particles.ts"></script>
-    </main>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Particles Example - WebGL DSL</title>
+        <link
+            rel="stylesheet"
+            href="../node_modules/milligram/dist/milligram.css"
+        />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+        <main>
+            <h1>Particles Example</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Back</a></li>
+                    <li>
+                        <a
+                            href="https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts"
+                            >Source</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+            <p>
+                Draw 250_000 animated dots using
+                <a
+                    href="https://developer.mozilla.org/ru/docs/Web/API/ANGLE_instanced_arrays"
+                    >ANGLE_instanced_arrays</a
+                >
+                for better performance
+            </p>
+            <canvas
+                id="canvas"
+                style="width: 640px; height: 480px"
+                aria-label="Particles rendered with WebGL DSL"
+            ></canvas>
+            <script type="module" src="./particles.ts"></script>
+        </main>
+    </body>
 </html>

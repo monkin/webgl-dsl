@@ -1,10 +1,4 @@
-import {
-    TypeMap,
-    SourceConfig,
-    source,
-    ProgramSource,
-    Type,
-} from "./dsl";
+import { TypeMap, SourceConfig, source, ProgramSource, Type } from "./dsl";
 import {
     Gl,
     Program,
@@ -19,7 +13,8 @@ export class Command<
     Uniforms extends TypeMap,
     Attributes extends TypeMap,
     Instances extends TypeMap,
-> implements Disposable {
+> implements Disposable
+{
     private readonly program: Program;
     private readonly attributes: ArrayBuffer;
     private readonly instances: ArrayBuffer;
@@ -29,7 +24,7 @@ export class Command<
     private readonly attributesLayout: TypeMap.LayoutItem[];
     private readonly instancesStride: number;
     private readonly instancesLayout: TypeMap.LayoutItem[];
-    
+
     private textureInstances = new Map<number, Texture>();
     private textureIndexes = new Map<string, number>();
 
@@ -50,11 +45,21 @@ export class Command<
         this.instancesLayout = TypeMap.layout(source.instances);
 
         this.attributesLayout.forEach(a => {
-            this.program.setAttribute(a.name, this.attributes, a.stride, a.offset);
+            this.program.setAttribute(
+                a.name,
+                this.attributes,
+                a.stride,
+                a.offset
+            );
         });
 
         this.instancesLayout.forEach(a => {
-            this.program.setAttribute(a.name, this.instances, a.stride, a.offset);
+            this.program.setAttribute(
+                a.name,
+                this.instances,
+                a.stride,
+                a.offset
+            );
         });
 
         for (const name in source.uniforms) {
@@ -64,7 +69,11 @@ export class Command<
         }
     }
 
-    private prepareData<M extends TypeMap>(stride: number, layout: TypeMap.LayoutItem[], items: TypeMap.JsTypeMap<M>[]) {
+    private prepareData<M extends TypeMap>(
+        stride: number,
+        layout: TypeMap.LayoutItem[],
+        items: TypeMap.JsTypeMap<M>[]
+    ) {
         const data = new Float32Array(stride * items.length);
         items.forEach((item, i) => {
             layout.forEach(layout => {
@@ -77,16 +86,22 @@ export class Command<
                 } else if (layout.size === 1 && typeof value === "number") {
                     data[offset] = value;
                 } else if (layout.size === 2) {
-                    const { x, y } = value as { x: number, y: number };
+                    const { x, y } = value as { x: number; y: number };
                     data[offset] = x;
                     data[offset + 1] = y;
                 } else if (layout.size === 3) {
-                    const { x, y, z } = value as { x: number, y: number, z: number };
+                    const { x, y, z } = value as {
+                        x: number;
+                        y: number;
+                        z: number;
+                    };
                     data[offset] = x;
                     data[offset + 1] = y;
                     data[offset + 2] = z;
                 } else {
-                    throw new Error(`Unsupported attribute '${layout.name}' value: ${JSON.stringify(value)}`);
+                    throw new Error(
+                        `Unsupported attribute '${layout.name}' value: ${JSON.stringify(value)}`
+                    );
                 }
             });
         });
@@ -94,13 +109,21 @@ export class Command<
     }
 
     setAttributes(attributes: TypeMap.JsTypeMap<Attributes>[]): this {
-        const data = this.prepareData(this.attributesStride, this.attributesLayout, attributes);
+        const data = this.prepareData(
+            this.attributesStride,
+            this.attributesLayout,
+            attributes
+        );
         this.attributes.setContent(data);
         return this;
     }
 
     setInstances(instances: TypeMap.JsTypeMap<Instances>[]): this {
-        const data = this.prepareData(this.instancesStride, this.instancesLayout, instances);
+        const data = this.prepareData(
+            this.instancesStride,
+            this.instancesLayout,
+            instances
+        );
         this.instances.setContent(data);
         return this;
     }
@@ -115,7 +138,7 @@ export class Command<
         for (const i in data) {
             const value = data[i];
             let array: number[];
-    
+
             if (typeof value === "number") {
                 array = [value];
             } else if (Array.isArray(value)) {
@@ -125,13 +148,19 @@ export class Command<
                 this.textureInstances.set(index, value);
                 array = [index];
             } else if (uniforms[i] === Type.Vector2) {
-                const { x, y } = value as { x: number, y: number };
+                const { x, y } = value as { x: number; y: number };
                 array = [x, y];
             } else if (uniforms[i] === Type.Vector3) {
-                const { x, y, z } = value as { x: number, y: number, z: number };
+                const { x, y, z } = value as {
+                    x: number;
+                    y: number;
+                    z: number;
+                };
                 array = [x, y, z];
             } else {
-                throw new Error(`Invalid value for uniform '${i}', expected ${uniforms[i]}`);
+                throw new Error(
+                    `Invalid value for uniform '${i}', expected ${uniforms[i]}`
+                );
             }
             this.program.setUniform(i, array);
         }
@@ -139,9 +168,13 @@ export class Command<
     }
 
     draw(
-        instancesCount = this.instancesStride ? this.instances.length / this.instancesStride : null,
-        verticesCount = this.attributesStride ? this.attributes.length / this.attributesStride : null,
-        elementsCount = this.elements.length,
+        instancesCount = this.instancesStride
+            ? this.instances.length / this.instancesStride
+            : null,
+        verticesCount = this.attributesStride
+            ? this.attributes.length / this.attributesStride
+            : null,
+        elementsCount = this.elements.length
     ) {
         const gl = this.gl;
 
@@ -163,35 +196,42 @@ export class Command<
                     .filter(v => v !== null && v !== undefined)
             )
             .textures(
-                Array.from(this.textureInstances.entries()).reduce((r, [index, texture]) => {
-                    r[index] = texture;
-                    return r;
-                }, new Array<Texture | null>(16).fill(null))
+                Array.from(this.textureInstances.entries()).reduce(
+                    (r, [index, texture]) => {
+                        r[index] = texture;
+                        return r;
+                    },
+                    new Array<Texture | null>(16).fill(null)
+                )
             )
             .apply(() => {
                 if (instancesCount !== null && elementsCount !== 0) {
-                    gl.settings().elementsBuffer(this.elements).apply(() => {
-                        gl.drawsInstancedElements(
-                            this.primitivesType,
-                            elementsCount,
-                            instancesCount
-                        );
-                    });
+                    gl.settings()
+                        .elementsBuffer(this.elements)
+                        .apply(() => {
+                            gl.drawsInstancedElements(
+                                this.primitivesType,
+                                elementsCount,
+                                instancesCount
+                            );
+                        });
                 } else if (instancesCount !== null && verticesCount !== null) {
                     gl.drawInstancedArrays(
                         this.primitivesType,
                         verticesCount,
-                        instancesCount,
+                        instancesCount
                     );
                 } else if (elementsCount !== 0) {
-                    gl.settings().elementsBuffer(this.elements).apply(() => {
-                        gl.drawsElements(this.primitivesType, elementsCount);
-                    });
+                    gl.settings()
+                        .elementsBuffer(this.elements)
+                        .apply(() => {
+                            gl.drawsElements(
+                                this.primitivesType,
+                                elementsCount
+                            );
+                        });
                 } else if (verticesCount) {
-                    gl.drawArrays(
-                        this.primitivesType,
-                        verticesCount,
-                    );
+                    gl.drawArrays(this.primitivesType, verticesCount);
                 } else {
                     throw new Error("Invalid draw dataset");
                 }
@@ -208,7 +248,7 @@ export class Command<
 
 /**
  * The main function of this library, creates a command with specified parameters and shaders
- * @param gl 
+ * @param gl
  * @param primitivesType Type of primitives to draw
  * @param config Description of attributes, uniforms, varyings, and shaders
  */

@@ -1,9 +1,9 @@
 import { Gl, PrimitivesType, Type, val } from "../src";
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    const width = canvas.width = canvas.clientWidth * devicePixelRatio;
-    const height = canvas.height = canvas.clientHeight * devicePixelRatio;
+    const width = (canvas.width = canvas.clientWidth * devicePixelRatio);
+    const height = (canvas.height = canvas.clientHeight * devicePixelRatio);
 
     const gl = new Gl(canvas, { preserveDrawingBuffer: true });
 
@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { aColor: [0, 1, 0, 1], aPosition: [-1, -1] },
         { aColor: [0, 0, 1, 1], aPosition: [1, -1] },
     ]);
-    
 
     gl.settings()
         .viewport(0, 0, width, height)

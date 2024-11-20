@@ -21,7 +21,10 @@ export namespace Disposable {
 /**
  * Pass disposable object into function and destroy it after the call
  */
-export function use<T extends Disposable, R>(item: T, callback: (item: T) => R) {
+export function use<T extends Disposable, R>(
+    item: T,
+    callback: (item: T) => R
+) {
     try {
         return callback(item);
     } finally {
@@ -35,16 +38,24 @@ export function use<T extends Disposable, R>(item: T, callback: (item: T) => R) 
 export function uses<Items extends (() => Disposable)[]>(
     ...constructors: Items
 ) {
-    return <R>(callback: (...items: { [key in keyof Items]: Items[key] extends () => Disposable ? ReturnType<Items[key]> : never }) => R): R => {
+    return <R>(
+        callback: (
+            ...items: {
+                [key in keyof Items]: Items[key] extends () => Disposable
+                    ? ReturnType<Items[key]>
+                    : never;
+            }
+        ) => R
+    ): R => {
         const values: Disposable[] = [];
         try {
             constructors.forEach(c => {
                 values.push(c());
             });
 
-            return callback(...values as any);
+            return callback(...(values as any));
         } finally {
             values.forEach(v => v.dispose());
         }
-    }
+    };
 }
