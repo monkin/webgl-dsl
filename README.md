@@ -1,6 +1,6 @@
 # Thin functional WebGL wrapper with strong typed GLSL DSL
 
-[Documentation](https://monkin.github.io/webgl-dsl/doc)
+[Documentation](https://monkin.github.io/webgl-dsl/docs)
 
 ## Installation
 
@@ -12,13 +12,13 @@ npm i --save webgl-dsl
 
 ## Examples
 
-* [Minimal triangle](https://monkin.github.io/webgl-dsl/examples/build/triangle.html)
+* [Minimal triangle](https://monkin.github.io/webgl-dsl/examples/triangle.html)
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/triangle.ts))
-* [Draw particles with ANGLE_instanced_arrays](https://monkin.github.io/webgl-dsl/examples/build/particles.html)
+* [Draw particles with ANGLE_instanced_arrays](https://monkin.github.io/webgl-dsl/examples/particles.html)
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/particles.ts))
-* [Normals map](https://monkin.github.io/webgl-dsl/examples/build/normals-map.html)
+* [Normals map](https://monkin.github.io/webgl-dsl/examples/normals-map.html)
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/normals-map.ts))
-* [MSDF font rendering](https://monkin.github.io/webgl-dsl/examples/build/roboto.html)
+* [MSDF font rendering](https://monkin.github.io/webgl-dsl/examples/roboto.html)
     ([source](https://github.com/monkin/webgl-dsl/blob/master/examples/roboto.ts))
 
 ## Code sample
