@@ -3,7 +3,7 @@ name: Deploy Examples and Documentation to GitHub Pages
 on:
   push:
     branches:
-      - main # name of the branch you are pushing to
+      - master
 
 jobs:
   build:
