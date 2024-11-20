@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "npm run readme-to-index && parcel serve --dist-dir examples/build examples/*.html",
-    "doc": "typedoc --out doc src",
+    "docs": "typedoc --out docs src",
     "build": "npm run clean && tsc --project tsconfig.lib.json && npm run readme-to-index && parcel build --no-source-maps --public-url ./ --dist-dir examples/build examples/*.html",
     "clean": "rm -rf lib examples/build",
     "readme-to-index": "pug --pretty index.pug",
