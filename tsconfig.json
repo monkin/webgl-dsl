@@ -1,20 +1,20 @@
 {
-  "compilerOptions": {
-    "target": "ES2021",
-    "module": "ES2015",
-    "moduleResolution": "node",
-    "strict": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
-    "paths": {
-      "*": ["src/*", "examples/*"]
+    "compilerOptions": {
+        "target": "ES2021",
+        "module": "ES2015",
+        "moduleResolution": "node",
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": "./",
+        "paths": {
+            "*": ["src/*", "examples/*"]
+        },
+        "noImplicitAny": true,
+        "outDir": "lib",
+        "declaration": true,
+        "sourceMap": true,
+        "resolveJsonModule": true
     },
-    "noImplicitAny": true,
-    "outDir": "lib",
-    "declaration": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
-  },
-  "include": ["src", "examples"]
+    "include": ["src", "examples"]
 }

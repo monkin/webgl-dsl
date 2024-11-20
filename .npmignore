@@ -5,3 +5,7 @@ doc
 index.html
 index.pug
 jest.config
+.github
+.idea
+index.html
+index.pug
