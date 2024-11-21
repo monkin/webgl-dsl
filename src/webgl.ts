@@ -469,6 +469,25 @@ export enum TextureFormat {
     Rgba = RGBA,
 }
 
+export enum PixelFormat {
+    Rgba = RGBA,
+    Rgb = RGB,
+    Alpha = ALPHA,
+}
+
+export namespace PixelFormat {
+    export function getChannelsCount(format: PixelFormat) {
+        switch (format) {
+            case PixelFormat.Rgb:
+                return 3;
+            case PixelFormat.Rgba:
+                return 4;
+            case PixelFormat.Alpha:
+                return 1;
+        }
+    }
+}
+
 export enum ShaderType {
     Vertex = VERTEX_SHADER,
     Fragment = FRAGMENT_SHADER,
@@ -1281,6 +1300,27 @@ export class Texture {
                     );
                 }
             });
+    }
+
+    read(format: PixelFormat = PixelFormat.Rgba): Uint8Array {
+        const bytes = new Uint8Array(
+            this.width * this.height * PixelFormat.getChannelsCount(format)
+        );
+        this.gl.handle.readPixels(
+            0,
+            0,
+            this.width,
+            this.height,
+            format,
+            UNSIGNED_BYTE,
+            bytes
+        );
+        return bytes;
+    }
+
+    setFilter(filter: TextureFilter) {
+        this.gl.handle.texParameteri(TEXTURE_2D, TEXTURE_MAG_FILTER, filter);
+        this.gl.handle.texParameteri(TEXTURE_2D, TEXTURE_MIN_FILTER, filter);
     }
 
     dispose() {
