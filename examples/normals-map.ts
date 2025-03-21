@@ -7,8 +7,8 @@ import {
     val,
 } from "../src";
 
-import imageX1 from "./normals-map-x1.png";
-import imageX2 from "./normals-map-x2.png";
+import imageX1 from "url:./normals-map-x1.png";
+import imageX2 from "url:./normals-map-x2.png";
 
 function loadImage(src: string) {
     const image = new Image();
