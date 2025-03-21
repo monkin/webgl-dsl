@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             0,
                             position.x().add(1).mul(Math.PI).sin().mul(0.25),
                             0,
-                            0
-                        )
+                            0,
+                        ),
                     ),
                     gl_PointSize: val(1),
                     vColor: iColor,
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     aPeriod: 3000 + Math.random() * 500,
                     aPhase: Math.random(),
                 };
-            })
+            }),
         )
         .setInstances(
             new Array(500).fill(null).map((_, i) => ({
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 iPhase: Math.random(),
                 iScale: Math.random() * 0.2 + 0.9,
                 iSpeed: Math.random() * 0.2 + 0.9,
-            }))
+            })),
         );
 
     const time = (() => {
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 BlendFunction.SrcAlpha,
                 BlendFunction.One,
                 BlendFunction.OneMinusSrcAlpha,
-                BlendFunction.One
+                BlendFunction.One,
             )
             .apply(() => {
                 gl.cleanColorBuffer();

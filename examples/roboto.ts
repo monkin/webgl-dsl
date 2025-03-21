@@ -18,7 +18,7 @@ const charsInfo = font.chars.reduce(
         r[v.char] = v;
         return r;
     },
-    {} as { [key: string]: CharInfo }
+    {} as { [key: string]: CharInfo },
 );
 const kerningInfo = font.kernings;
 
@@ -59,7 +59,7 @@ function textToGeometry(text: string) {
                     iUV: number[];
                     iSize: number[];
                 }[];
-            }
+            },
         );
 }
 
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         .take(0, 1)
                         .cat(val(0, 1)),
                     vUV: val(0, 1).sub(
-                        iUV.add(position).div(uTextureSize).mul(val(-1, 1))
+                        iUV.add(position).div(uTextureSize).mul(val(-1, 1)),
                     ),
                 };
             },
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         1,
                         1,
                         1,
-                        median.smoothstep(0.43, 0.57).mul(uAlpha).pow(2.2)
+                        median.smoothstep(0.43, 0.57).mul(uAlpha).pow(2.2),
                     ),
                 };
             },
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     BlendFunction.SrcAlpha,
                     BlendFunction.One,
                     BlendFunction.OneMinusSrcAlpha,
-                    BlendFunction.One
+                    BlendFunction.One,
                 )
                 .apply(() => {
                     gl.cleanColorBuffer();

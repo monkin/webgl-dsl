@@ -554,7 +554,7 @@ export class Gl implements Disposable {
             this.handle = a1 as WebGLRenderingContext;
         }
         this.instancedArrays = this.handle.getExtension(
-            "ANGLE_instanced_arrays"
+            "ANGLE_instanced_arrays",
         )!;
     }
 
@@ -594,7 +594,7 @@ export class Gl implements Disposable {
             primitivesType,
             elementsCount,
             UNSIGNED_SHORT,
-            0
+            0,
         );
         return this;
     }
@@ -602,13 +602,13 @@ export class Gl implements Disposable {
     drawInstancedArrays(
         primitivesType: PrimitivesType,
         verticesCount: number,
-        instancesCount: number
+        instancesCount: number,
     ): this {
         this.instancedArrays.drawArraysInstancedANGLE(
             primitivesType,
             0,
             verticesCount,
-            instancesCount
+            instancesCount,
         );
         return this;
     }
@@ -616,14 +616,14 @@ export class Gl implements Disposable {
     drawsInstancedElements(
         primitivesType: PrimitivesType,
         elementsCount: number,
-        instancesCount: number
+        instancesCount: number,
     ): this {
         this.instancedArrays.drawElementsInstancedANGLE(
             primitivesType,
             elementsCount,
             UNSIGNED_SHORT,
             0,
-            instancesCount
+            instancesCount,
         );
         return this;
     }
@@ -653,14 +653,14 @@ export class Gl implements Disposable {
 
     arrayBuffer(
         data: Float32Array | number[] | null = null,
-        usage: BufferUsage = BufferUsage.Dynamic
+        usage: BufferUsage = BufferUsage.Dynamic,
     ) {
         return new ArrayBuffer(this, data, usage);
     }
 
     elementsBuffer(
         data: Uint16Array | number[] | null = null,
-        usage: BufferUsage = BufferUsage.Dynamic
+        usage: BufferUsage = BufferUsage.Dynamic,
     ) {
         return new ElementsBuffer(this, data, usage);
     }
@@ -671,7 +671,7 @@ export class Gl implements Disposable {
     program(vertex: string, fragment: string) {
         return uses(
             () => new Shader(this, ShaderType.Vertex, vertex),
-            () => new Shader(this, ShaderType.Fragment, fragment)
+            () => new Shader(this, ShaderType.Fragment, fragment),
         )((vertex, fragment) => {
             return new Program(this, vertex, fragment);
         });
@@ -690,7 +690,7 @@ export class Gl implements Disposable {
         Varyings extends TypeMap = {},
     >(
         primitivesType: PrimitivesType,
-        config: SourceConfig<Uniforms, Attributes, Instances, Varyings>
+        config: SourceConfig<Uniforms, Attributes, Instances, Varyings>,
     ) {
         return command(this, primitivesType, config);
     }
@@ -764,7 +764,7 @@ export class Settings {
         public readonly gl: Gl,
         private readonly cache: SettingsCache,
         public readonly apply: <T>(callback: () => T) => T = callback =>
-            callback()
+            callback(),
     ) {}
 
     private static cached<T>({
@@ -794,7 +794,7 @@ export class Settings {
                             apply(this.gl, cached);
                         }
                     }
-                })
+                }),
             );
         };
     }
@@ -839,7 +839,7 @@ export class Settings {
             x: number,
             y: number,
             width: number,
-            height: number
+            height: number,
         ) {
             return setting.call(this, [x, y, width, height]);
         };
@@ -877,7 +877,7 @@ export class Settings {
             x: number,
             y: number,
             width: number,
-            height: number
+            height: number,
         ) {
             return setting.call(this, [x, y, width, height]);
         };
@@ -935,7 +935,7 @@ export class Settings {
         return function (
             this: Settings,
             rgb: BlendEquation,
-            alpha: BlendEquation = rgb
+            alpha: BlendEquation = rgb,
         ) {
             return setting.call(this, [rgb, alpha]);
         };
@@ -960,7 +960,7 @@ export class Settings {
             srcRgb: BlendFunction,
             dstRgb: BlendFunction,
             srcAlpha: BlendFunction = srcRgb,
-            dstAlpha: BlendFunction = dstRgb
+            dstAlpha: BlendFunction = dstRgb,
         ) {
             return setting.call(this, [srcRgb, dstRgb, srcAlpha, dstAlpha]);
         };
@@ -994,7 +994,7 @@ export class Settings {
             r: number,
             g: number,
             b: number,
-            a: number
+            a: number,
         ) {
             return setting.call(this, [r, g, b, a]);
         };
@@ -1029,7 +1029,7 @@ export class Settings {
                         .apply(() => {
                             gl.handle.bindTexture(
                                 TEXTURE_2D,
-                                value?.handle || null
+                                value?.handle || null,
                             );
                         });
                 },
@@ -1046,7 +1046,7 @@ export class Settings {
         for (let i = 0; i < 16; i++) {
             result = result.texture(
                 i,
-                i >= textures.length ? null : textures[i]
+                i >= textures.length ? null : textures[i],
             );
         }
         return result;
@@ -1094,7 +1094,7 @@ export class Settings {
         apply: (gl, value) => {
             gl.handle.bindRenderbuffer(
                 RENDERBUFFER,
-                value ? value.handle : null
+                value ? value.handle : null,
             );
         },
     });
@@ -1120,7 +1120,7 @@ export class Settings {
 
                 const applyDiff = (
                     source: Set<number>,
-                    target: Set<number>
+                    target: Set<number>,
                 ) => {
                     source.forEach(i => {
                         if (!target.has(i)) {
@@ -1141,7 +1141,7 @@ export class Settings {
                     applyDiff(newValue, oldValue);
                     this.cache.enabledAttributes = oldValue;
                 }
-            })
+            }),
         );
     }
 
@@ -1155,7 +1155,7 @@ export class Settings {
 
                 const applyDiff = (
                     source: Set<number>,
-                    target: Set<number>
+                    target: Set<number>,
                 ) => {
                     source.forEach(i => {
                         if (!target.has(i)) {
@@ -1176,7 +1176,7 @@ export class Settings {
                     applyDiff(newValue, oldValue);
                     this.cache.instancedAttributes = oldValue;
                 }
-            })
+            }),
         );
     }
 
@@ -1226,7 +1226,7 @@ export class Texture {
 
     constructor(
         public readonly gl: Gl,
-        config: TextureConfig
+        config: TextureConfig,
     ) {
         this.handle = gl.handle.createTexture()!;
 
@@ -1259,22 +1259,22 @@ export class Texture {
                 gl.handle.texParameteri(
                     TEXTURE_2D,
                     TEXTURE_MAG_FILTER,
-                    this.filter
+                    this.filter,
                 );
                 gl.handle.texParameteri(
                     TEXTURE_2D,
                     TEXTURE_MIN_FILTER,
-                    this.filter
+                    this.filter,
                 );
                 gl.handle.texParameteri(
                     TEXTURE_2D,
                     TEXTURE_WRAP_S,
-                    CLAMP_TO_EDGE
+                    CLAMP_TO_EDGE,
                 );
                 gl.handle.texParameteri(
                     TEXTURE_2D,
                     TEXTURE_WRAP_T,
-                    CLAMP_TO_EDGE
+                    CLAMP_TO_EDGE,
                 );
 
                 if ("image" in config) {
@@ -1284,7 +1284,7 @@ export class Texture {
                         this.format,
                         this.format,
                         UNSIGNED_BYTE,
-                        config.image
+                        config.image,
                     );
                 } else {
                     gl.handle.texImage2D(
@@ -1296,7 +1296,7 @@ export class Texture {
                         0, // border
                         this.format,
                         UNSIGNED_BYTE,
-                        "data" in config ? config.data : null
+                        "data" in config ? config.data : null,
                     );
                 }
             });
@@ -1304,7 +1304,7 @@ export class Texture {
 
     read(format: PixelFormat = PixelFormat.Rgba): Uint8Array {
         const bytes = new Uint8Array(
-            this.width * this.height * PixelFormat.getChannelsCount(format)
+            this.width * this.height * PixelFormat.getChannelsCount(format),
         );
         this.gl.handle.readPixels(
             0,
@@ -1313,7 +1313,7 @@ export class Texture {
             this.height,
             format,
             UNSIGNED_BYTE,
-            bytes
+            bytes,
         );
         return bytes;
     }
@@ -1334,7 +1334,7 @@ export class FrameBuffer implements Disposable {
     constructor(
         public readonly gl: Gl,
         public readonly colorBuffer: Texture,
-        public readonly depthBuffer?: RenderBuffer
+        public readonly depthBuffer?: RenderBuffer,
     ) {
         this.handle = gl.handle.createFramebuffer()!;
         gl.settings()
@@ -1345,14 +1345,14 @@ export class FrameBuffer implements Disposable {
                     COLOR_ATTACHMENT0,
                     TEXTURE_2D,
                     colorBuffer.handle,
-                    0
+                    0,
                 );
                 depthBuffer &&
                     gl.handle.framebufferRenderbuffer(
                         FRAMEBUFFER,
                         DEPTH_ATTACHMENT,
                         RENDERBUFFER,
-                        depthBuffer.handle
+                        depthBuffer.handle,
                     );
             });
     }
@@ -1371,7 +1371,7 @@ export class RenderBuffer implements Disposable {
     constructor(
         public readonly gl: Gl,
         private widthValue: number,
-        private heightValue: number
+        private heightValue: number,
     ) {
         this.handle = gl.handle.createRenderbuffer()!;
         gl.settings()
@@ -1381,7 +1381,7 @@ export class RenderBuffer implements Disposable {
                     RENDERBUFFER,
                     DEPTH_COMPONENT16,
                     widthValue,
-                    heightValue
+                    heightValue,
                 );
             });
     }
@@ -1406,7 +1406,7 @@ export class RenderBuffer implements Disposable {
                         RENDERBUFFER,
                         DEPTH_COMPONENT16,
                         width,
-                        height
+                        height,
                     );
                 });
         }
@@ -1433,7 +1433,7 @@ export class ArrayBuffer implements Disposable {
         /**
          * @default BufferUsage.Dynamic
          */
-        private readonly usage: BufferUsage = BufferUsage.Dynamic
+        private readonly usage: BufferUsage = BufferUsage.Dynamic,
     ) {
         this.handle = gl.handle.createBuffer()!;
         data && this.setContent(data);
@@ -1452,7 +1452,7 @@ export class ArrayBuffer implements Disposable {
                 gl.handle.bufferData(
                     WebGL2RenderingContext.ARRAY_BUFFER,
                     content,
-                    this.usage
+                    this.usage,
                 );
             });
 
@@ -1479,7 +1479,7 @@ export class ElementsBuffer implements Disposable {
         /**
          * @default BufferUsage.Dynamic
          */
-        private readonly usage: BufferUsage = BufferUsage.Dynamic
+        private readonly usage: BufferUsage = BufferUsage.Dynamic,
     ) {
         this.handle = gl.handle.createBuffer()!;
         data && this.setContent(data);
@@ -1500,7 +1500,7 @@ export class ElementsBuffer implements Disposable {
                 gl.handle.bufferData(
                     WebGL2RenderingContext.ARRAY_BUFFER,
                     content,
-                    this.usage
+                    this.usage,
                 );
             });
 
@@ -1518,7 +1518,7 @@ class Shader implements Disposable {
     constructor(
         public readonly gl: Gl,
         public readonly type: ShaderType,
-        public readonly source: string
+        public readonly source: string,
     ) {
         const handle = (this.handle = gl.handle.createShader(type)!);
 
@@ -1526,7 +1526,7 @@ class Shader implements Disposable {
         gl.handle.compileShader(handle);
         if (gl.handle.getShaderParameter(handle, COMPILE_STATUS) === false) {
             throw new Error(
-                `WebGL error '${gl.handle.getShaderInfoLog(handle)}' in '${source}'`
+                `WebGL error '${gl.handle.getShaderInfoLog(handle)}' in '${source}'`,
             );
         }
     }
@@ -1557,7 +1557,7 @@ export class Program implements Disposable {
     constructor(
         public readonly gl: Gl,
         public readonly vertex: Shader,
-        public readonly fragment: Shader
+        public readonly fragment: Shader,
     ) {
         const handle = (this.handle = gl.handle.createProgram()!);
         gl.handle.attachShader(handle, vertex.handle);
@@ -1567,14 +1567,14 @@ export class Program implements Disposable {
         if (gl.handle.getProgramParameter(handle, LINK_STATUS) === false) {
             throw new Error(
                 gl.handle.getProgramInfoLog(handle) ||
-                    `Program linking error:\n${vertex.source};\n${fragment.source}`
+                    `Program linking error:\n${vertex.source};\n${fragment.source}`,
             );
         }
 
         // uniforms
         const uniformsCount: number = gl.handle.getProgramParameter(
             handle,
-            ACTIVE_UNIFORMS
+            ACTIVE_UNIFORMS,
         );
         for (let i = 0; i < uniformsCount; i++) {
             const info = gl.handle.getActiveUniform(handle, i);
@@ -1590,7 +1590,7 @@ export class Program implements Disposable {
         // attributes
         const attributesCount = gl.handle.getProgramParameter(
             handle,
-            ACTIVE_ATTRIBUTES
+            ACTIVE_ATTRIBUTES,
         );
         for (let i = 0; i < attributesCount; i++) {
             const info = gl.handle.getActiveAttrib(handle, i);
@@ -1649,7 +1649,7 @@ export class Program implements Disposable {
         name: string,
         buffer: ArrayBuffer,
         strideInFloats: number,
-        offsetInFloats: number
+        offsetInFloats: number,
     ) {
         const attr = this.attributes[name];
         if (attr != null) {
@@ -1678,14 +1678,14 @@ export class Program implements Disposable {
                                     return 16;
                                 default:
                                     throw new Error(
-                                        `Invalid attribute type '${attr.type}'`
+                                        `Invalid attribute type '${attr.type}'`,
                                     );
                             }
                         })(),
                         FLOAT,
                         false,
                         strideInFloats * 4,
-                        offsetInFloats * 4
+                        offsetInFloats * 4,
                     );
                 });
         } else {

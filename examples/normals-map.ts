@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 BlendFunction.SrcAlpha,
                 BlendFunction.One,
                 BlendFunction.OneMinusSrcAlpha,
-                BlendFunction.One
+                BlendFunction.One,
             )
             .apply(() => {
                 gl.cleanColorBuffer();

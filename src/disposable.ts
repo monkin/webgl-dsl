@@ -23,7 +23,7 @@ export namespace Disposable {
  */
 export function use<T extends Disposable, R>(
     item: T,
-    callback: (item: T) => R
+    callback: (item: T) => R,
 ) {
     try {
         return callback(item);
@@ -45,7 +45,7 @@ export function uses<Items extends (() => Disposable)[]>(
                     ? ReturnType<Items[key]>
                     : never;
             }
-        ) => R
+        ) => R,
     ): R => {
         const values: Disposable[] = [];
         try {

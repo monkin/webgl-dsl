@@ -31,7 +31,7 @@ export class Command<
     constructor(
         public readonly gl: Gl,
         public readonly primitivesType: PrimitivesType,
-        public readonly source: ProgramSource<Uniforms, Attributes, Instances>
+        public readonly source: ProgramSource<Uniforms, Attributes, Instances>,
     ) {
         this.program = gl.program(source.vertex, source.fragment);
 
@@ -49,7 +49,7 @@ export class Command<
                 a.name,
                 this.attributes,
                 a.stride,
-                a.offset
+                a.offset,
             );
         });
 
@@ -58,7 +58,7 @@ export class Command<
                 a.name,
                 this.instances,
                 a.stride,
-                a.offset
+                a.offset,
             );
         });
 
@@ -72,7 +72,7 @@ export class Command<
     private prepareData<M extends TypeMap>(
         stride: number,
         layout: TypeMap.LayoutItem[],
-        items: TypeMap.JsTypeMap<M>[]
+        items: TypeMap.JsTypeMap<M>[],
     ) {
         const data = new Float32Array(stride * items.length);
         items.forEach((item, i) => {
@@ -100,7 +100,7 @@ export class Command<
                     data[offset + 2] = z;
                 } else {
                     throw new Error(
-                        `Unsupported attribute '${layout.name}' value: ${JSON.stringify(value)}`
+                        `Unsupported attribute '${layout.name}' value: ${JSON.stringify(value)}`,
                     );
                 }
             });
@@ -112,7 +112,7 @@ export class Command<
         const data = this.prepareData(
             this.attributesStride,
             this.attributesLayout,
-            attributes
+            attributes,
         );
         this.attributes.setContent(data);
         return this;
@@ -122,7 +122,7 @@ export class Command<
         const data = this.prepareData(
             this.instancesStride,
             this.instancesLayout,
-            instances
+            instances,
         );
         this.instances.setContent(data);
         return this;
@@ -159,7 +159,7 @@ export class Command<
                 array = [x, y, z];
             } else {
                 throw new Error(
-                    `Invalid value for uniform '${i}', expected ${uniforms[i]}`
+                    `Invalid value for uniform '${i}', expected ${uniforms[i]}`,
                 );
             }
             this.program.setUniform(i, array);
@@ -174,7 +174,7 @@ export class Command<
         verticesCount = this.attributesStride
             ? this.attributes.length / this.attributesStride
             : null,
-        elementsCount = this.elements.length
+        elementsCount = this.elements.length,
     ) {
         const gl = this.gl;
 
@@ -185,7 +185,7 @@ export class Command<
                     .map(key => {
                         return this.program.attributes[key]?.location;
                     })
-                    .filter(v => v !== null && v !== undefined)
+                    .filter(v => v !== null && v !== undefined),
             )
             .instancedAttributes(
                 this.instancesLayout
@@ -193,7 +193,7 @@ export class Command<
                     .map(key => {
                         return this.program.attributes[key]?.location;
                     })
-                    .filter(v => v !== null && v !== undefined)
+                    .filter(v => v !== null && v !== undefined),
             )
             .textures(
                 Array.from(this.textureInstances.entries()).reduce(
@@ -201,8 +201,8 @@ export class Command<
                         r[index] = texture;
                         return r;
                     },
-                    new Array<Texture | null>(16).fill(null)
-                )
+                    new Array<Texture | null>(16).fill(null),
+                ),
             )
             .apply(() => {
                 if (instancesCount !== null && elementsCount !== 0) {
@@ -212,14 +212,14 @@ export class Command<
                             gl.drawsInstancedElements(
                                 this.primitivesType,
                                 elementsCount,
-                                instancesCount
+                                instancesCount,
                             );
                         });
                 } else if (instancesCount !== null && verticesCount !== null) {
                     gl.drawInstancedArrays(
                         this.primitivesType,
                         verticesCount,
-                        instancesCount
+                        instancesCount,
                     );
                 } else if (elementsCount !== 0) {
                     gl.settings()
@@ -227,7 +227,7 @@ export class Command<
                         .apply(() => {
                             gl.drawsElements(
                                 this.primitivesType,
-                                elementsCount
+                                elementsCount,
                             );
                         });
                 } else if (verticesCount) {
@@ -260,7 +260,7 @@ export function command<
 >(
     gl: Gl,
     primitivesType: PrimitivesType,
-    config: SourceConfig<Uniforms, Attributes, Instances, Varyings>
+    config: SourceConfig<Uniforms, Attributes, Instances, Varyings>,
 ) {
     return new Command(gl, primitivesType, source(config));
 }
