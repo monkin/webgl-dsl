@@ -425,6 +425,11 @@ const CONTEXT_LOST_WEBGL = 0x9242;
 const UNPACK_COLORSPACE_CONVERSION_WEBGL = 0x9243;
 const BROWSER_DEFAULT_WEBGL = 0x9244;
 
+const SRGB_EXT = 0x8c40;
+const SRGB_ALPHA_EXT = 0x8c42;
+const SRGB8_ALPHA8_EXT = 0x8c43;
+const FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT = 0x8210;
+
 export enum BlendEquation {
     Add = FUNC_ADD,
     Sub = FUNC_SUBTRACT,
@@ -467,6 +472,8 @@ export enum TextureFormat {
     LuminanceAlpha = LUMINANCE_ALPHA,
     Rgb = RGB,
     Rgba = RGBA,
+    Srgb = SRGB_EXT,
+    Srgba = SRGB8_ALPHA8_EXT,
 }
 
 export enum PixelFormat {
@@ -536,6 +543,7 @@ export enum PrimitivesType {
 export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;
     readonly instancedArrays: ANGLE_instanced_arrays;
+    readonly srgbExtension: EXT_sRGB;
 
     private readonly settingsCache = SettingsCache.initial();
 
@@ -556,6 +564,8 @@ export class Gl implements Disposable {
         this.instancedArrays = this.handle.getExtension(
             "ANGLE_instanced_arrays",
         )!;
+
+        this.srgbExtension = this.handle.getExtension("EXT_sRGB")!;
     }
 
     isContextLost() {
@@ -640,8 +650,9 @@ export class Gl implements Disposable {
     }
 
     /**
-     *
-     * @param width Depth buffer
+     * Create depth buffer with specified width and height
+     * @param width Depth buffer width
+     * @param height Depth buffer height
      */
     renderBuffer(width: number, height: number) {
         return new RenderBuffer(this, width, height);
