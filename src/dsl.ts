@@ -227,63 +227,63 @@ export class Glsl<T extends Type = Type> {
     }
 
     sin(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("sin");
+        return this.unary("sin") as Glsl<T>;
     }
     cos(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("cos");
+        return this.unary("cos") as Glsl<T>;
     }
     radians(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("radians");
+        return this.unary("radians") as Glsl<T>;
     }
     degrees(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("degrees");
+        return this.unary("degrees") as Glsl<T>;
     }
     tan(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("tan");
+        return this.unary("tan") as Glsl<T>;
     }
     asin(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("asin");
+        return this.unary("asin") as Glsl<T>;
     }
     acos(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("acos");
+        return this.unary("acos") as Glsl<T>;
     }
 
     exp(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("exp");
+        return this.unary("exp") as Glsl<T>;
     }
     log(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("log");
+        return this.unary("log") as Glsl<T>;
     }
     exp2(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("exp2");
+        return this.unary("exp2") as Glsl<T>;
     }
     log2(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("log2");
+        return this.unary("log2") as Glsl<T>;
     }
     sqrt(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("sqrt");
+        return this.unary("sqrt") as Glsl<T>;
     }
     inversesqrt(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("inversesqrt");
+        return this.unary("inversesqrt") as Glsl<T>;
     }
 
     abs(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("abs");
+        return this.unary("abs") as Glsl<T>;
     }
     sign(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("sign");
+        return this.unary("sign") as Glsl<T>;
     }
     floor(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("floor");
+        return this.unary("floor") as Glsl<T>;
     }
     ceil(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("ceil");
+        return this.unary("ceil") as Glsl<T>;
     }
     fract(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("fract");
+        return this.unary("fract") as Glsl<T>;
     }
     normalize(this: Glsl<Type.AnyNumeric>) {
-        return this.unary("normalize");
+        return this.unary("normalize") as Glsl<T>;
     }
 
     round<T extends Glsl.AnyNumeric>(this: T): T {
@@ -318,7 +318,7 @@ export class Glsl<T extends Type = Type> {
     pow(this: Glsl.Vector3, p: Glsl.Vector3): Glsl.Vector3;
     pow(this: Glsl.Vector4, p: Glsl.Vector4): Glsl.Vector4;
     pow(this: Glsl.Scalar, p: number): Glsl.Scalar;
-    pow(p: Glsl.AnyNumeric | number): Glsl<Type> {
+    pow(p: Glsl.AnyNumeric | number): Glsl {
         const pv = typeof p === "number" ? val(p) : p;
         return Glsl.call("pow", [this, pv], ([t]) => t);
     }
@@ -339,7 +339,7 @@ export class Glsl<T extends Type = Type> {
 
     max<P extends Type.AnyNumeric>(this: Glsl<P>, p: Glsl<P>): Glsl<P>;
     max(this: Glsl.Scalar, p: number): Glsl.Scalar;
-    max(p: Glsl.AnyNumeric | number): Glsl<Type> {
+    max(p: Glsl.AnyNumeric | number): Glsl {
         return Glsl.call("max", [this, p], ([t]) => t);
     }
 
