@@ -222,39 +222,77 @@ export class Glsl<T extends Type = Type> {
         }
     }
 
-    private static unary<X extends Type = Type.AnyNumeric>(name: string) {
-        return function <A extends X>(this: Glsl<A>): Glsl<A> {
-            return Glsl.call(name, [this], t => t[0]) as Glsl<A>;
-        };
+    private unary(name: string) {
+        return Glsl.call(name, [this], t => t[0]) as Glsl<T>;
     }
 
-    sin = Glsl.unary("sin");
-    cos = Glsl.unary("cos");
-    radians = Glsl.unary("radians");
-    degrees = Glsl.unary("degrees");
-    tan = Glsl.unary("tan");
-    asin = Glsl.unary("asin");
-    acos = Glsl.unary("acos");
+    sin(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("sin");
+    }
+    cos(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("cos");
+    }
+    radians(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("radians");
+    }
+    degrees(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("degrees");
+    }
+    tan(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("tan");
+    }
+    asin(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("asin");
+    }
+    acos(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("acos");
+    }
 
-    exp = Glsl.unary("exp");
-    log = Glsl.unary("log");
-    exp2 = Glsl.unary("exp2");
-    log2 = Glsl.unary("log2");
-    sqrt = Glsl.unary("sqrt");
-    inversesqrt = Glsl.unary("inversesqrt");
+    exp(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("exp");
+    }
+    log(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("log");
+    }
+    exp2(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("exp2");
+    }
+    log2(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("log2");
+    }
+    sqrt(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("sqrt");
+    }
+    inversesqrt(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("inversesqrt");
+    }
 
-    abs = Glsl.unary("abs");
-    sign = Glsl.unary("sign");
-    floor = Glsl.unary("floor");
-    ceil = Glsl.unary("floor");
-    fract = Glsl.unary("fract");
-    normalize = Glsl.unary("normalize");
+    abs(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("abs");
+    }
+    sign(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("sign");
+    }
+    floor(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("floor");
+    }
+    ceil(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("ceil");
+    }
+    fract(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("fract");
+    }
+    normalize(this: Glsl<Type.AnyNumeric>) {
+        return this.unary("normalize");
+    }
 
     round<T extends Glsl.AnyNumeric>(this: T): T {
         return this.add(0.5).floor() as T;
     }
 
-    not = Glsl.unary<Type.Boolean>("!");
+    not(this: Glsl<Type.Boolean>) {
+        return this.unary("!");
+    }
 
     atan<T extends Type.AnyNumeric>(this: Glsl<T>): Glsl<T>;
     atan<T extends Type.AnyNumeric>(this: Glsl<T>, x: Glsl<T>): Glsl<T>;
@@ -380,16 +418,13 @@ export class Glsl<T extends Type = Type> {
     /**
      * Get texture value at the specified point
      */
-    texture2D = function (
-        this: Glsl.Sampler,
-        point: Glsl.Vector2,
-    ): Glsl.Vector4 {
+    texture2D(this: Glsl.Sampler, point: Glsl.Vector2): Glsl.Vector4 {
         return Glsl.call(
             "texture2D",
             [this, point],
             () => Type.Vector4,
         ) as Glsl.Vector4;
-    };
+    }
 
     add<T extends Glsl.AnyNumeric | Glsl.AnyMatrix>(
         this: T,
@@ -487,31 +522,38 @@ export class Glsl<T extends Type = Type> {
         }) as T;
     }
 
-    private static bool(name: string) {
-        return function (
-            this: Glsl.Scalar,
-            other: Glsl.Scalar | number,
-        ): Glsl.Boolean {
-            return Glsl.call(
-                name,
-                [this, other],
-                () => Type.Boolean,
-            ) as Glsl.Boolean;
-        };
+    private bool(this: Glsl.Scalar, name: string, other: Glsl.Scalar | number) {
+        return Glsl.call(
+            name,
+            [this, other],
+            () => Type.Boolean,
+        ) as Glsl.Boolean;
     }
 
     /** Less */
-    lt = Glsl.bool("<");
+    lt(this: Glsl.Scalar, other: Glsl.Scalar | number): Glsl.Boolean {
+        return this.bool("<", other);
+    }
     /** Greater */
-    gt = Glsl.bool(">");
+    gt(this: Glsl.Scalar, other: Glsl.Scalar | number): Glsl.Boolean {
+        return this.bool(">", other);
+    }
     /** Less or equal */
-    lte = Glsl.bool("<=");
+    lte(this: Glsl.Scalar, other: Glsl.Scalar | number): Glsl.Boolean {
+        return this.bool("<=", other);
+    }
     /** Greater or equal */
-    gte = Glsl.bool(">=");
+    gte(this: Glsl.Scalar, other: Glsl.Scalar | number): Glsl.Boolean {
+        return this.bool(">=", other);
+    }
     /** Equal */
-    eq = Glsl.bool("==");
+    eq(this: Glsl.Scalar, other: Glsl.Scalar | number): Glsl.Boolean {
+        return this.bool("==", other);
+    }
     /** Not equal */
-    neq = Glsl.bool("!=");
+    neq(this: Glsl.Scalar, other: Glsl.Scalar | number): Glsl.Boolean {
+        return this.bool("!=", other);
+    }
 
     and(this: Glsl.Boolean, other: Glsl.Boolean): Glsl.Boolean {
         return Glsl.call(
