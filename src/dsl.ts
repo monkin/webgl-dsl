@@ -707,19 +707,19 @@ export class Glsl<T extends Type = Type> {
     /**
      * Get the second component of vector
      */
-    y(this: Glsl.AnyVector) {
+    y(this: Glsl.Vector2 | Glsl.Vector3 | Glsl.Vector4) {
         return this.take(1);
     }
     /**
      * Get the third component of vector
      */
-    z(this: Glsl.AnyVector) {
+    z(this: Glsl.Vector3 | Glsl.Vector4) {
         return this.take(2);
     }
     /**
      * Get the fourth component of vector
      */
-    w(this: Glsl.AnyVector) {
+    w(this: Glsl.Vector4) {
         return this.take(3);
     }
 
@@ -732,19 +732,19 @@ export class Glsl<T extends Type = Type> {
     /**
      * Get the second component of vector
      */
-    g(this: Glsl.AnyVector) {
+    g(this: Glsl.Vector2 | Glsl.Vector3 | Glsl.Vector4) {
         return this.take(1);
     }
     /**
      * Get the third component of vector
      */
-    b(this: Glsl.AnyVector) {
+    b(this: Glsl.Vector3 | Glsl.Vector4) {
         return this.take(2);
     }
     /**
      * Get the fourth component of vector
      */
-    a(this: Glsl.AnyVector) {
+    a(this: Glsl.Vector4) {
         return this.take(3);
     }
 
