@@ -434,13 +434,15 @@ export enum BlendEquation {
     Add = FUNC_ADD,
     Sub = FUNC_SUBTRACT,
     RSub = FUNC_REVERSE_SUBTRACT,
+    Min = 0x8007,
+    Max = 0x8008,
 }
 
 export enum DepthFunction {
     Never = NEVER,
     Less = LESS,
     Equal = EQUAL,
-    LWqual = LEQUAL,
+    LEqual = LEQUAL,
     Greater = GREATER,
     NotEqual = NOTEQUAL,
     GEqual = GEQUAL,
@@ -544,6 +546,7 @@ export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;
     readonly instancedArrays: ANGLE_instanced_arrays;
     readonly srgbExtension: EXT_sRGB;
+    readonly minMaxExtension: EXT_blend_minmax;
 
     private readonly settingsCache = SettingsCache.initial();
 
@@ -561,9 +564,12 @@ export class Gl implements Disposable {
         } else {
             this.handle = a1 as WebGLRenderingContext;
         }
+
         this.instancedArrays = this.handle.getExtension(
             "ANGLE_instanced_arrays",
         )!;
+
+        this.minMaxExtension = this.handle.getExtension("EXT_blend_minmax")!;
 
         this.srgbExtension = this.handle.getExtension("EXT_sRGB")!;
     }
