@@ -1323,15 +1323,19 @@ export class Texture {
         const bytes = new Uint8Array(
             this.width * this.height * PixelFormat.getChannelsCount(format),
         );
-        this.gl.handle.readPixels(
-            0,
-            0,
-            this.width,
-            this.height,
-            format,
-            UNSIGNED_BYTE,
-            bytes,
-        );
+
+        this.gl.settings().renderTarget(this).viewport(0, 0, this.width, this.height).apply(() => {
+            this.gl.handle.readPixels(
+                0,
+                0,
+                this.width,
+                this.height,
+                format,
+                UNSIGNED_BYTE,
+                bytes,
+            );
+        })
+
         return bytes;
     }
 
