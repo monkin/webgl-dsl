@@ -1482,11 +1482,7 @@ export class ArrayBuffer implements Disposable {
         gl.settings()
             .arrayBuffer(this)
             .apply(() => {
-                gl.handle.bufferData(
-                    WebGL2RenderingContext.ARRAY_BUFFER,
-                    content,
-                    this.usage,
-                );
+                gl.handle.bufferData(ARRAY_BUFFER, content, this.usage);
             });
 
         return this;
@@ -1530,11 +1526,7 @@ export class ElementsBuffer implements Disposable {
         gl.settings()
             .elementsBuffer(this)
             .apply(() => {
-                gl.handle.bufferData(
-                    WebGL2RenderingContext.ARRAY_BUFFER,
-                    content,
-                    this.usage,
-                );
+                gl.handle.bufferData(ARRAY_BUFFER, content, this.usage);
             });
 
         return this;
