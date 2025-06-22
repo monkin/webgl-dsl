@@ -712,6 +712,14 @@ export class Gl implements Disposable {
         return command(this, primitivesType, config);
     }
 
+    hasSrgbExtension() {
+        return !!this.srgbExtension;
+    }
+
+    getErrorCode(): ErrorCode | number {
+        return this.handle.getError();
+    }
+
     /**
      * Destroy WebGL context
      */
@@ -1324,17 +1332,21 @@ export class Texture {
             this.width * this.height * PixelFormat.getChannelsCount(format),
         );
 
-        this.gl.settings().renderTarget(this).viewport(0, 0, this.width, this.height).apply(() => {
-            this.gl.handle.readPixels(
-                0,
-                0,
-                this.width,
-                this.height,
-                format,
-                UNSIGNED_BYTE,
-                bytes,
-            );
-        })
+        this.gl
+            .settings()
+            .renderTarget(this)
+            .viewport(0, 0, this.width, this.height)
+            .apply(() => {
+                this.gl.handle.readPixels(
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    format,
+                    UNSIGNED_BYTE,
+                    bytes,
+                );
+            });
 
         return bytes;
     }
