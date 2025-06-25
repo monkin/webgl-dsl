@@ -1526,7 +1526,7 @@ export class ElementsBuffer implements Disposable {
         gl.settings()
             .elementsBuffer(this)
             .apply(() => {
-                gl.handle.bufferData(ARRAY_BUFFER, content, this.usage);
+                gl.handle.bufferData(ELEMENT_ARRAY_BUFFER, content, this.usage);
             });
 
         return this;
