@@ -430,6 +430,12 @@ const SRGB_ALPHA_EXT = 0x8c42;
 const SRGB8_ALPHA8_EXT = 0x8c43;
 const FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT = 0x8210;
 
+export enum FaceCulling {
+    Front = FRONT,
+    Back = BACK,
+    FrontAndBack = FRONT_AND_BACK,
+}
+
 export enum BlendEquation {
     Add = FUNC_ADD,
     Sub = FUNC_SUBTRACT,
@@ -752,6 +758,8 @@ interface SettingsCache {
     instancedAttributes: Set<number>;
     renderBuffer: RenderBuffer | null;
     frameBuffer: FrameBuffer | null;
+    cullFace: boolean;
+    cullFaceMode: FaceCulling;
 }
 
 namespace SettingsCache {
@@ -781,6 +789,8 @@ namespace SettingsCache {
         instancedAttributes: new Set(),
         renderBuffer: null,
         frameBuffer: null,
+        cullFace: false,
+        cullFaceMode: FaceCulling.Back,
     });
 }
 
@@ -844,6 +854,32 @@ export class Settings {
             } else {
                 gl.handle.disable(BLEND);
             }
+        },
+    });
+
+    cullFace = Settings.cached<boolean>({
+        read: cache => cache.cullFace,
+        write: (cache, value) => {
+            cache.cullFace = value;
+        },
+        equals: (v1, v2) => v1 === v2,
+        apply: (gl, value) => {
+            if (value) {
+                gl.handle.enable(CULL_FACE);
+            } else {
+                gl.handle.disable(CULL_FACE);
+            }
+        },
+    });
+
+    cullFaceMode = Settings.cached<FaceCulling>({
+        read: cache => cache.cullFaceMode,
+        write: (cache, value) => {
+            cache.cullFaceMode = value;
+        },
+        equals: (v1, v2) => v1 === v2,
+        apply: (gl, value) => {
+            gl.handle.cullFace(value);
         },
     });
 
