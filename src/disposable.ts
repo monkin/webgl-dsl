@@ -7,7 +7,7 @@ export interface Disposable {
 
 export namespace Disposable {
     /**
-     * Compose array of resources into single disposable object
+     * Compose an array of resources into a single disposable object
      */
     export function join(...items: Disposable[]): Disposable {
         return {
@@ -19,7 +19,7 @@ export namespace Disposable {
 }
 
 /**
- * Pass disposable object into function and destroy it after the call
+ * Pass a disposable object into function and destroy it after the call
  */
 export function use<T extends Disposable, R>(
     item: T,

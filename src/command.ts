@@ -247,7 +247,7 @@ export class Command<
 }
 
 /**
- * The main function of this library, creates a command with specified parameters and shaders
+ * The main function of this library creates a command with specified parameters and shaders
  * @param gl
  * @param primitivesType Type of primitives to draw
  * @param config Description of attributes, uniforms, varyings, and shaders
