@@ -8,6 +8,7 @@ import {
     Texture,
 } from "./webgl";
 import { Disposable } from "./disposable";
+import WithoutPrecision = TypeMap.WithoutPrecision;
 
 export class Command<
     Uniforms extends TypeMap,
@@ -260,7 +261,23 @@ export function command<
 >(
     gl: Gl,
     primitivesType: PrimitivesType,
-    config: SourceConfig<Uniforms, Attributes, Instances, Varyings>,
+    config:
+        | SourceConfig<Uniforms, Attributes, Instances, Varyings>
+        | ProgramSource<
+              WithoutPrecision<Uniforms>,
+              WithoutPrecision<Attributes>,
+              WithoutPrecision<Instances>
+          >,
 ) {
-    return new Command(gl, primitivesType, source(config));
+    return new Command(
+        gl,
+        primitivesType,
+        "vertex" in config && typeof config.vertex === "string"
+            ? (config as ProgramSource<
+                  WithoutPrecision<Uniforms>,
+                  WithoutPrecision<Attributes>,
+                  WithoutPrecision<Instances>
+              >)
+            : source(config as SourceConfig<Uniforms, Attributes, Instances>),
+    );
 }

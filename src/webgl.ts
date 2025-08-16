@@ -1,6 +1,7 @@
 import { command } from "./command";
-import { SourceConfig, TypeMap } from "./dsl";
+import { ProgramSource, SourceConfig, TypeMap } from "./dsl";
 import { Disposable, use, uses } from "./disposable";
+import WithoutPrecision = TypeMap.WithoutPrecision;
 
 /**
  * Not every server WebGL implementation has it's own WebGLRenderingContext class
@@ -657,6 +658,9 @@ export class Gl implements Disposable {
         return new Settings(this, this.settingsCache);
     }
 
+    /**
+     * Create texture with specified parameters
+     */
     texture(config: TextureConfig) {
         return new Texture(this, config);
     }
@@ -689,7 +693,7 @@ export class Gl implements Disposable {
     }
 
     /**
-     * Create program with specified vertex and fragment shader source
+     * Create a program with a specified vertex and fragment shader source
      */
     program(vertex: string, fragment: string) {
         return uses(
@@ -702,9 +706,8 @@ export class Gl implements Disposable {
 
     /**
      * The main function of this library, creates a command with specified parameters and shaders
-     * @param gl
      * @param primitivesType Type of primitives to draw
-     * @param config Description of attributes, uniforms, varyings, and shaders
+     * @param configOrSource Description of attributes, uniforms, varyings, and shaders
      */
     command<
         Uniforms extends TypeMap,
@@ -713,9 +716,15 @@ export class Gl implements Disposable {
         Varyings extends TypeMap = {},
     >(
         primitivesType: PrimitivesType,
-        config: SourceConfig<Uniforms, Attributes, Instances, Varyings>,
+        configOrSource:
+            | SourceConfig<Uniforms, Attributes, Instances, Varyings>
+            | ProgramSource<
+                  WithoutPrecision<Uniforms>,
+                  WithoutPrecision<Attributes>,
+                  WithoutPrecision<Instances>
+              >,
     ) {
-        return command(this, primitivesType, config);
+        return command(this, primitivesType, configOrSource);
     }
 
     hasSrgbExtension() {
