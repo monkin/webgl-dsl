@@ -40,6 +40,6 @@
     "typedoc": "0.28.10",
     "typescript": "5.9.2",
     "prettier": "3.6.2",
-    "eslint": "9.33.0"
+    "eslint": "9.34.0"
   }
 }
