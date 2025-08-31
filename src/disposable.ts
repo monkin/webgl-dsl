@@ -811,6 +811,6 @@ export function uses(
         }
         return functions[l](...parameters);
     } finally {
-        parameters.forEach(value => value.dispose());
+        parameters.reverse().forEach(value => value.dispose());
     }
 }
