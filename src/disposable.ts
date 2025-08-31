@@ -20,6 +20,13 @@ export namespace Disposable {
 
 /**
  * Pass a disposable object into function and destroy it after the call
+ *
+ * @example
+ * ```ts
+ * use(texture, (texture) => {
+ *     // do something with texture
+ * });
+ * ```
  */
 export function use<T extends Disposable, R>(
     item: T,
@@ -784,6 +791,7 @@ export function uses<
 
 /**
  * Creates multiple disposable resources, uses them in a callback, and disposes of them afterward.
+ * It's similar to the `use` function but allows creating multiple resources.
  *
  * @example
  * ```ts
