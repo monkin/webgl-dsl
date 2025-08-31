@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     BlendFunction.One,
                 )
                 .apply(() => {
-                    gl.cleanColorBuffer();
+                    gl.clearColorBuffer();
                     const scale = 1.8 / textWidth;
                     const shiftX = -0.9;
                     const shiftY = 52 / textWidth;

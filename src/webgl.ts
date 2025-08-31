@@ -589,12 +589,12 @@ export class Gl implements Disposable {
         return this.handle.getParameter(ALIASED_POINT_SIZE_RANGE);
     }
 
-    cleanColorBuffer(): this {
+    clearColorBuffer(): this {
         this.handle.clear(COLOR_BUFFER_BIT);
         return this;
     }
 
-    cleanDepthBuffer(): this {
+    clearDepthBuffer(): this {
         this.handle.clear(DEPTH_BUFFER_BIT);
         return this;
     }
@@ -602,7 +602,7 @@ export class Gl implements Disposable {
     /**
      * Clear color and depth buffer
      */
-    cleanBuffers(): this {
+    clearBuffers(): this {
         this.handle.clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
         return this;
     }

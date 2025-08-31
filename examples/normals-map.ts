@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 BlendFunction.One,
             )
             .apply(() => {
-                gl.cleanColorBuffer();
+                gl.clearColorBuffer();
                 drawNormalsMap.draw();
             });
     }

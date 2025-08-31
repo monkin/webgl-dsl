@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 BlendFunction.One,
             )
             .apply(() => {
-                gl.cleanColorBuffer();
+                gl.clearColorBuffer();
                 drawParticles
                     .setUniforms({
                         uTime: time(),

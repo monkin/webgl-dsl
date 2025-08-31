@@ -65,7 +65,7 @@ gl.settings()
     .viewport(0, 0, width, height)
     .clearColor(0, 0, 0, 1)
     .apply(() => {
-        gl.cleanColorBuffer();
+        gl.clearColorBuffer();
         drawTriangles.draw();
     });
 ```
