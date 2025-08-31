@@ -787,9 +787,9 @@ export function uses<
  *
  * @example
  * ```ts
- * const value = uses(() => createContext(),
- *   (context) => createBuffer(context),
- *   (context, buffer) => computeValue(context, buffer));
+ * const value = uses(() => createResource1(),
+ *   (resource1) => createResource2(resource1),
+ *   (resource1, resource2) => computeValue(resource1, resource2));
  * ```
  */
 export function uses(
