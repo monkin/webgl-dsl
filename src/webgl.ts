@@ -3,8 +3,9 @@ import { ProgramSource, SourceConfig, TypeMap } from "./dsl";
 import { Disposable, use, uses } from "./disposable";
 import WithoutPrecision = TypeMap.WithoutPrecision;
 
-/**
- * Not every server WebGL implementation has it's own WebGLRenderingContext class
+/*
+ * Not every server WebGL implementation has its own WebGLRenderingContext class.
+ * Because of this, we have to declare constants manually.
  */
 
 /* ClearBufferMask */
@@ -20,16 +21,6 @@ const LINE_STRIP = 0x0003;
 const TRIANGLES = 0x0004;
 const TRIANGLE_STRIP = 0x0005;
 const TRIANGLE_FAN = 0x0006;
-
-/* AlphaFunction (not supported in ES20) */
-/* NEVER */
-/* LESS */
-/* EQUAL */
-/* LEQUAL */
-/* GREATER */
-/* NOTEQUAL */
-/* GEQUAL */
-/* ALWAYS */
 
 /* BlendingFactorDest */
 const ZERO = 0;
@@ -509,8 +500,6 @@ export enum ShaderType {
     Fragment = FRAGMENT_SHADER,
 }
 
-export const texturesCount = 16;
-
 export enum ErrorCode {
     NoError = NO_ERROR,
     InvalidEnum = INVALID_ENUM,
@@ -549,6 +538,9 @@ export enum PrimitivesType {
     TriangleFan = TRIANGLE_FAN,
 }
 
+/**
+ * The main class of this library. It provides access to WebGL context.
+ */
 export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;
     readonly instancedArrays: ANGLE_instanced_arrays;
@@ -652,7 +644,7 @@ export class Gl implements Disposable {
     }
 
     /**
-     * Create empty settings object
+     * Create an empty settings object
      */
     settings() {
         return new Settings(this, this.settingsCache);
@@ -674,6 +666,11 @@ export class Gl implements Disposable {
         return new RenderBuffer(this, width, height);
     }
 
+    /**
+     * Create a frame buffer that can be used as a render target.
+     * @param texture The texture to attach to the frame buffer.
+     * @param renderBuffer Depth buffer to attach to the frame buffer.
+     */
     frameBuffer(texture: Texture, renderBuffer?: RenderBuffer) {
         return new FrameBuffer(this, texture, renderBuffer);
     }
@@ -804,6 +801,9 @@ namespace SettingsCache {
     });
 }
 
+/**
+ * Settings builder. To create an instance of this class, use the `settings()` method of the `Gl` class.
+ */
 export class Settings {
     constructor(
         public readonly gl: Gl,
@@ -1288,6 +1288,9 @@ export type TextureConfig = {
       }
 );
 
+/**
+ * 2D texture
+ */
 export class Texture {
     readonly handle: WebGLTexture;
     readonly width: number;
@@ -1373,6 +1376,9 @@ export class Texture {
             });
     }
 
+    /**
+     * Read pixels from the texture into an array buffer
+     */
     read(format: PixelFormat = PixelFormat.Rgba): Uint8Array {
         const bytes = new Uint8Array(
             this.width * this.height * PixelFormat.getChannelsCount(format),
@@ -1407,6 +1413,9 @@ export class Texture {
     }
 }
 
+/**
+ * Rendering target. It contains target texture and optional depth buffer.
+ */
 export class FrameBuffer implements Disposable {
     readonly handle: WebGLFramebuffer;
 
@@ -1497,6 +1506,9 @@ export class RenderBuffer implements Disposable {
     }
 }
 
+/**
+ * Array of vertices
+ */
 export class ArrayBuffer implements Disposable {
     readonly handle: WebGLBuffer;
 
@@ -1539,6 +1551,9 @@ export class ArrayBuffer implements Disposable {
     }
 }
 
+/**
+ * Array of indices
+ */
 export class ElementsBuffer implements Disposable {
     public readonly handle: WebGLBuffer;
 
@@ -1583,6 +1598,9 @@ export class ElementsBuffer implements Disposable {
     }
 }
 
+/**
+ * Geometry or fragment shader.
+ */
 class Shader implements Disposable {
     readonly handle: WebGLShader;
 
