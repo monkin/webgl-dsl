@@ -543,7 +543,7 @@ export enum PrimitivesType {
  */
 export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;
-    readonly instancedArrays: ANGLE_instanced_arrays;
+    readonly instancedArraysExtension: ANGLE_instanced_arrays;
     readonly srgbExtension: EXT_sRGB;
     readonly minMaxExtension: EXT_blend_minmax;
 
@@ -564,7 +564,7 @@ export class Gl implements Disposable {
             this.handle = a1 as WebGLRenderingContext;
         }
 
-        this.instancedArrays = this.handle.getExtension(
+        this.instancedArraysExtension = this.handle.getExtension(
             "ANGLE_instanced_arrays",
         )!;
 
@@ -619,7 +619,7 @@ export class Gl implements Disposable {
         verticesCount: number,
         instancesCount: number,
     ): this {
-        this.instancedArrays.drawArraysInstancedANGLE(
+        this.instancedArraysExtension.drawArraysInstancedANGLE(
             primitivesType,
             0,
             verticesCount,
@@ -633,7 +633,7 @@ export class Gl implements Disposable {
         elementsCount: number,
         instancesCount: number,
     ): this {
-        this.instancedArrays.drawElementsInstancedANGLE(
+        this.instancedArraysExtension.drawElementsInstancedANGLE(
             primitivesType,
             elementsCount,
             UNSIGNED_SHORT,
@@ -1219,7 +1219,7 @@ export class Settings {
     instancedAttributes(locations: number[]) {
         return this.then(
             new Settings(this.gl, this.cache, callback => {
-                const handle = this.gl.instancedArrays;
+                const handle = this.gl.instancedArraysExtension;
                 const oldValue = this.cache.instancedAttributes;
                 const newValue = new Set(locations);
                 this.cache.instancedAttributes = newValue;
