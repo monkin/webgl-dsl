@@ -1141,6 +1141,6 @@ export function source<
 }
 
 /**
- * Wrap set of values into single GLSL value
+ * Wrap a set of values into a single GLSL value
  */
 export const val = Glsl.val;
