@@ -699,9 +699,10 @@ export class Gl implements Disposable {
         return uses(
             () => new Shader(this, ShaderType.Vertex, vertex),
             () => new Shader(this, ShaderType.Fragment, fragment),
-        )((vertex, fragment) => {
-            return new Program(this, vertex, fragment);
-        });
+            (vertex, fragment) => {
+                return new Program(this, vertex, fragment);
+            },
+        );
     }
 
     /**

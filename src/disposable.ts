@@ -32,31 +32,17 @@ export function use<T extends Disposable, R>(
     }
 }
 
-export function uses<T extends Disposable>(
-    create: () => T,
-): <R>(callback: (item: T) => R) => R;
-export function uses<T1 extends Disposable, T2 extends Disposable>(
+export function uses<T1 extends Disposable, R>(
     create1: () => T1,
-    create2: (v1: T1) => T2,
-): <R>(callback: (v1: T1, v2: T2) => R) => R;
-export function uses<
-    T1 extends Disposable,
-    T2 extends Disposable,
-    T3 extends Disposable,
->(
-    create1: () => T1,
-    create2: (v1: T1) => T2,
-    create3: (v1: T1, v2: T2) => T3,
-): <R>(callback: (v1: T1, v2: T2, v3: T3) => R) => R;
-export function uses<T extends Disposable, R>(
-    create: () => T,
-    callback: (item: T) => R,
+    callback: (v1: T1) => R,
 ): R;
+
 export function uses<T1 extends Disposable, T2 extends Disposable, R>(
     create1: () => T1,
     create2: (v1: T1) => T2,
     callback: (v1: T1, v2: T2) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -68,6 +54,7 @@ export function uses<
     create3: (v1: T1, v2: T2) => T3,
     callback: (v1: T1, v2: T2, v3: T3) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -81,6 +68,7 @@ export function uses<
     create4: (v1: T1, v2: T2, v3: T3) => T4,
     callback: (v1: T1, v2: T2, v3: T3, v4: T4) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -96,6 +84,7 @@ export function uses<
     create5: (v1: T1, v2: T2, v3: T3, v4: T4) => T5,
     callback: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -113,6 +102,7 @@ export function uses<
     create6: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5) => T6,
     callback: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -132,6 +122,7 @@ export function uses<
     create7: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => T7,
     callback: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6, v7: T7) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -162,6 +153,7 @@ export function uses<
         v8: T8,
     ) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -204,6 +196,7 @@ export function uses<
         v9: T9,
     ) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -259,6 +252,7 @@ export function uses<
         v10: T10,
     ) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -328,6 +322,7 @@ export function uses<
         v11: T11,
     ) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -412,6 +407,7 @@ export function uses<
         v12: T12,
     ) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -512,6 +508,7 @@ export function uses<
         v13: T13,
     ) => R,
 ): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -629,141 +626,7 @@ export function uses<
         v14: T14,
     ) => R,
 ): R;
-export function uses<
-    T1 extends Disposable,
-    T2 extends Disposable,
-    T3 extends Disposable,
-    T4 extends Disposable,
-    T5 extends Disposable,
-    T6 extends Disposable,
-    T7 extends Disposable,
-    T8 extends Disposable,
-    T9 extends Disposable,
-    T10 extends Disposable,
-    T11 extends Disposable,
-    T12 extends Disposable,
-    T13 extends Disposable,
-    T14 extends Disposable,
-    T15 extends Disposable,
-    R,
->(
-    create1: () => T1,
-    create2: (v1: T1) => T2,
-    create3: (v1: T1, v2: T2) => T3,
-    create4: (v1: T1, v2: T2, v3: T3) => T4,
-    create5: (v1: T1, v2: T2, v3: T3, v4: T4) => T5,
-    create6: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5) => T6,
-    create7: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => T7,
-    create8: (v1: T1, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6, v7: T7) => T8,
-    create9: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-    ) => T9,
-    create10: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-    ) => T10,
-    create11: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-        v10: T10,
-    ) => T11,
-    create12: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-        v10: T10,
-        v11: T11,
-    ) => T12,
-    create13: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-        v10: T10,
-        v11: T11,
-        v12: T12,
-    ) => T13,
-    create14: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-        v10: T10,
-        v11: T11,
-        v12: T12,
-        v13: T13,
-    ) => T14,
-    create15: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-        v10: T10,
-        v11: T11,
-        v12: T12,
-        v13: T13,
-        v14: T14,
-    ) => T15,
-    callback: (
-        v1: T1,
-        v2: T2,
-        v3: T3,
-        v4: T4,
-        v5: T5,
-        v6: T6,
-        v7: T7,
-        v8: T8,
-        v9: T9,
-        v10: T10,
-        v11: T11,
-        v12: T12,
-        v13: T13,
-        v14: T14,
-        v15: T15,
-    ) => R,
-): R;
+
 export function uses<
     T1 extends Disposable,
     T2 extends Disposable,
@@ -920,29 +783,26 @@ export function uses<
 ): R;
 
 /**
- * The same as 'use', but it works with multiple resources and expects value constructors instead of values
+ * Creates multiple disposable resources, uses them in a callback, and disposes of them afterward.
+ *
+ * @example
+ * ```ts
+ * const value = uses(() => createContext(),
+ *   (context) => createBuffer(context),
+ *   (context, buffer) => computeValue(context, buffer));
+ * ```
  */
-export function uses<Items extends (() => Disposable)[]>(
-    ...constructors: Items
-) {
-    return <R>(
-        callback: (
-            ...items: {
-                [key in keyof Items]: Items[key] extends () => Disposable
-                    ? ReturnType<Items[key]>
-                    : never;
-            }
-        ) => R,
-    ): R => {
-        const values: Disposable[] = [];
-        try {
-            constructors.forEach(c => {
-                values.push(c());
-            });
-
-            return callback(...(values as any));
-        } finally {
-            values.forEach(v => v.dispose());
+export function uses(
+    ...functions: ((...parameters: unknown[]) => Disposable)[]
+): unknown {
+    const l = functions.length - 1;
+    const parameters: Disposable[] = [];
+    try {
+        for (let i = 0; i < l; i++) {
+            parameters.push(functions[i](...parameters));
         }
-    };
+        return functions[l](...parameters);
+    } finally {
+        parameters.forEach(value => value.dispose());
+    }
 }
