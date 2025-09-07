@@ -625,13 +625,13 @@ export class Glsl<T extends Type = Type> {
         let type: Type | null = null;
         return new Glsl(builder => {
             builder.once(name, () => {
+                const condition = this.getValue(builder);
+
                 const trueBuilder = builder.child();
                 const trueValue = whenTrue.getValue(trueBuilder);
 
                 const falseBuilder = builder.child();
                 const falseValue = whenFalse.getValue(falseBuilder);
-
-                const condition = this.getValue(builder);
 
                 type = trueValue.type;
 
