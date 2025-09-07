@@ -29,7 +29,7 @@ describe("DSL", () => {
                                 .x()
                                 .gt(8)
                                 .memLQ()
-                                .condLQ(val(0, 0, 0, 1), val(1, 1, 1, 1)),
+                                .condLQ(val(1, 0, 0, 1), val(0, 1, 0, 1)),
                         }),
                     })
                     .setAttributes([

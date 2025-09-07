@@ -13,3 +13,4 @@ index.html
 index.pug
 **/*.test.ts
 **/*.test.js
+**/__image_snapshots__/*
