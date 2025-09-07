@@ -1,6 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "jest-extended"]
-  }
+    "types": ["jest", "jest-image-snapshot"]
+  },
+  "files": [
+    "jest-extended.d.ts"
+  ]
 }

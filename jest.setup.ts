@@ -46,8 +46,7 @@ function toMatchTextureSnapshot(
     }
 }
 
+// Override toMatchImageSnapshot to accept Texture or raw image data
 expect.extend({
-    toMatchImageSnapshot,
+    toMatchImageSnapshot: toMatchTextureSnapshot as any,
 });
-
-expect.extend({});

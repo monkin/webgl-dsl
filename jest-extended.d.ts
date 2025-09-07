@@ -1,18 +1,11 @@
 import "jest-image-snapshot";
 
+// Augment Jest matchers to include toMatchImageSnapshot from jest-image-snapshot
+// Works with @types/jest v29 where the namespace is jest and Matchers is generic
 declare global {
     namespace jest {
         interface Matchers<R> {
-            toMatchImageSnapshot(): R;
-        }
-    }
-}
-
-// Extend Jest's expect with the toMatchImageSnapshot matcher for ArrayBuffer
-declare global {
-    namespace jest {
-        interface Expect {
-            toMatchImageSnapshot: (options?: any) => any;
+            toMatchImageSnapshot(options?: any): R;
         }
     }
 }
