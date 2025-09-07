@@ -4,8 +4,12 @@ docs
 .nojekyll
 index.html
 index.pug
-jest.config
+jest.config.ts
+jest.setup.ts
+jest-extended.d.ts
 .github
 .idea
 index.html
 index.pug
+**/*.test.ts
+**/*.test.js

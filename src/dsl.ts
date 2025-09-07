@@ -578,8 +578,9 @@ export class Glsl<T extends Type = Type> {
         return new Glsl(builder => {
             const v = this.getValue(builder);
             builder.once(name, () => {
+                const hasPrecision = v.type !== Type.Boolean;
                 builder.addLocal(
-                    `${precision} ${v.type} ${name} = ${v.content};\n`,
+                    `${hasPrecision ? `${precision} ` : ""}${v.type} ${name} = ${v.content};\n`,
                 );
             });
             return {
