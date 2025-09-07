@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-        "target": "ES2021",
+    "target": "ES2021",
     "module": "ES2015",
     "moduleResolution": "node",
     "strict": true,
@@ -12,5 +12,6 @@
     "declaration": true,
     "sourceMap": true
   },
-  "include": ["src"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "src/**/*.test.ts"]
 }
