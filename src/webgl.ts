@@ -573,6 +573,20 @@ export class Gl implements Disposable {
         this.srgbExtension = this.handle.getExtension("EXT_sRGB")!;
     }
 
+    /**
+     * Get the width of the drawing buffer.
+     */
+    get width() {
+        return this.handle.drawingBufferWidth;
+    }
+
+    /**
+     * Get the height of the drawing buffer.
+     */
+    get height() {
+        return this.handle.drawingBufferHeight;
+    }
+
     isContextLost() {
         return this.handle.isContextLost();
     }
@@ -597,6 +611,33 @@ export class Gl implements Disposable {
     clearBuffers(): this {
         this.handle.clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
         return this;
+    }
+
+    /**
+     * Read pixels from a drawing buffer into an array buffer
+     */
+    read(format: PixelFormat = PixelFormat.Rgba): Uint8Array {
+        const { width, height } = this;
+
+        const bytes = new Uint8Array(
+            width * height * PixelFormat.getChannelsCount(format),
+        );
+
+        this.settings()
+            .viewport(0, 0, width, height)
+            .apply(() => {
+                this.handle.readPixels(
+                    0,
+                    0,
+                    width,
+                    height,
+                    format,
+                    UNSIGNED_BYTE,
+                    bytes,
+                );
+            });
+
+        return bytes;
     }
 
     drawArrays(primitivesType: PrimitivesType, verticesCount: number): this {
