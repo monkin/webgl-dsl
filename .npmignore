@@ -9,6 +9,9 @@ jest.setup.ts
 jest-extended.d.ts
 .github
 .idea
+.parcelrc
+.prettierrc
+eslint.config.mjs
 index.html
 index.pug
 **/*.test.ts
