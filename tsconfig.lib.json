@@ -6,7 +6,6 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "src",
     "noImplicitAny": true,
     "outDir": "lib",
     "declaration": true,
