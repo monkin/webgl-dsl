@@ -30,7 +30,8 @@
     "node": ">=18"
   },
   "targets": {
-    "module": false
+    "module": false,
+    "types": false
   },
   "scripts": {
     "start": "npm run readme-to-index && parcel serve --dist-dir examples/build examples/*.html",

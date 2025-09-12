@@ -15,10 +15,6 @@ const config: Config = {
     testMatch: ["<rootDir>/src/**/*.test.(ts|tsx)"],
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
     extensionsToTreatAsEsm: [".ts", ".tsx"],
-    moduleNameMapper: {
-        "^(\\.{1,2}/.*)\\.js$": "$1",
-    },
-    transformIgnorePatterns: ["/node_modules/(?!(webgl-dsl)/)"],
 };
 
 export default config;
