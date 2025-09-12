@@ -37,7 +37,7 @@
     "start": "npm run build:examples && vite",
     "docs": "typedoc --out docs src",
     "build": "npm run clean && npm run build:lib && npm run build:examples",
-    "build:examples": "vite build && pug --pretty index.pug -o examples/build",
+    "build:examples": "vite build && pug --pretty index.pug",
     "build:lib": "tsc --project tsconfig.lib.json",
     "clean": "rm -rf lib docs examples/build",
     "test": "jest"
