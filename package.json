@@ -2,19 +2,33 @@
   "name": "webgl-dsl",
   "displayName": "WebGL DSL",
   "description": "Thin functional WebGL wrapper with strong typed GLSL DSL",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": {
     "name": "Andrei Monkin",
     "email": "monkin.andrey@gmail.com"
   },
   "license": "MIT",
   "homepage": "https://github.com/monkin/webgl-dsl",
-  "module": "lib/index",
   "keywords": [
     "WebGL",
     "GLSL",
     "DSL"
   ],
+  "type": "module",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "files": [
+    "lib/"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "targets": {
     "module": false
   },
