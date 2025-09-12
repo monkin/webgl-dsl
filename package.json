@@ -2,7 +2,7 @@
   "name": "webgl-dsl",
   "displayName": "WebGL DSL",
   "description": "Thin functional WebGL wrapper with strong typed GLSL DSL",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": {
     "name": "Andrei Monkin",
     "email": "monkin.andrey@gmail.com"
@@ -19,6 +19,8 @@
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
       "default": "./lib/index.js"
     }
   },
@@ -38,13 +40,14 @@
     "docs": "typedoc --tsconfig tsconfig.lib.json --out docs src",
     "build": "npm run clean && npm run build:lib && npm run build:examples",
     "build:examples": "vite build && pug --pretty index.pug",
-    "build:lib": "tsc --project tsconfig.lib.json",
+    "build:lib": "vite build -c vite.lib.config.ts",
     "clean": "rm -rf lib docs examples/build",
     "test": "jest"
   },
   "dependencies": {},
   "devDependencies": {
     "vite": "7.1.5",
+    "vite-plugin-dts": "4.5.4",
     "typedoc": "0.28.12",
     "eslint": "9.35.0",
     "prettier": "3.6.2",
