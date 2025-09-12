@@ -8,7 +8,7 @@ import {
 } from "../src";
 
 import { font } from "./roboto.font";
-import image from "url:./roboto.png";
+import image from "./roboto.png?url";
 type CharInfo = (typeof font)["chars"][0];
 type KerningInfo = (typeof font)["kernings"][0];
 

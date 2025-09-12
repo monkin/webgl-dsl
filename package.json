@@ -34,18 +34,17 @@
     "types": false
   },
   "scripts": {
-    "start": "npm run readme-to-index && parcel serve --dist-dir examples/build examples/*.html",
+    "start": "npm run build:examples && vite",
     "docs": "typedoc --out docs src",
-    "build": "npm run clean && tsc --project tsconfig.lib.json && npm run readme-to-index && parcel build --no-source-maps --public-url ./ --dist-dir examples/build examples/*.html",
-    "clean": "rm -rf lib examples/build",
-    "readme-to-index": "pug --pretty index.pug",
+    "build": "npm run clean && npm run build:lib && npm run build:examples",
+    "build:examples": "vite build && pug --pretty index.pug -o examples/build",
+    "build:lib": "tsc --project tsconfig.lib.json",
+    "clean": "rm -rf lib docs examples/build",
     "test": "jest"
   },
   "dependencies": {},
   "devDependencies": {
-    "@parcel/config-default": "2.15.4",
-    "@parcel/transformer-typescript-tsc": "2.15.4",
-    "parcel": "2.15.4",
+    "vite": "7.1.5",
     "typedoc": "0.28.12",
     "eslint": "9.35.0",
     "prettier": "3.6.2",
