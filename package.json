@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "npm run build:examples && vite",
-    "docs": "typedoc --out docs src",
+    "docs": "typedoc --tsconfig tsconfig.lib.json --out docs src",
     "build": "npm run clean && npm run build:lib && npm run build:examples",
     "build:examples": "vite build && pug --pretty index.pug",
     "build:lib": "tsc --project tsconfig.lib.json",
