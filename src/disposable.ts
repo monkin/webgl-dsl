@@ -17,6 +17,10 @@ export namespace Disposable {
         };
     }
 
+    export function dispose(...items: Disposable[]): void {
+        items.forEach(v => v.dispose());
+    }
+
     export function create<T1 extends Disposable>(create1: () => T1): [T1];
 
     export function create<T1 extends Disposable, T2 extends Disposable>(
@@ -1468,3 +1472,4 @@ export namespace Disposable {
 export const create = Disposable.create;
 export const uses = Disposable.uses;
 export const use = Disposable.use;
+export const dispose = Disposable.dispose;
