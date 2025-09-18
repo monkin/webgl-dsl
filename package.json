@@ -42,7 +42,8 @@
     "build:examples": "vite build && pug --pretty index.pug",
     "build:lib": "vite build -c vite.lib.config.ts",
     "clean": "rm -rf lib docs examples/build",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {},
   "devDependencies": {
