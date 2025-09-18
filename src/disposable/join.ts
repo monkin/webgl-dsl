@@ -7,6 +7,8 @@ class JoinedDisposable<T extends Disposable[]> implements Disposable {
     }
 }
 
-export function join<T extends Disposable[]>(...items: T): JoinedDisposable<T> {
+export function join<T extends Disposable[]>(
+    ...items: T
+): { readonly values: T; dispose(): void } {
     return new JoinedDisposable(items);
 }
