@@ -19,7 +19,7 @@ describe("Disposable.join", () => {
         const b = new SimpleDisposable("b", log);
         const c = new SimpleDisposable("c", log);
 
-        const joined = (require(".").Disposable as any).join(a, b, c);
+        const joined = Disposable.join(a, b, c);
         joined.dispose();
 
         expect(a.disposed).toBe(true);
@@ -28,8 +28,23 @@ describe("Disposable.join", () => {
         expect(log).toEqual(["dispose:a", "dispose:b", "dispose:c"]);
     });
 
+    test("exposes items in the same order", () => {
+        const log: string[] = [];
+        const a = new SimpleDisposable("a", log);
+        const b = new SimpleDisposable("b", log);
+        const c = new SimpleDisposable("c", log);
+
+        const joined = Disposable.join(a, b, c);
+        expect(joined.values).toEqual([a, b, c]);
+    });
+
     test("works with zero items (no-throw)", () => {
-        const joined = (require(".").Disposable as any).join();
+        const joined = Disposable.join();
         expect(() => joined.dispose()).not.toThrow();
+    });
+
+    test("items is empty array when no inputs", () => {
+        const joined = Disposable.join();
+        expect(joined.values).toEqual([]);
     });
 });

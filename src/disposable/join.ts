@@ -1,9 +1,12 @@
 import type { Disposable } from "./disposable";
 
-export function join(...items: Disposable[]): Disposable {
-    return {
-        dispose() {
-            items.forEach(v => v.dispose());
-        },
-    };
+class JoinedDisposable<T extends Disposable[]> implements Disposable {
+    constructor(public readonly values: T) {}
+    dispose(): void {
+        this.values.forEach(v => v.dispose());
+    }
+}
+
+export function join<T extends Disposable[]>(...items: T): JoinedDisposable<T> {
+    return new JoinedDisposable(items);
 }
