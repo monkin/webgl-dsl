@@ -52,7 +52,7 @@ import {
     TRIANGLES,
     TRIANGLE_STRIP,
     TRIANGLE_FAN,
-} from "./webgl-consts";
+} from "./consts";
 
 export enum FaceCulling {
     Front = FRONT,

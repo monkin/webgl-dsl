@@ -1,6 +1,6 @@
 import * as gl from "gl";
 import { Gl } from "./webgl";
-import { TextureFormat } from "./webgl-enums";
+import { TextureFormat } from "./enums";
 import { use, uses } from "./disposable";
 
 describe("webgl", () => {
