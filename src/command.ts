@@ -1,12 +1,6 @@
 import { TypeMap, SourceConfig, source, ProgramSource, Type } from "./dsl";
-import {
-    Gl,
-    Program,
-    ElementsBuffer,
-    ArrayBuffer,
-    PrimitivesType,
-    Texture,
-} from "./webgl";
+import { Gl, Program, ElementsBuffer, ArrayBuffer, Texture } from "./webgl";
+import { PrimitivesType } from "./webgl-enums";
 import { Disposable } from "./disposable";
 import WithoutPrecision = TypeMap.WithoutPrecision;
 

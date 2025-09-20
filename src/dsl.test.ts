@@ -1,6 +1,7 @@
 import * as gl from "gl";
 import { uses } from "./disposable";
-import { Gl, PrimitivesType, TextureFormat } from "./webgl";
+import { Gl } from "./webgl";
+import { PrimitivesType, TextureFormat } from "./webgl-enums";
 import { Type, val } from "./dsl";
 
 describe("DSL", () => {
