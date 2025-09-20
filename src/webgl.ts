@@ -9,21 +9,14 @@ import {
     // buffers
     ARRAY_BUFFER,
     ELEMENT_ARRAY_BUFFER,
-    // culling and toggles
-    CULL_FACE,
-    BLEND,
-    DEPTH_TEST,
-    SCISSOR_TEST,
     // point size
     ALIASED_POINT_SIZE_RANGE,
-
     // textures and pixel formats
     TEXTURE_MAG_FILTER,
     TEXTURE_MIN_FILTER,
     TEXTURE_WRAP_S,
     TEXTURE_WRAP_T,
     TEXTURE_2D,
-    TEXTURE0,
     CLAMP_TO_EDGE,
     UNSIGNED_BYTE,
     // shader types and uniforms
@@ -52,17 +45,12 @@ import {
 } from "./consts";
 import WithoutPrecision = TypeMap.WithoutPrecision;
 import {
-    FaceCulling,
-    BlendEquation,
-    DepthFunction,
-    BlendFunction,
     TextureFilter,
     TextureFormat,
     PixelFormat,
     ShaderType,
     ErrorCode,
     BufferUsage,
-    BufferTarget,
     PrimitivesType,
 } from "./enums";
 
