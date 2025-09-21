@@ -1,11 +1,11 @@
-export { Gl } from "./gl";
+export * from "./gl";
 export * from "./dsl";
 export * from "./command";
 export * from "./disposable";
 export * from "./enums";
-export { Program, Shader } from "./program";
+export * from "./texture";
+export * from "./program";
 export { ElementsBuffer } from "./elements-buffer";
 export { ArrayBuffer } from "./array-buffer";
 export { RenderBuffer } from "./render-buffer";
 export { FrameBuffer } from "./frame-buffer";
-export { Texture, TextureConfig } from "./texture";
