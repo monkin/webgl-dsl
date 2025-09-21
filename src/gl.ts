@@ -31,8 +31,8 @@ import WithoutPrecision = TypeMap.WithoutPrecision;
 export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;
     readonly instancedArraysExtension: ANGLE_instanced_arrays;
-    readonly srgbExtension: EXT_sRGB;
-    readonly minMaxExtension: EXT_blend_minmax;
+    private readonly srgbExtension: EXT_sRGB | null;
+    private readonly minMaxExtension: EXT_blend_minmax | null;
 
     private readonly settingsCache = SettingsCache.initial();
 
@@ -55,9 +55,9 @@ export class Gl implements Disposable {
             "ANGLE_instanced_arrays",
         )!;
 
-        this.minMaxExtension = this.handle.getExtension("EXT_blend_minmax")!;
+        this.minMaxExtension = this.handle.getExtension("EXT_blend_minmax");
 
-        this.srgbExtension = this.handle.getExtension("EXT_sRGB")!;
+        this.srgbExtension = this.handle.getExtension("EXT_sRGB");
     }
 
     /**
