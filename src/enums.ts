@@ -52,6 +52,13 @@ import {
     TRIANGLES,
     TRIANGLE_STRIP,
     TRIANGLE_FAN,
+    FLOAT,
+    FLOAT_VEC2,
+    FLOAT_VEC3,
+    FLOAT_VEC4,
+    FLOAT_MAT2,
+    FLOAT_MAT3,
+    FLOAT_MAT4,
 } from "./consts";
 
 export enum FaceCulling {
@@ -168,4 +175,51 @@ export enum PrimitivesType {
     Triangles = TRIANGLES,
     TriangleStrip = TRIANGLE_STRIP,
     TriangleFan = TRIANGLE_FAN,
+}
+
+export enum DataType {
+    Float = FLOAT,
+    Vec2 = FLOAT_VEC2,
+    Vec3 = FLOAT_VEC3,
+    Vec4 = FLOAT_VEC4,
+    Mat2 = FLOAT_MAT2,
+    Mat3 = FLOAT_MAT3,
+    Mat4 = FLOAT_MAT4,
+}
+
+export namespace DataType {
+    export function getSizeInBytes(type: DataType) {
+        switch (type) {
+            case DataType.Float:
+                return 4;
+            case DataType.Vec2:
+                return 2 * 4;
+            case DataType.Vec3:
+                return 3 * 4;
+            case DataType.Vec4:
+                return 4 * 4;
+            case DataType.Mat2:
+                return 4 * 4; // 2x2 floats
+            case DataType.Mat3:
+                return 9 * 4; // 3x3 floats
+            case DataType.Mat4:
+                return 16 * 4; // 4x4 floats
+        }
+    }
+
+    export function isVec(type: DataType) {
+        return (
+            type === DataType.Vec2 ||
+            type === DataType.Vec3 ||
+            type === DataType.Vec4
+        );
+    }
+
+    export function isMat(type: DataType) {
+        return (
+            type === DataType.Mat2 ||
+            type === DataType.Mat3 ||
+            type === DataType.Mat4
+        );
+    }
 }
