@@ -14,9 +14,13 @@ import {
     LINK_STATUS,
     SAMPLER_2D,
 } from "./consts";
-import { ShaderType } from "./enums";
+import { AttributeDataType, ShaderType, UniformDataType } from "./enums";
 import { Gl } from "./gl";
 import { ArrayBuffer } from "./array-buffer";
+
+declare const AttributeLocationTag: unique symbol;
+export type AttributeLocation = number & { [AttributeLocationTag]: true };
+export type UniformLocation = WebGLUniformLocation;
 
 /**
  * Geometry or fragment shader.
@@ -46,13 +50,13 @@ export class Shader implements Disposable {
 }
 
 export interface UniformRecord {
-    location: WebGLUniformLocation;
-    type: number;
+    location: UniformLocation;
+    type: UniformDataType;
 }
 
 export interface AttributeRecord {
-    location: number;
-    type: number;
+    location: AttributeLocation;
+    type: AttributeDataType;
 }
 
 export class Program implements Disposable {
@@ -103,7 +107,7 @@ export class Program implements Disposable {
             if (info != null) {
                 this.attributes[info.name] = {
                     type: info.type,
-                    location: i,
+                    location: i as AttributeLocation,
                 };
             }
         }

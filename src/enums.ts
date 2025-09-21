@@ -59,6 +59,8 @@ import {
     FLOAT_MAT2,
     FLOAT_MAT3,
     FLOAT_MAT4,
+    BOOL,
+    SAMPLER_2D,
 } from "./consts";
 
 export enum FaceCulling {
@@ -177,7 +179,7 @@ export enum PrimitivesType {
     TriangleFan = TRIANGLE_FAN,
 }
 
-export enum DataType {
+export enum AttributeDataType {
     Float = FLOAT,
     Vec2 = FLOAT_VEC2,
     Vec3 = FLOAT_VEC3,
@@ -187,39 +189,51 @@ export enum DataType {
     Mat4 = FLOAT_MAT4,
 }
 
-export namespace DataType {
-    export function getSizeInBytes(type: DataType) {
+export enum UniformDataType {
+    Bool = BOOL,
+    Sampler = SAMPLER_2D,
+    Float = FLOAT,
+    Vec2 = FLOAT_VEC2,
+    Vec3 = FLOAT_VEC3,
+    Vec4 = FLOAT_VEC4,
+    Mat2 = FLOAT_MAT2,
+    Mat3 = FLOAT_MAT3,
+    Mat4 = FLOAT_MAT4,
+}
+
+export namespace AttributeDataType {
+    export function getSizeInBytes(type: AttributeDataType) {
         switch (type) {
-            case DataType.Float:
+            case AttributeDataType.Float:
                 return 4;
-            case DataType.Vec2:
+            case AttributeDataType.Vec2:
                 return 2 * 4;
-            case DataType.Vec3:
+            case AttributeDataType.Vec3:
                 return 3 * 4;
-            case DataType.Vec4:
+            case AttributeDataType.Vec4:
                 return 4 * 4;
-            case DataType.Mat2:
+            case AttributeDataType.Mat2:
                 return 4 * 4; // 2x2 floats
-            case DataType.Mat3:
+            case AttributeDataType.Mat3:
                 return 9 * 4; // 3x3 floats
-            case DataType.Mat4:
+            case AttributeDataType.Mat4:
                 return 16 * 4; // 4x4 floats
         }
     }
 
-    export function isVec(type: DataType) {
+    export function isVec(type: AttributeDataType) {
         return (
-            type === DataType.Vec2 ||
-            type === DataType.Vec3 ||
-            type === DataType.Vec4
+            type === AttributeDataType.Vec2 ||
+            type === AttributeDataType.Vec3 ||
+            type === AttributeDataType.Vec4
         );
     }
 
-    export function isMat(type: DataType) {
+    export function isMat(type: AttributeDataType) {
         return (
-            type === DataType.Mat2 ||
-            type === DataType.Mat3 ||
-            type === DataType.Mat4
+            type === AttributeDataType.Mat2 ||
+            type === AttributeDataType.Mat3 ||
+            type === AttributeDataType.Mat4
         );
     }
 }

@@ -14,7 +14,7 @@ import {
 import {
     BlendEquation,
     BlendFunction,
-    DataType,
+    AttributeDataType,
     DepthFunction,
     FaceCulling,
 } from "./enums";
@@ -22,7 +22,7 @@ import {
 export interface Attribute {
     buffer: ArrayBuffer;
     location: number;
-    type: DataType;
+    type: AttributeDataType;
     stride: number;
     offset: number;
     divisor: number;
