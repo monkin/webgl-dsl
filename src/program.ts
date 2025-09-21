@@ -50,11 +50,13 @@ export class Shader implements Disposable {
 }
 
 export interface UniformRecord {
+    name: string;
     location: UniformLocation;
     type: UniformDataType;
 }
 
 export interface AttributeRecord {
+    name: string;
     location: AttributeLocation;
     type: AttributeDataType;
 }
@@ -62,8 +64,8 @@ export interface AttributeRecord {
 export class Program implements Disposable {
     readonly handle: WebGLProgram;
 
-    readonly uniforms: { [name: string]: UniformRecord } = {};
-    readonly attributes: { [name: string]: AttributeRecord } = {};
+    readonly uniforms = new Map<string, UniformRecord>();
+    readonly attributes = new Map<string, AttributeRecord>();
 
     constructor(
         public readonly gl: Gl,
@@ -90,10 +92,11 @@ export class Program implements Disposable {
         for (let i = 0; i < uniformsCount; i++) {
             const info = gl.handle.getActiveUniform(handle, i);
             if (info !== null) {
-                this.uniforms[info.name] = {
+                this.uniforms.set(info.name, {
+                    name: info.name,
                     type: info.type,
                     location: gl.handle.getUniformLocation(handle, info.name)!,
-                };
+                });
             }
         }
 
@@ -105,17 +108,18 @@ export class Program implements Disposable {
         for (let i = 0; i < attributesCount; i++) {
             const info = gl.handle.getActiveAttrib(handle, i);
             if (info != null) {
-                this.attributes[info.name] = {
+                this.attributes.set(info.name, {
+                    name: info.name,
                     type: info.type,
                     location: i as AttributeLocation,
-                };
+                });
             }
         }
     }
 
     setUniform(name: string, value: number[]) {
         const { gl, uniforms } = this;
-        const uniform = uniforms[name];
+        const uniform = uniforms.get(name);
         if (uniform) {
             const { location, type } = uniform;
             gl.settings()
@@ -160,7 +164,7 @@ export class Program implements Disposable {
         strideInFloats: number,
         offsetInFloats: number,
     ) {
-        const attr = this.attributes[name];
+        const attr = this.attributes.get(name);
         if (attr != null) {
             const { gl } = this;
 

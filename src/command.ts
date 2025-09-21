@@ -180,9 +180,9 @@ export class Command<
         gl.settings()
             .program(this.program)
             .enabledAttributes(
-                Object.keys(this.program.attributes)
+                Array.from(this.program.attributes.keys())
                     .map(key => {
-                        return this.program.attributes[key]?.location;
+                        return this.program.attributes.get(key)?.location;
                     })
                     .filter(v => v !== null && v !== undefined),
             )
@@ -190,7 +190,7 @@ export class Command<
                 this.instancesLayout
                     .map(v => v.name)
                     .map(key => {
-                        return this.program.attributes[key]?.location;
+                        return this.program.attributes.get(key)?.location;
                     })
                     .filter(v => v !== null && v !== undefined),
             )
