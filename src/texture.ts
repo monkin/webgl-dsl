@@ -9,7 +9,7 @@ import {
     UNPACK_FLIP_Y_WEBGL,
     UNSIGNED_BYTE,
 } from "./consts";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 
 export type TextureConfig = {
     /**

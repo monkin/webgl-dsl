@@ -1,4 +1,4 @@
-import type { Gl } from "./webgl";
+import type { Gl } from "./gl";
 import {
     BLEND,
     CULL_FACE,

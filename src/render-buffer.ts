@@ -1,6 +1,6 @@
 import { Disposable } from "./disposable";
 import { DEPTH_COMPONENT16, RENDERBUFFER } from "./consts";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 
 /**
  * Depth buffer

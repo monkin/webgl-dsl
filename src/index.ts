@@ -1,4 +1,4 @@
-export * from "./webgl";
+export * from "./gl";
 export * from "./dsl";
 export * from "./command";
 export * from "./disposable";

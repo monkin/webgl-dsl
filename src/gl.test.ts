@@ -1,5 +1,5 @@
 import * as gl from "gl";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 import { TextureFormat } from "./enums";
 import { use, uses } from "./disposable";
 

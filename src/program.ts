@@ -15,7 +15,7 @@ import {
     SAMPLER_2D,
 } from "./consts";
 import { ShaderType } from "./enums";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 import { ArrayBuffer } from "./array-buffer";
 
 /**

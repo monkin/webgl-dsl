@@ -1,5 +1,5 @@
 import { TypeMap, SourceConfig, source, ProgramSource, Type } from "./dsl";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 import { PrimitivesType } from "./enums";
 import { Disposable } from "./disposable";
 import WithoutPrecision = TypeMap.WithoutPrecision;

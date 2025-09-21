@@ -1,7 +1,7 @@
 import { Disposable } from "./disposable";
 import { BufferUsage } from "./enums";
 import { ELEMENT_ARRAY_BUFFER } from "./consts";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 
 /**
  * Array of indices

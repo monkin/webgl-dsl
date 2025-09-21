@@ -1,5 +1,5 @@
 /*
- * WebGL numeric constants extracted from webgl.ts
+ * WebGL numeric constants extracted from gl.ts
  * Not every server WebGL implementation has its own WebGLRenderingContext class.
  * Because of this, we declare constants manually here and export them for reuse.
  */

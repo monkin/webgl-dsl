@@ -7,7 +7,7 @@ import {
     RENDERBUFFER,
     TEXTURE_2D,
 } from "./consts";
-import { Gl } from "./webgl";
+import { Gl } from "./gl";
 import { Texture } from "./texture";
 
 /**
