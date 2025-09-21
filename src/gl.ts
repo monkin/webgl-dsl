@@ -26,6 +26,7 @@ import WithoutPrecision = TypeMap.WithoutPrecision;
 
 /**
  * The main class of this library. It provides access to WebGL context.
+ * Use it to create programs, textures, buffers, and change WebGL state.
  */
 export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;

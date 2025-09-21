@@ -8,5 +8,4 @@ export { ElementsBuffer } from "./elements-buffer";
 export { ArrayBuffer } from "./array-buffer";
 export { RenderBuffer } from "./render-buffer";
 export { FrameBuffer } from "./frame-buffer";
-export { Texture } from "./texture";
-export { TextureConfig } from "./texture";
+export { Texture, TextureConfig } from "./texture";
