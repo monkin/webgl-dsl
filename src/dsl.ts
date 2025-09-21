@@ -1,4 +1,4 @@
-import { Texture } from "./webgl";
+import { Texture } from "./texture";
 
 const id = (() => {
     let sequence = 0;

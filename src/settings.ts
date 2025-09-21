@@ -1,11 +1,4 @@
-import type {
-    Gl,
-    Texture,
-    ArrayBuffer,
-    ElementsBuffer,
-    RenderBuffer,
-    FrameBuffer,
-} from "./webgl";
+import type { Gl } from "./webgl";
 import {
     BLEND,
     CULL_FACE,
@@ -97,6 +90,11 @@ export namespace SettingsCache {
  */
 import { use } from "./disposable";
 import { Program } from "./program";
+import { ElementsBuffer } from "./elements-buffer";
+import { ArrayBuffer } from "./array-buffer";
+import { RenderBuffer } from "./render-buffer";
+import { FrameBuffer } from "./frame-buffer";
+import { Texture } from "./texture";
 
 export class Settings {
     constructor(

@@ -15,7 +15,8 @@ import {
     SAMPLER_2D,
 } from "./consts";
 import { ShaderType } from "./enums";
-import { ArrayBuffer, Gl } from "./webgl";
+import { Gl } from "./webgl";
+import { ArrayBuffer } from "./array-buffer";
 
 /**
  * Geometry or fragment shader.
