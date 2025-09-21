@@ -1,8 +1,9 @@
 import { TypeMap, SourceConfig, source, ProgramSource, Type } from "./dsl";
-import { Gl, Program, ElementsBuffer, ArrayBuffer, Texture } from "./webgl";
+import { Gl, ElementsBuffer, ArrayBuffer, Texture } from "./webgl";
 import { PrimitivesType } from "./enums";
 import { Disposable } from "./disposable";
 import WithoutPrecision = TypeMap.WithoutPrecision;
+import { Program } from "./program";
 
 export class Command<
     Uniforms extends TypeMap,

@@ -1,4 +1,11 @@
-import type { Gl, Texture, ArrayBuffer, ElementsBuffer, Program, RenderBuffer, FrameBuffer } from "./webgl";
+import type {
+    Gl,
+    Texture,
+    ArrayBuffer,
+    ElementsBuffer,
+    RenderBuffer,
+    FrameBuffer,
+} from "./webgl";
 import {
     BLEND,
     CULL_FACE,
@@ -11,7 +18,22 @@ import {
     FRAMEBUFFER,
     RENDERBUFFER,
 } from "./consts";
-import { BlendEquation, BlendFunction, DepthFunction, FaceCulling } from "./enums";
+import {
+    BlendEquation,
+    BlendFunction,
+    DataType,
+    DepthFunction,
+    FaceCulling,
+} from "./enums";
+
+export interface Attribute {
+    buffer: ArrayBuffer;
+    location: number;
+    type: DataType;
+    stride: number;
+    offset: number;
+    divisor: number;
+}
 
 export interface SettingsCache {
     blend: boolean;
@@ -74,6 +96,7 @@ export namespace SettingsCache {
  * Settings builder. To create an instance of this class, use the `settings()` method of the `Gl` class.
  */
 import { use } from "./disposable";
+import { Program } from "./program";
 
 export class Settings {
     constructor(

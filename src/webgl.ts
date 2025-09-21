@@ -3,56 +3,37 @@ import { ProgramSource, SourceConfig, TypeMap } from "./dsl";
 import { Disposable, uses } from "./disposable";
 import { Settings, SettingsCache } from "./settings";
 import {
-    // clear bits
-    DEPTH_BUFFER_BIT,
-    COLOR_BUFFER_BIT,
-    // buffers
-    ARRAY_BUFFER,
-    ELEMENT_ARRAY_BUFFER,
-    // point size
     ALIASED_POINT_SIZE_RANGE,
-    // textures and pixel formats
+    ARRAY_BUFFER,
+    CLAMP_TO_EDGE,
+    COLOR_ATTACHMENT0,
+    COLOR_BUFFER_BIT,
+    DEPTH_ATTACHMENT,
+    DEPTH_BUFFER_BIT,
+    DEPTH_COMPONENT16,
+    ELEMENT_ARRAY_BUFFER,
+    FRAMEBUFFER,
+    RENDERBUFFER,
+    TEXTURE_2D,
     TEXTURE_MAG_FILTER,
     TEXTURE_MIN_FILTER,
     TEXTURE_WRAP_S,
     TEXTURE_WRAP_T,
-    TEXTURE_2D,
-    CLAMP_TO_EDGE,
-    UNSIGNED_BYTE,
-    // shader types and uniforms
-    BOOL,
-    FLOAT,
-    FLOAT_VEC2,
-    FLOAT_VEC3,
-    FLOAT_VEC4,
-    FLOAT_MAT2,
-    FLOAT_MAT3,
-    FLOAT_MAT4,
-    SAMPLER_2D,
-    COMPILE_STATUS,
-    LINK_STATUS,
-    // attribute queries
-    ACTIVE_ATTRIBUTES,
-    // framebuffer/renderbuffer
-    FRAMEBUFFER,
-    RENDERBUFFER,
-    DEPTH_COMPONENT16,
-    COLOR_ATTACHMENT0,
-    DEPTH_ATTACHMENT,
     UNPACK_FLIP_Y_WEBGL,
+    UNSIGNED_BYTE,
     UNSIGNED_SHORT,
-    ACTIVE_UNIFORMS,
 } from "./consts";
-import WithoutPrecision = TypeMap.WithoutPrecision;
 import {
+    BufferUsage,
+    ErrorCode,
+    PixelFormat,
+    PrimitivesType,
+    ShaderType,
     TextureFilter,
     TextureFormat,
-    PixelFormat,
-    ShaderType,
-    ErrorCode,
-    BufferUsage,
-    PrimitivesType,
 } from "./enums";
+import { Program, Shader } from "./program";
+import WithoutPrecision = TypeMap.WithoutPrecision;
 
 /**
  * The main class of this library. It provides access to WebGL context.
@@ -632,194 +613,5 @@ export class ElementsBuffer implements Disposable {
 
     dispose() {
         this.gl.handle.deleteBuffer(this.handle);
-    }
-}
-
-/**
- * Geometry or fragment shader.
- */
-class Shader implements Disposable {
-    readonly handle: WebGLShader;
-
-    constructor(
-        public readonly gl: Gl,
-        public readonly type: ShaderType,
-        public readonly source: string,
-    ) {
-        const handle = (this.handle = gl.handle.createShader(type)!);
-
-        gl.handle.shaderSource(handle, source);
-        gl.handle.compileShader(handle);
-        if (gl.handle.getShaderParameter(handle, COMPILE_STATUS) === false) {
-            throw new Error(
-                `WebGL error '${gl.handle.getShaderInfoLog(handle)}' in '${source}'`,
-            );
-        }
-    }
-
-    dispose() {
-        this.gl.handle.deleteShader(this.handle);
-    }
-}
-
-export interface UniformRecord {
-    location: WebGLUniformLocation;
-    type: number;
-    size: number;
-}
-
-export interface AttributeRecord {
-    location: number;
-    type: number;
-    size: number;
-}
-
-export class Program implements Disposable {
-    readonly handle: WebGLProgram;
-
-    readonly uniforms: { [name: string]: UniformRecord } = {};
-    readonly attributes: { [name: string]: AttributeRecord } = {};
-
-    constructor(
-        public readonly gl: Gl,
-        public readonly vertex: Shader,
-        public readonly fragment: Shader,
-    ) {
-        const handle = (this.handle = gl.handle.createProgram()!);
-        gl.handle.attachShader(handle, vertex.handle);
-        gl.handle.attachShader(handle, fragment.handle);
-        gl.handle.linkProgram(handle);
-        gl.handle.validateProgram(handle);
-        if (gl.handle.getProgramParameter(handle, LINK_STATUS) === false) {
-            throw new Error(
-                gl.handle.getProgramInfoLog(handle) ||
-                    `Program linking error:\n${vertex.source};\n${fragment.source}`,
-            );
-        }
-
-        // uniforms
-        const uniformsCount: number = gl.handle.getProgramParameter(
-            handle,
-            ACTIVE_UNIFORMS,
-        );
-        for (let i = 0; i < uniformsCount; i++) {
-            const info = gl.handle.getActiveUniform(handle, i);
-            if (info !== null) {
-                this.uniforms[info.name] = {
-                    type: info.type,
-                    location: gl.handle.getUniformLocation(handle, info.name)!,
-                    size: info.size,
-                };
-            }
-        }
-
-        // attributes
-        const attributesCount = gl.handle.getProgramParameter(
-            handle,
-            ACTIVE_ATTRIBUTES,
-        );
-        for (let i = 0; i < attributesCount; i++) {
-            const info = gl.handle.getActiveAttrib(handle, i);
-            if (info != null) {
-                this.attributes[info.name] = {
-                    type: info.type,
-                    location: i,
-                    size: info.size,
-                };
-            }
-        }
-    }
-
-    setUniform(name: string, value: number[]) {
-        const { gl, uniforms } = this;
-        const uniform = uniforms[name];
-        if (uniform) {
-            const { location, type } = uniform;
-            gl.settings()
-                .program(this)
-                .apply(() => {
-                    switch (type) {
-                        case BOOL:
-                            gl.handle.uniform1i(location, value[0] ? 1 : 0);
-                            break;
-                        case SAMPLER_2D:
-                            gl.handle.uniform1iv(location, value);
-                            break;
-                        case FLOAT:
-                            gl.handle.uniform1fv(location, value);
-                            break;
-                        case FLOAT_VEC2:
-                            gl.handle.uniform2fv(location, value);
-                            break;
-                        case FLOAT_VEC3:
-                            gl.handle.uniform3fv(location, value);
-                            break;
-                        case FLOAT_VEC4:
-                            gl.handle.uniform4fv(location, value);
-                            break;
-                        case FLOAT_MAT2:
-                            gl.handle.uniformMatrix2fv(location, false, value);
-                            break;
-                        case FLOAT_MAT3:
-                            gl.handle.uniformMatrix3fv(location, false, value);
-                            break;
-                        case FLOAT_MAT4:
-                            gl.handle.uniformMatrix4fv(location, false, value);
-                            break;
-                    }
-                });
-        }
-    }
-
-    setAttribute(
-        name: string,
-        buffer: ArrayBuffer,
-        strideInFloats: number,
-        offsetInFloats: number,
-    ) {
-        const attr = this.attributes[name];
-        if (attr != null) {
-            const { gl } = this;
-
-            gl.settings()
-                .arrayBuffer(buffer)
-                .apply(() => {
-                    gl.handle.vertexAttribPointer(
-                        attr.location,
-                        (() => {
-                            switch (attr.type) {
-                                case FLOAT:
-                                    return 1;
-                                case FLOAT_VEC2:
-                                    return 2;
-                                case FLOAT_VEC3:
-                                    return 3;
-                                case FLOAT_VEC4:
-                                    return 4;
-                                case FLOAT_MAT2:
-                                    return 4;
-                                case FLOAT_MAT3:
-                                    return 9;
-                                case FLOAT_MAT4:
-                                    return 16;
-                                default:
-                                    throw new Error(
-                                        `Invalid attribute type '${attr.type}'`,
-                                    );
-                            }
-                        })(),
-                        FLOAT,
-                        false,
-                        strideInFloats * 4,
-                        offsetInFloats * 4,
-                    );
-                });
-        } else {
-            console.warn(`Attribute '${name}' not found`);
-        }
-    }
-
-    dispose() {
-        this.gl.handle.deleteProgram(this.handle);
     }
 }
