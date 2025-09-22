@@ -112,24 +112,25 @@ export class Settings {
         apply,
     }: {
         read: (cache: SettingsCache) => T;
-        write: (cahe: SettingsCache, value: T) => void;
+        write: (cache: SettingsCache, value: T) => void;
         equals: (v1: T, v2: T) => boolean;
         apply: (gl: Gl, value: T) => void;
     }) {
-        return function (this: Settings, value: T) {
-            return this.then(
-                new Settings(this.gl, this.cache, <R>(callback: () => R): R => {
-                    const cached = read(this.cache);
+        return function (settings: Settings, value: T) {
+            const { gl, cache } = settings;
+            return settings.then(
+                new Settings(gl, cache, <R>(callback: () => R): R => {
+                    const cached = read(cache);
                     if (equals(cached, value)) {
                         return callback();
                     } else {
                         try {
-                            write(this.cache, value);
-                            apply(this.gl, value);
+                            write(cache, value);
+                            apply(gl, value);
                             return callback();
                         } finally {
-                            write(this.cache, cached);
-                            apply(this.gl, cached);
+                            write(cache, cached);
+                            apply(gl, cached);
                         }
                     }
                 }),
@@ -205,11 +206,11 @@ export class Settings {
             width: number,
             height: number,
         ) {
-            return setting.call(this, [x, y, width, height]);
+            return setting(this, [x, y, width, height]);
         };
     })();
 
-    scissorTest = Settings.cached<boolean>({
+    private static scissorTest = Settings.cached<boolean>({
         read: cache => cache.scissorTest,
         write: (cache, value) => {
             cache.scissorTest = value;
@@ -223,8 +224,11 @@ export class Settings {
             }
         },
     });
+    scissorTest(value: boolean) {
+        return Settings.scissorTest(this, value);
+    }
 
-    scissorBox = (() => {
+    private static scissorBox = (() => {
         const setting = Settings.cached<[number, number, number, number]>({
             read: cache => cache.scissorBox,
             write: (cached, value) => {
@@ -237,17 +241,20 @@ export class Settings {
         });
 
         return function (
-            this: Settings,
+            settings: Settings,
             x: number,
             y: number,
             width: number,
             height: number,
         ) {
-            return setting.call(this, [x, y, width, height]);
+            return setting(settings, [x, y, width, height]);
         };
     })();
+    scissorBox(x: number, y: number, width: number, height: number) {
+        return Settings.scissorBox(this, x, y, width, height);
+    }
 
-    depthTest = Settings.cached<boolean>({
+    private static depthTest = Settings.cached<boolean>({
         read: cache => cache.depthTest,
         write: (cache, value) => {
             cache.depthTest = value;
@@ -261,6 +268,9 @@ export class Settings {
             }
         },
     });
+    depthTest(value: boolean) {
+        return Settings.depthTest(this, value);
+    }
 
     private static clearDepth = Settings.cached<number>({
         read: cache => cache.clearDepth,
@@ -273,7 +283,7 @@ export class Settings {
         },
     });
     clearDepth(value: number) {
-        return Settings.clearDepth.call(this, value);
+        return Settings.clearDepth(this, value);
     }
 
     private static lineWidth = Settings.cached<number>({
@@ -287,7 +297,7 @@ export class Settings {
         },
     });
     lineWidth(value: number) {
-        return Settings.lineWidth.call(this, value);
+        return Settings.lineWidth(this, value);
     }
 
     private static blendEquation = (() => {
@@ -303,15 +313,15 @@ export class Settings {
         });
 
         return function (
-            this: Settings,
+            settings: Settings,
             rgb: BlendEquation,
             alpha: BlendEquation = rgb,
         ) {
-            return setting.call(this, [rgb, alpha]);
+            return setting(settings, [rgb, alpha]);
         };
     })();
     blendEquation(rgb: BlendEquation, alpha?: BlendEquation) {
-        return Settings.blendEquation.call(this, rgb, alpha);
+        return Settings.blendEquation(this, rgb, alpha);
     }
 
     private static blendFunction = (() => {
@@ -329,13 +339,13 @@ export class Settings {
         });
 
         return function (
-            this: Settings,
+            settings: Settings,
             srcRgb: BlendFunction,
             dstRgb: BlendFunction,
             srcAlpha: BlendFunction = srcRgb,
             dstAlpha: BlendFunction = dstRgb,
         ) {
-            return setting.call(this, [srcRgb, dstRgb, srcAlpha, dstAlpha]);
+            return setting(settings, [srcRgb, dstRgb, srcAlpha, dstAlpha]);
         };
     })();
     blendFunction(
@@ -344,13 +354,7 @@ export class Settings {
         srcAlpha?: BlendFunction,
         dstAlpha?: BlendFunction,
     ) {
-        return Settings.blendFunction.call(
-            this,
-            srcRgb,
-            dstRgb,
-            srcAlpha,
-            dstAlpha,
-        );
+        return Settings.blendFunction(this, srcRgb, dstRgb, srcAlpha, dstAlpha);
     }
 
     private static depthFunction = Settings.cached<DepthFunction>({
@@ -364,7 +368,7 @@ export class Settings {
         },
     });
     depthFunction(value: DepthFunction) {
-        return Settings.depthFunction.call(this, value);
+        return Settings.depthFunction(this, value);
     }
 
     private static clearColor = (() => {
@@ -380,17 +384,17 @@ export class Settings {
         });
 
         return function (
-            this: Settings,
+            settings: Settings,
             r: number,
             g: number,
             b: number,
             a: number,
         ) {
-            return setting.call(this, [r, g, b, a]);
+            return setting(settings, [r, g, b, a]);
         };
     })();
     clearColor(r: number, g: number, b: number, a: number) {
-        return Settings.clearColor.call(this, r, g, b, a);
+        return Settings.clearColor(this, r, g, b, a);
     }
 
     private static activeTexture = Settings.cached<number>({
@@ -404,7 +408,7 @@ export class Settings {
         },
     });
     activeTexture(value: number) {
-        return Settings.activeTexture.call(this, value);
+        return Settings.activeTexture(this, value);
     }
 
     private static texture = (() => {
@@ -432,12 +436,16 @@ export class Settings {
             });
         });
 
-        return function (this: Settings, i: number, texture: Texture | null) {
-            return textures[i].call(this, texture);
+        return function (
+            settings: Settings,
+            i: number,
+            texture: Texture | null,
+        ) {
+            return textures[i](settings, texture);
         };
     })();
     texture(i: number, texture: Texture | null) {
-        return Settings.texture.call(this, i, texture);
+        return Settings.texture(this, i, texture);
     }
 
     textures(textures: (Texture | null)[]) {
@@ -462,7 +470,7 @@ export class Settings {
         },
     });
     arrayBuffer(value: ArrayBuffer | null) {
-        return Settings.arrayBuffer.call(this, value);
+        return Settings.arrayBuffer(this, value);
     }
 
     private static elementsBuffer = Settings.cached<ElementsBuffer | null>({
@@ -476,7 +484,7 @@ export class Settings {
         },
     });
     elementsBuffer(value: ElementsBuffer | null) {
-        return Settings.elementsBuffer.call(this, value);
+        return Settings.elementsBuffer(this, value);
     }
 
     private static program = Settings.cached<Program | null>({
@@ -490,7 +498,7 @@ export class Settings {
         },
     });
     program(value: Program | null) {
-        return Settings.program.call(this, value);
+        return Settings.program(this, value);
     }
 
     private static renderBuffer = Settings.cached<RenderBuffer | null>({
@@ -507,7 +515,7 @@ export class Settings {
         },
     });
     renderBuffer(value: RenderBuffer | null) {
-        return Settings.renderBuffer.call(this, value);
+        return Settings.renderBuffer(this, value);
     }
 
     private static frameBuffer = Settings.cached<FrameBuffer | null>({
@@ -521,7 +529,7 @@ export class Settings {
         },
     });
     frameBuffer(value: FrameBuffer | null) {
-        return Settings.frameBuffer.call(this, value);
+        return Settings.frameBuffer(this, value);
     }
 
     enabledAttributes(locations: number[]) {
