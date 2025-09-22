@@ -22,7 +22,13 @@ import {
 export interface AttributePointer {
     buffer: ArrayBuffer;
     type: AttributeDataType;
+    /**
+     * Stride in bytes.
+     */
     stride: number;
+    /**
+     * Offset in bytes.
+     */
     offset: number;
     divisor: number;
 }
@@ -544,6 +550,70 @@ export class Settings {
         return Settings.frameBuffer(this, value);
     }
 
+    renderTarget(texture: Texture) {
+        return new Settings(this.gl, this.cache, callback => {
+            return use(this.gl.frameBuffer(texture), frameBuffer => {
+                return this.gl
+                    .settings()
+                    .frameBuffer(frameBuffer)
+                    .viewport(0, 0, texture.width, texture.height)
+                    .apply(callback);
+            });
+        });
+    }
+
+    private writeAttributePointer(
+        location: AttributeLocation,
+        pointer: AttributePointer | null,
+    ) {
+        const { gl } = this;
+        const { handle, instancedArraysExtension } = gl;
+
+        if (!pointer) {
+            handle.disableVertexAttribArray(location);
+            this.cache.attributes.delete(location);
+        } else {
+            handle.enableVertexAttribArray(location);
+            gl.settings()
+                .arrayBuffer(pointer.buffer)
+                .apply(() => {
+                    handle.vertexAttribPointer(
+                        location,
+                        AttributeDataType.getSizeInBytes(pointer.type),
+                        pointer.type,
+                        false,
+                        pointer.stride,
+                        pointer.offset,
+                    );
+                });
+            instancedArraysExtension.vertexAttribDivisorANGLE(
+                location,
+                pointer.divisor,
+            );
+            this.cache.attributes.set(location, pointer);
+        }
+    }
+
+    attribute(location: AttributeLocation, pointer: AttributePointer | null) {
+        const gl = this.gl;
+        const handle = gl.handle;
+        return this.then(
+            new Settings(gl, this.cache, callback => {
+                const { attributes } = this.cache;
+
+                const old = attributes.get(location) ?? null;
+                if (!pointer && !old) return callback();
+
+                try {
+                    this.writeAttributePointer(location, pointer);
+                    return callback();
+                } finally {
+                    this.writeAttributePointer(location, old);
+                }
+            }),
+        );
+    }
+
     enabledAttributes(locations: number[]) {
         return this.then(
             new Settings(this.gl, this.cache, callback => {
@@ -577,18 +647,6 @@ export class Settings {
                 }
             }),
         );
-    }
-
-    renderTarget(texture: Texture) {
-        return new Settings(this.gl, this.cache, callback => {
-            return use(this.gl.frameBuffer(texture), frameBuffer => {
-                return this.gl
-                    .settings()
-                    .frameBuffer(frameBuffer)
-                    .viewport(0, 0, texture.width, texture.height)
-                    .apply(callback);
-            });
-        });
     }
 
     instancedAttributes(locations: number[]) {
