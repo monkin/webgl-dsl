@@ -5,7 +5,7 @@ export * from "./disposable";
 export * from "./enums";
 export * from "./texture";
 export * from "./program";
-export * from "./settings";
+export { Settings, type AttributePointer } from "./settings";
 export { ElementsBuffer } from "./elements-buffer";
 export { ArrayBuffer } from "./array-buffer";
 export { RenderBuffer } from "./render-buffer";
