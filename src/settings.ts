@@ -27,7 +27,7 @@ export interface AttributePointer {
     divisor: number;
 }
 
-export interface SettingsCache {
+interface SettingsCache {
     blend: boolean;
     viewport: [number, number, number, number];
     scissorTest: boolean;
@@ -53,7 +53,7 @@ export interface SettingsCache {
     cullFaceMode: FaceCulling;
 }
 
-export namespace SettingsCache {
+namespace SettingsCache {
     export const initial = (): SettingsCache => ({
         blend: false,
         viewport: [0, 0, 0, 0],
