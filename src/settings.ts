@@ -161,7 +161,7 @@ export class Settings {
         },
     });
 
-    cullFace = Settings.cached<boolean>({
+    private static cullFace = Settings.cached<boolean>({
         read: cache => cache.cullFace,
         write: (cache, value) => {
             cache.cullFace = value;
@@ -175,8 +175,11 @@ export class Settings {
             }
         },
     });
+    cullFace(value: boolean) {
+        return Settings.cullFace(this, value);
+    }
 
-    cullFaceMode = Settings.cached<FaceCulling>({
+    private static cullFaceMode = Settings.cached<FaceCulling>({
         read: cache => cache.cullFaceMode,
         write: (cache, value) => {
             cache.cullFaceMode = value;
@@ -186,8 +189,11 @@ export class Settings {
             gl.handle.cullFace(value);
         },
     });
+    cullFaceMode(value: FaceCulling) {
+        return Settings.cullFaceMode(this, value);
+    }
 
-    viewport = (() => {
+    private static viewport = (() => {
         const setting = Settings.cached<[number, number, number, number]>({
             read: cache => cache.viewport,
             write: (cached, value) => {
@@ -200,15 +206,18 @@ export class Settings {
         });
 
         return function (
-            this: Settings,
+            settings: Settings,
             x: number,
             y: number,
             width: number,
             height: number,
         ) {
-            return setting(this, [x, y, width, height]);
+            return setting(settings, [x, y, width, height]);
         };
     })();
+    viewport(x: number, y: number, width: number, height: number) {
+        return Settings.viewport(this, x, y, width, height);
+    }
 
     private static scissorTest = Settings.cached<boolean>({
         read: cache => cache.scissorTest,
