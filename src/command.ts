@@ -168,7 +168,7 @@ export class Command<
         const gl = this.gl;
 
         const attributeToPair =
-            (divisor: number) =>
+            (buffer: ArrayBuffer, divisor: number) =>
             ({
                 name,
                 stride,
@@ -178,11 +178,11 @@ export class Command<
                 return [
                     attribute.location,
                     {
-                        buffer: this.attributes,
+                        buffer,
                         type: attribute.type,
                         stride: stride * 4,
                         offset: offset * 4,
-                        divisor: 0,
+                        divisor,
                     },
                 ];
             };
@@ -192,8 +192,12 @@ export class Command<
             .arrayBuffer(this.attributes)
             .attributes(
                 new Map([
-                    ...this.attributesLayout.map(attributeToPair(0)),
-                    ...this.instancesLayout.map(attributeToPair(1)),
+                    ...this.attributesLayout.map(
+                        attributeToPair(this.attributes, 0),
+                    ),
+                    ...this.instancesLayout.map(
+                        attributeToPair(this.instances, 1),
+                    ),
                 ]),
             )
             .textures(
