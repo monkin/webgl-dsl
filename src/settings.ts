@@ -60,36 +60,38 @@ export interface SettingsCache {
 }
 
 export namespace SettingsCache {
-    export const initial = (): SettingsCache => ({
-        blend: false,
-        viewport: [0, 0, 0, 0],
-        scissorTest: false,
-        scissorBox: [0, 0, 0, 0],
-        depthTest: false,
-        depthFunction: DepthFunction.Less,
-        clearDepth: 1.0,
-        lineWidth: 1.0,
-        blendEquation: [BlendEquation.Add, BlendEquation.Add],
-        blendFunction: [
-            BlendFunction.One,
-            BlendFunction.Zero,
-            BlendFunction.One,
-            BlendFunction.Zero,
-        ],
-        clearColor: [0, 0, 0, 0],
-        activeTexture: 0,
-        textures: new Map(),
-        arrayBuffer: null,
-        elementsBuffer: null,
-        program: null,
-        enabledAttributes: new Set(),
-        instancedAttributes: new Set(),
-        attributes: new Map(),
-        renderBuffer: null,
-        frameBuffer: null,
-        cullFace: false,
-        cullFaceMode: FaceCulling.Back,
-    });
+    export function initial(): SettingsCache {
+        return {
+            blend: false,
+            viewport: [0, 0, 0, 0],
+            scissorTest: false,
+            scissorBox: [0, 0, 0, 0],
+            depthTest: false,
+            depthFunction: DepthFunction.Less,
+            clearDepth: 1.0,
+            lineWidth: 1.0,
+            blendEquation: [BlendEquation.Add, BlendEquation.Add],
+            blendFunction: [
+                BlendFunction.One,
+                BlendFunction.Zero,
+                BlendFunction.One,
+                BlendFunction.Zero,
+            ],
+            clearColor: [0, 0, 0, 0],
+            activeTexture: 0,
+            textures: new Map(),
+            arrayBuffer: null,
+            elementsBuffer: null,
+            program: null,
+            enabledAttributes: new Set(),
+            instancedAttributes: new Set(),
+            attributes: new Map(),
+            renderBuffer: null,
+            frameBuffer: null,
+            cullFace: false,
+            cullFaceMode: FaceCulling.Back,
+        };
+    }
 }
 
 /**
@@ -624,6 +626,26 @@ export class Settings {
                 }
             }),
         );
+    }
+
+    attributes(attributes: Map<AttributeLocation, AttributePointer>) {
+        const old = new Set(this.cache.attributes.keys());
+        return Array.from(attributes.entries())
+            .reduce((settings: Settings, [location, pointer]) => {
+                return settings.attribute(location, pointer);
+            }, this)
+            .then(
+                Array.from(old).reduce(
+                    (settings, location) => {
+                        if (attributes.has(location)) {
+                            return settings;
+                        } else {
+                            return settings.attribute(location, null);
+                        }
+                    },
+                    new Settings(this.gl, this.cache),
+                ),
+            );
     }
 
     enabledAttributes(locations: number[]) {
