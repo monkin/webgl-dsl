@@ -604,6 +604,18 @@ export class Settings {
                 const old = attributes.get(location) ?? null;
                 if (!pointer && !old) return callback();
 
+                if (
+                    pointer &&
+                    old &&
+                    pointer.buffer === old.buffer &&
+                    pointer.offset === old.offset &&
+                    pointer.stride === old.stride &&
+                    pointer.type === old.type &&
+                    pointer.divisor === old.divisor
+                ) {
+                    return callback();
+                }
+
                 try {
                     this.writeAttributePointer(location, pointer);
                     return callback();
