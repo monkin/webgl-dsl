@@ -19,9 +19,8 @@ import {
     FaceCulling,
 } from "./enums";
 
-export interface Attribute {
+export interface AttributePointer {
     buffer: ArrayBuffer;
-    location: number;
     type: AttributeDataType;
     stride: number;
     offset: number;
@@ -45,6 +44,7 @@ export interface SettingsCache {
     arrayBuffer: ArrayBuffer | null;
     elementsBuffer: ElementsBuffer | null;
     program: Program | null;
+    attributes: Map<AttributeLocation, AttributePointer>;
     enabledAttributes: Set<number>;
     instancedAttributes: Set<number>;
     renderBuffer: RenderBuffer | null;
@@ -78,6 +78,7 @@ export namespace SettingsCache {
         program: null,
         enabledAttributes: new Set(),
         instancedAttributes: new Set(),
+        attributes: new Map(),
         renderBuffer: null,
         frameBuffer: null,
         cullFace: false,
@@ -89,7 +90,7 @@ export namespace SettingsCache {
  * Settings builder. To create an instance of this class, use the `settings()` method of the `Gl` class.
  */
 import { use } from "./disposable";
-import { Program } from "./program";
+import { AttributeLocation, Program } from "./program";
 import { ElementsBuffer } from "./elements-buffer";
 import { ArrayBuffer } from "./array-buffer";
 import { RenderBuffer } from "./render-buffer";
@@ -261,7 +262,7 @@ export class Settings {
         },
     });
 
-    clearDepth = Settings.cached<number>({
+    private static clearDepth = Settings.cached<number>({
         read: cache => cache.clearDepth,
         write: (cache, value) => {
             cache.clearDepth = value;
@@ -271,8 +272,11 @@ export class Settings {
             gl.handle.clearDepth(value);
         },
     });
+    clearDepth(value: number) {
+        return Settings.clearDepth.call(this, value);
+    }
 
-    lineWidth = Settings.cached<number>({
+    private static lineWidth = Settings.cached<number>({
         read: cache => cache.lineWidth,
         write: (cache, value) => {
             cache.lineWidth = value;
@@ -282,8 +286,11 @@ export class Settings {
             gl.handle.lineWidth(value);
         },
     });
+    lineWidth(value: number) {
+        return Settings.lineWidth.call(this, value);
+    }
 
-    blendEquation = (() => {
+    private static blendEquation = (() => {
         const setting = Settings.cached<[BlendEquation, BlendEquation]>({
             read: cache => cache.blendEquation,
             write: (cached, value) => {
@@ -303,8 +310,11 @@ export class Settings {
             return setting.call(this, [rgb, alpha]);
         };
     })();
+    blendEquation(rgb: BlendEquation, alpha?: BlendEquation) {
+        return Settings.blendEquation.call(this, rgb, alpha);
+    }
 
-    blendFunction = (() => {
+    private static blendFunction = (() => {
         const setting = Settings.cached<
             [BlendFunction, BlendFunction, BlendFunction, BlendFunction]
         >({
@@ -328,8 +338,22 @@ export class Settings {
             return setting.call(this, [srcRgb, dstRgb, srcAlpha, dstAlpha]);
         };
     })();
+    blendFunction(
+        srcRgb: BlendFunction,
+        dstRgb: BlendFunction,
+        srcAlpha?: BlendFunction,
+        dstAlpha?: BlendFunction,
+    ) {
+        return Settings.blendFunction.call(
+            this,
+            srcRgb,
+            dstRgb,
+            srcAlpha,
+            dstAlpha,
+        );
+    }
 
-    depthFunction = Settings.cached<DepthFunction>({
+    private static depthFunction = Settings.cached<DepthFunction>({
         read: cache => cache.depthFunction,
         write: (cache, value) => {
             cache.depthFunction = value;
@@ -339,8 +363,11 @@ export class Settings {
             gl.handle.depthFunc(value);
         },
     });
+    depthFunction(value: DepthFunction) {
+        return Settings.depthFunction.call(this, value);
+    }
 
-    clearColor = (() => {
+    private static clearColor = (() => {
         const setting = Settings.cached<[number, number, number, number]>({
             read: cache => cache.clearColor,
             write: (cached, value) => {
@@ -362,8 +389,11 @@ export class Settings {
             return setting.call(this, [r, g, b, a]);
         };
     })();
+    clearColor(r: number, g: number, b: number, a: number) {
+        return Settings.clearColor.call(this, r, g, b, a);
+    }
 
-    activeTexture = Settings.cached<number>({
+    private static activeTexture = Settings.cached<number>({
         read: cache => cache.activeTexture,
         write: (cache, value) => {
             cache.activeTexture = value;
@@ -373,8 +403,11 @@ export class Settings {
             gl.handle.activeTexture(TEXTURE0 + value);
         },
     });
+    activeTexture(value: number) {
+        return Settings.activeTexture.call(this, value);
+    }
 
-    texture = (() => {
+    private static texture = (() => {
         const textures = new Array(16).fill(null).map((_, i) => {
             return Settings.cached<Texture | null>({
                 read: cache => cache.textures.get(i) || null,
@@ -403,6 +436,9 @@ export class Settings {
             return textures[i].call(this, texture);
         };
     })();
+    texture(i: number, texture: Texture | null) {
+        return Settings.texture.call(this, i, texture);
+    }
 
     textures(textures: (Texture | null)[]) {
         let result: Settings = this;
@@ -415,7 +451,7 @@ export class Settings {
         return result;
     }
 
-    arrayBuffer = Settings.cached<ArrayBuffer | null>({
+    private static arrayBuffer = Settings.cached<ArrayBuffer | null>({
         read: cache => cache.arrayBuffer,
         write: (cache, value) => {
             cache.arrayBuffer = value;
@@ -425,8 +461,11 @@ export class Settings {
             gl.handle.bindBuffer(ARRAY_BUFFER, value?.handle ?? null);
         },
     });
+    arrayBuffer(value: ArrayBuffer | null) {
+        return Settings.arrayBuffer.call(this, value);
+    }
 
-    elementsBuffer = Settings.cached<ElementsBuffer | null>({
+    private static elementsBuffer = Settings.cached<ElementsBuffer | null>({
         read: cache => cache.elementsBuffer,
         write: (cache, value) => {
             cache.elementsBuffer = value;
@@ -436,8 +475,11 @@ export class Settings {
             gl.handle.bindBuffer(ELEMENT_ARRAY_BUFFER, value?.handle ?? null);
         },
     });
+    elementsBuffer(value: ElementsBuffer | null) {
+        return Settings.elementsBuffer.call(this, value);
+    }
 
-    program = Settings.cached<Program | null>({
+    private static program = Settings.cached<Program | null>({
         read: cache => cache.program,
         write: (cache, value) => {
             cache.program = value;
@@ -447,8 +489,11 @@ export class Settings {
             gl.handle.useProgram(value ? value.handle : null);
         },
     });
+    program(value: Program | null) {
+        return Settings.program.call(this, value);
+    }
 
-    renderBuffer = Settings.cached<RenderBuffer | null>({
+    private static renderBuffer = Settings.cached<RenderBuffer | null>({
         read: cache => cache.renderBuffer,
         write: (cache, value) => {
             cache.renderBuffer = value;
@@ -461,8 +506,11 @@ export class Settings {
             );
         },
     });
+    renderBuffer(value: RenderBuffer | null) {
+        return Settings.renderBuffer.call(this, value);
+    }
 
-    frameBuffer = Settings.cached<FrameBuffer | null>({
+    private static frameBuffer = Settings.cached<FrameBuffer | null>({
         read: cache => cache.frameBuffer,
         write: (cache, value) => {
             cache.frameBuffer = value;
@@ -472,6 +520,9 @@ export class Settings {
             gl.handle.bindFramebuffer(FRAMEBUFFER, value ? value.handle : null);
         },
     });
+    frameBuffer(value: FrameBuffer | null) {
+        return Settings.frameBuffer.call(this, value);
+    }
 
     enabledAttributes(locations: number[]) {
         return this.then(
@@ -508,6 +559,18 @@ export class Settings {
         );
     }
 
+    renderTarget(texture: Texture) {
+        return new Settings(this.gl, this.cache, callback => {
+            return use(this.gl.frameBuffer(texture), frameBuffer => {
+                return this.gl
+                    .settings()
+                    .frameBuffer(frameBuffer)
+                    .viewport(0, 0, texture.width, texture.height)
+                    .apply(callback);
+            });
+        });
+    }
+
     instancedAttributes(locations: number[]) {
         return this.then(
             new Settings(this.gl, this.cache, callback => {
@@ -541,17 +604,5 @@ export class Settings {
                 }
             }),
         );
-    }
-
-    renderTarget(texture: Texture) {
-        return new Settings(this.gl, this.cache, callback => {
-            return use(this.gl.frameBuffer(texture), frameBuffer => {
-                return this.gl
-                    .settings()
-                    .frameBuffer(frameBuffer)
-                    .viewport(0, 0, texture.width, texture.height)
-                    .apply(callback);
-            });
-        });
     }
 }
