@@ -146,7 +146,7 @@ export class Settings {
         });
     }
 
-    blend = Settings.cached<boolean>({
+    private static blend = Settings.cached<boolean>({
         read: cache => cache.blend,
         write: (cache, value) => {
             cache.blend = value;
@@ -160,6 +160,9 @@ export class Settings {
             }
         },
     });
+    blend(value: boolean) {
+        return Settings.blend(this, value);
+    }
 
     private static cullFace = Settings.cached<boolean>({
         read: cache => cache.cullFace,
