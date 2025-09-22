@@ -47,7 +47,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "vite": "7.1.6",
+    "vite": "7.1.7",
     "vite-plugin-dts": "4.5.4",
     "typedoc": "0.28.13",
     "eslint": "9.36.0",
