@@ -158,54 +158,6 @@ export class Program implements Disposable {
         }
     }
 
-    setAttribute(
-        name: string,
-        buffer: ArrayBuffer,
-        strideInFloats: number,
-        offsetInFloats: number,
-    ) {
-        const attr = this.attributes.get(name);
-        if (attr != null) {
-            const { gl } = this;
-
-            gl.settings()
-                .arrayBuffer(buffer)
-                .apply(() => {
-                    gl.handle.vertexAttribPointer(
-                        attr.location,
-                        (() => {
-                            switch (attr.type) {
-                                case FLOAT:
-                                    return 1;
-                                case FLOAT_VEC2:
-                                    return 2;
-                                case FLOAT_VEC3:
-                                    return 3;
-                                case FLOAT_VEC4:
-                                    return 4;
-                                case FLOAT_MAT2:
-                                    return 4;
-                                case FLOAT_MAT3:
-                                    return 9;
-                                case FLOAT_MAT4:
-                                    return 16;
-                                default:
-                                    throw new Error(
-                                        `Invalid attribute type '${attr.type}'`,
-                                    );
-                            }
-                        })(),
-                        FLOAT,
-                        false,
-                        strideInFloats * 4,
-                        offsetInFloats * 4,
-                    );
-                });
-        } else {
-            console.warn(`Attribute '${name}' not found`);
-        }
-    }
-
     dispose() {
         this.gl.handle.deleteProgram(this.handle);
     }

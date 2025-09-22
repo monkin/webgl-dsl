@@ -3,10 +3,12 @@ import { Gl } from "./gl";
 import { PrimitivesType } from "./enums";
 import { Disposable } from "./disposable";
 import WithoutPrecision = TypeMap.WithoutPrecision;
-import { Program } from "./program";
+import { AttributeLocation, Program } from "./program";
 import { ElementsBuffer } from "./elements-buffer";
 import { ArrayBuffer } from "./array-buffer";
 import { Texture } from "./texture";
+import { AttributePointer } from "./settings";
+import LayoutItem = TypeMap.LayoutItem;
 
 export class Command<
     Uniforms extends TypeMap,
@@ -19,8 +21,14 @@ export class Command<
     private readonly instances: ArrayBuffer;
     private readonly elements: ElementsBuffer;
 
+    /**
+     * Stride in 32-bit floats
+     */
     private readonly attributesStride: number;
     private readonly attributesLayout: TypeMap.LayoutItem[];
+    /**
+     * Stride in 32-bit floats
+     */
     private readonly instancesStride: number;
     private readonly instancesLayout: TypeMap.LayoutItem[];
 
@@ -42,24 +50,6 @@ export class Command<
         this.attributesLayout = TypeMap.layout(source.attributes);
         this.instancesStride = TypeMap.stride(source.instances);
         this.instancesLayout = TypeMap.layout(source.instances);
-
-        this.attributesLayout.forEach(a => {
-            this.program.setAttribute(
-                a.name,
-                this.attributes,
-                a.stride,
-                a.offset,
-            );
-        });
-
-        this.instancesLayout.forEach(a => {
-            this.program.setAttribute(
-                a.name,
-                this.instances,
-                a.stride,
-                a.offset,
-            );
-        });
 
         for (const name in source.uniforms) {
             if (TypeMap.getType(source.uniforms[name]) === Type.Sampler) {
@@ -177,22 +167,34 @@ export class Command<
     ) {
         const gl = this.gl;
 
+        const attributeToPair =
+            (divisor: number) =>
+            ({
+                name,
+                stride,
+                offset,
+            }: LayoutItem): [AttributeLocation, AttributePointer] => {
+                const attribute = this.program.attributes.get(name)!;
+                return [
+                    attribute.location,
+                    {
+                        buffer: this.attributes,
+                        type: attribute.type,
+                        stride: stride * 4,
+                        offset: offset * 4,
+                        divisor: 0,
+                    },
+                ];
+            };
+
         gl.settings()
             .program(this.program)
-            .enabledAttributes(
-                Array.from(this.program.attributes.keys())
-                    .map(key => {
-                        return this.program.attributes.get(key)?.location;
-                    })
-                    .filter(v => v !== null && v !== undefined),
-            )
-            .instancedAttributes(
-                this.instancesLayout
-                    .map(v => v.name)
-                    .map(key => {
-                        return this.program.attributes.get(key)?.location;
-                    })
-                    .filter(v => v !== null && v !== undefined),
+            .arrayBuffer(this.attributes)
+            .attributes(
+                new Map([
+                    ...this.attributesLayout.map(attributeToPair(0)),
+                    ...this.instancesLayout.map(attributeToPair(1)),
+                ]),
             )
             .textures(
                 Array.from(this.textureInstances.entries()).reduce(

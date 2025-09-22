@@ -10,6 +10,7 @@ import {
     ELEMENT_ARRAY_BUFFER,
     FRAMEBUFFER,
     RENDERBUFFER,
+    FLOAT,
 } from "./consts";
 import {
     BlendEquation,
@@ -51,8 +52,6 @@ export interface SettingsCache {
     elementsBuffer: ElementsBuffer | null;
     program: Program | null;
     attributes: Map<AttributeLocation, AttributePointer>;
-    enabledAttributes: Set<number>;
-    instancedAttributes: Set<number>;
     renderBuffer: RenderBuffer | null;
     frameBuffer: FrameBuffer | null;
     cullFace: boolean;
@@ -83,8 +82,6 @@ export namespace SettingsCache {
             arrayBuffer: null,
             elementsBuffer: null,
             program: null,
-            enabledAttributes: new Set(),
-            instancedAttributes: new Set(),
             attributes: new Map(),
             renderBuffer: null,
             frameBuffer: null,
@@ -581,8 +578,8 @@ export class Settings {
                 .apply(() => {
                     handle.vertexAttribPointer(
                         location,
-                        AttributeDataType.getSizeInBytes(pointer.type),
-                        pointer.type,
+                        AttributeDataType.getSizeInFloats(pointer.type),
+                        FLOAT,
                         false,
                         pointer.stride,
                         pointer.offset,
@@ -646,75 +643,5 @@ export class Settings {
                     new Settings(this.gl, this.cache),
                 ),
             );
-    }
-
-    enabledAttributes(locations: number[]) {
-        return this.then(
-            new Settings(this.gl, this.cache, callback => {
-                const handle = this.gl.handle;
-                const oldValue = this.cache.enabledAttributes;
-                const newValue = new Set(locations);
-                this.cache.enabledAttributes = newValue;
-
-                const applyDiff = (
-                    source: Set<number>,
-                    target: Set<number>,
-                ) => {
-                    source.forEach(i => {
-                        if (!target.has(i)) {
-                            handle.disableVertexAttribArray(i);
-                        }
-                    });
-                    target.forEach(i => {
-                        if (!source.has(i)) {
-                            handle.enableVertexAttribArray(i);
-                        }
-                    });
-                };
-
-                try {
-                    applyDiff(oldValue, newValue);
-                    return callback();
-                } finally {
-                    applyDiff(newValue, oldValue);
-                    this.cache.enabledAttributes = oldValue;
-                }
-            }),
-        );
-    }
-
-    instancedAttributes(locations: number[]) {
-        return this.then(
-            new Settings(this.gl, this.cache, callback => {
-                const handle = this.gl.instancedArraysExtension;
-                const oldValue = this.cache.instancedAttributes;
-                const newValue = new Set(locations);
-                this.cache.instancedAttributes = newValue;
-
-                const applyDiff = (
-                    source: Set<number>,
-                    target: Set<number>,
-                ) => {
-                    source.forEach(i => {
-                        if (!target.has(i)) {
-                            handle.vertexAttribDivisorANGLE(i, 0);
-                        }
-                    });
-                    target.forEach(i => {
-                        if (!source.has(i)) {
-                            handle.vertexAttribDivisorANGLE(i, 1);
-                        }
-                    });
-                };
-
-                try {
-                    applyDiff(oldValue, newValue);
-                    return callback();
-                } finally {
-                    applyDiff(newValue, oldValue);
-                    this.cache.instancedAttributes = oldValue;
-                }
-            }),
-        );
     }
 }

@@ -184,9 +184,6 @@ export enum AttributeDataType {
     Vec2 = FLOAT_VEC2,
     Vec3 = FLOAT_VEC3,
     Vec4 = FLOAT_VEC4,
-    Mat2 = FLOAT_MAT2,
-    Mat3 = FLOAT_MAT3,
-    Mat4 = FLOAT_MAT4,
 }
 
 export enum UniformDataType {
@@ -202,23 +199,21 @@ export enum UniformDataType {
 }
 
 export namespace AttributeDataType {
-    export function getSizeInBytes(type: AttributeDataType) {
+    export function getSizeInFloats(type: AttributeDataType) {
         switch (type) {
             case AttributeDataType.Float:
-                return 4;
+                return 1;
             case AttributeDataType.Vec2:
-                return 2 * 4;
+                return 2;
             case AttributeDataType.Vec3:
-                return 3 * 4;
+                return 3;
             case AttributeDataType.Vec4:
-                return 4 * 4;
-            case AttributeDataType.Mat2:
-                return 4 * 4; // 2x2 floats
-            case AttributeDataType.Mat3:
-                return 9 * 4; // 3x3 floats
-            case AttributeDataType.Mat4:
-                return 16 * 4; // 4x4 floats
+                return 4;
         }
+    }
+
+    export function getSizeInBytes(type: AttributeDataType) {
+        return getSizeInFloats(type) * 4;
     }
 
     export function isVec(type: AttributeDataType) {
@@ -226,14 +221,6 @@ export namespace AttributeDataType {
             type === AttributeDataType.Vec2 ||
             type === AttributeDataType.Vec3 ||
             type === AttributeDataType.Vec4
-        );
-    }
-
-    export function isMat(type: AttributeDataType) {
-        return (
-            type === AttributeDataType.Mat2 ||
-            type === AttributeDataType.Mat3 ||
-            type === AttributeDataType.Mat4
         );
     }
 }
