@@ -571,23 +571,31 @@ export class Glsl<T extends Type = Type> {
     }
 
     /**
-     * Save some expression into a variable
+     * Save some expression into a variable.
+     *
+     * The operand is both emitted and **traversed** only once: the walk runs
+     * inside the builder's `once()` cache, which stores the resulting value,
+     * so every later reference returns the cached variable without re-walking
+     * the subtree. Memoizing inside `mem` is therefore safe for deep, heavily
+     * shared expression trees — without this, a node referenced N times is
+     * walked N times and a deep tree assembles in time exponential in its
+     * depth.
      */
     mem<T extends Glsl>(this: T, precision: Precision): T {
         const name = `mem${id()}`;
-        return new Glsl(builder => {
-            const v = this.getValue(builder);
+        return new Glsl(builder =>
             builder.once(name, () => {
+                const v = this.getValue(builder);
                 const hasPrecision = v.type !== Type.Boolean;
                 builder.addLocal(
                     `${hasPrecision ? `${precision} ` : ""}${v.type} ${name} = ${v.content};\n`,
                 );
-            });
-            return {
-                type: v.type,
-                content: name,
-            };
-        }) as T;
+                return {
+                    type: v.type,
+                    content: name,
+                };
+            }),
+        ) as T;
     }
 
     /**
