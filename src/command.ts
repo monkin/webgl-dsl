@@ -1,7 +1,6 @@
 import { TypeMap, SourceConfig, source, ProgramSource, Type } from "./dsl";
 import { Gl } from "./gl";
 import { PrimitivesType } from "./enums";
-import { Disposable } from "./disposable";
 import WithoutPrecision = TypeMap.WithoutPrecision;
 import { AttributeLocation, Program } from "./program";
 import { ElementsBuffer } from "./elements-buffer";
@@ -243,11 +242,11 @@ export class Command<
             });
     }
 
-    dispose() {
-        this.program.dispose();
-        this.attributes.dispose();
-        this.instances.dispose();
-        this.elements.dispose();
+    [Symbol.dispose]() {
+        this.program[Symbol.dispose]();
+        this.attributes[Symbol.dispose]();
+        this.instances[Symbol.dispose]();
+        this.elements[Symbol.dispose]();
     }
 }
 

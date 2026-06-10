@@ -1,6 +1,5 @@
 import { command } from "./command";
 import { ProgramSource, SourceConfig, TypeMap } from "./dsl";
-import { Disposable, uses } from "./disposable";
 import { Settings, SettingsCache } from "./settings";
 import {
     ALIASED_POINT_SIZE_RANGE,
@@ -221,13 +220,9 @@ export class Gl implements Disposable {
      * Create a program with a specified vertex and fragment shader source
      */
     program(vertex: string, fragment: string) {
-        return uses(
-            () => new Shader(this, ShaderType.Vertex, vertex),
-            () => new Shader(this, ShaderType.Fragment, fragment),
-            (vertex, fragment) => {
-                return new Program(this, vertex, fragment);
-            },
-        );
+        using vertexShader = new Shader(this, ShaderType.Vertex, vertex);
+        using fragmentShader = new Shader(this, ShaderType.Fragment, fragment);
+        return new Program(this, vertexShader, fragmentShader);
     }
 
     /**
@@ -264,7 +259,7 @@ export class Gl implements Disposable {
     /**
      * Destroy WebGL context
      */
-    dispose() {
+    [Symbol.dispose]() {
         const ex = this.handle.getExtension("WEBGL_lose_context");
         if (ex) {
             ex.loseContext();

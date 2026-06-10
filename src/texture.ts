@@ -38,7 +38,7 @@ export type TextureConfig = {
 /**
  * 2D texture
  */
-export class Texture {
+export class Texture implements Disposable {
     readonly handle: WebGLTexture;
     readonly width: number;
     readonly height: number;
@@ -155,7 +155,7 @@ export class Texture {
         this.gl.handle.texParameteri(TEXTURE_2D, TEXTURE_MIN_FILTER, filter);
     }
 
-    dispose() {
+    [Symbol.dispose]() {
         this.gl.handle.deleteTexture(this.handle);
     }
 }

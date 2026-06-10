@@ -69,3 +69,34 @@ gl.settings()
         drawTriangles.draw();
     });
 ```
+
+## Resource management
+
+Every GPU resource — `Gl`, `Command`, `Texture`, `FrameBuffer`, `RenderBuffer`,
+`ArrayBuffer`, `ElementsBuffer`, `Program`, and `Shader` — implements the standard
+[explicit resource management](https://github.com/tc39/proposal-explicit-resource-management)
+protocol (`Symbol.dispose`). Declare them with `using` to release the underlying
+WebGL objects automatically at the end of the enclosing scope, in reverse order:
+
+```typescript
+function readback(canvas: HTMLCanvasElement) {
+    using gl = new Gl(canvas);
+    using texture = gl.texture({ width: 256, height: 256 });
+
+    // ...render into `texture` via a frame buffer...
+
+    return texture.read();
+} // texture and gl are disposed here, in reverse order
+```
+
+Resources that outlive a single scope (commands, textures kept across frames, …)
+are not bound to a `using` declaration — dispose them explicitly when you are done:
+
+```typescript
+const drawTriangles = gl.command(PrimitivesType.Triangles, source);
+// ...later...
+drawTriangles[Symbol.dispose]();
+```
+
+> `using` requires TypeScript 5.2+, and the resources rely on native
+> `Symbol.dispose` at runtime (every 2024+ browser and Node.js 20+).

@@ -94,7 +94,6 @@ export namespace SettingsCache {
 /**
  * Settings builder. To create an instance of this class, use the `settings()` method of the `Gl` class.
  */
-import { use } from "./disposable";
 import { AttributeLocation, Program } from "./program";
 import { ElementsBuffer } from "./elements-buffer";
 import { ArrayBuffer } from "./array-buffer";
@@ -551,13 +550,12 @@ export class Settings {
 
     renderTarget(texture: Texture) {
         return new Settings(this.gl, this.cache, callback => {
-            return use(this.gl.frameBuffer(texture), frameBuffer => {
-                return this.gl
-                    .settings()
-                    .frameBuffer(frameBuffer)
-                    .viewport(0, 0, texture.width, texture.height)
-                    .apply(callback);
-            });
+            using frameBuffer = this.gl.frameBuffer(texture);
+            return this.gl
+                .settings()
+                .frameBuffer(frameBuffer)
+                .viewport(0, 0, texture.width, texture.height)
+                .apply(callback);
         });
     }
 

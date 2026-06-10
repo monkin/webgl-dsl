@@ -1,7 +1,6 @@
 export * from "./gl";
 export * from "./dsl";
 export * from "./command";
-export * from "./disposable";
 export * from "./enums";
 export * from "./texture";
 export * from "./program";

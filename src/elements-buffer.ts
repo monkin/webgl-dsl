@@ -1,4 +1,3 @@
-import { Disposable } from "./disposable";
 import { BufferUsage } from "./enums";
 import { ELEMENT_ARRAY_BUFFER } from "./consts";
 import { Gl } from "./gl";
@@ -45,7 +44,7 @@ export class ElementsBuffer implements Disposable {
         return this;
     }
 
-    dispose() {
+    [Symbol.dispose]() {
         this.gl.handle.deleteBuffer(this.handle);
     }
 }

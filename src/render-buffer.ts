@@ -1,4 +1,3 @@
-import { Disposable } from "./disposable";
 import { DEPTH_COMPONENT16, RENDERBUFFER } from "./consts";
 import { Gl } from "./gl";
 
@@ -53,7 +52,7 @@ export class RenderBuffer implements Disposable {
         return this;
     }
 
-    dispose() {
+    [Symbol.dispose]() {
         this.gl.handle.deleteRenderbuffer(this.handle);
     }
 }

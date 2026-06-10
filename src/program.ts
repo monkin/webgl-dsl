@@ -1,4 +1,3 @@
-import { Disposable } from "./disposable";
 import {
     ACTIVE_ATTRIBUTES,
     ACTIVE_UNIFORMS,
@@ -44,7 +43,7 @@ export class Shader implements Disposable {
         }
     }
 
-    dispose() {
+    [Symbol.dispose]() {
         this.gl.handle.deleteShader(this.handle);
     }
 }
@@ -158,7 +157,7 @@ export class Program implements Disposable {
         }
     }
 
-    dispose() {
+    [Symbol.dispose]() {
         this.gl.handle.deleteProgram(this.handle);
     }
 }

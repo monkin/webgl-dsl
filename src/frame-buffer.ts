@@ -1,4 +1,3 @@
-import { Disposable } from "./disposable";
 import { RenderBuffer } from "./render-buffer";
 import {
     COLOR_ATTACHMENT0,
@@ -42,7 +41,7 @@ export class FrameBuffer implements Disposable {
             });
     }
 
-    dispose() {
+    [Symbol.dispose]() {
         this.gl.handle.deleteFramebuffer(this.handle);
     }
 }
