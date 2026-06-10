@@ -30,9 +30,9 @@ const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const width = canvas.width = canvas.clientWidth * devicePixelRatio;
 const height = canvas.height = canvas.clientHeight * devicePixelRatio;
 
-const gl = new Gl(canvas, { preserveDrawingBuffer: true });
+using gl = new Gl(canvas, { preserveDrawingBuffer: true });
 
-const drawTriangles = gl.command(PrimitivesType.Triangles, {
+using drawTriangles = gl.command(PrimitivesType.Triangles, {
     uniforms: {},
     attributes: {
         aPosition: Type.Vector2,
