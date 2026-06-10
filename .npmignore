@@ -10,8 +10,7 @@ jest-extended.d.ts
 .github
 .idea
 .parcelrc
-.prettierrc
-eslint.config.mjs
+biome.json
 index.html
 index.pug
 **/*.test.ts

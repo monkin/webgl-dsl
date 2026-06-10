@@ -632,16 +632,13 @@ export class Settings {
                 return settings.attribute(location, pointer);
             }, this)
             .then(
-                Array.from(old).reduce(
-                    (settings, location) => {
-                        if (attributes.has(location)) {
-                            return settings;
-                        } else {
-                            return settings.attribute(location, null);
-                        }
-                    },
-                    new Settings(this.gl, this.cache),
-                ),
+                Array.from(old).reduce((settings, location) => {
+                    if (attributes.has(location)) {
+                        return settings;
+                    } else {
+                        return settings.attribute(location, null);
+                    }
+                }, new Settings(this.gl, this.cache)),
             );
     }
 }

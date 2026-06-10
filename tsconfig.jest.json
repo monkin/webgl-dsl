@@ -4,7 +4,5 @@
     "types": ["jest", "jest-image-snapshot"],
     "allowSyntheticDefaultImports": true
   },
-  "files": [
-    "jest-extended.d.ts"
-  ]
+  "files": ["jest-extended.d.ts"]
 }
