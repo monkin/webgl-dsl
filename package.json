@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
+    "@microsoft/api-extractor": "^7.58.8",
     "@types/gl": "6.0.5",
     "@types/jest-image-snapshot": "6.4.1",
     "@types/upng-js": "2.1.5",

@@ -24,6 +24,9 @@ export default defineConfig({
             // Respect includes/excludes from tsconfig
             include: ["src"],
             exclude: ["src/**/*.test.ts"],
+            // Roll every declaration up into a single lib/index.d.ts
+            // (powered by @microsoft/api-extractor).
+            bundleTypes: true,
         }),
     ],
 });
