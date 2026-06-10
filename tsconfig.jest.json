@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "types": ["jest", "jest-image-snapshot"],
-    "allowSyntheticDefaultImports": true
-  },
-  "files": ["jest-extended.d.ts"]
-}

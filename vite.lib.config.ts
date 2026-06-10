@@ -21,10 +21,6 @@ export default defineConfig({
     plugins: [
         dts({
             tsconfigPath: resolve(__dirname, "tsconfig.lib.json"),
-            outDir: resolve(__dirname, "lib"),
-            copyDtsFiles: true,
-            // Do not insert types references into source files; just emit d.ts next to outputs
-            insertTypesEntry: true,
             // Respect includes/excludes from tsconfig
             include: ["src"],
             exclude: ["src/**/*.test.ts"],

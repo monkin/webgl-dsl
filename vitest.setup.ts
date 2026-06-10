@@ -1,13 +1,12 @@
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import * as UPNG from "upng-js";
+import { expect } from "vitest";
 
-function toMatchTextureSnapshot(
-    this: jest.MatcherContext,
-    texture: any,
-    options?: any,
-) {
+// Extend `toMatchImageSnapshot` to also accept our `Texture`/`Gl` objects:
+// read their pixels, encode a PNG, then delegate to jest-image-snapshot.
+function toMatchTextureSnapshot(this: any, texture: any, options?: any) {
     try {
-        // Try to detect our Texture type: must have width, height, and read()
+        // Detect our renderable types: must expose width, height, and read().
         if (
             !texture ||
             typeof texture !== "object" ||
@@ -22,7 +21,6 @@ function toMatchTextureSnapshot(
         const height: number = texture.height;
         const rgba: Uint8Array = texture.read();
 
-        // upng expects an array of ArrayBuffers for frames
         const imageData: ArrayBuffer = UPNG.encode(
             [rgba.buffer as ArrayBuffer],
             width,
@@ -30,14 +28,7 @@ function toMatchTextureSnapshot(
             0,
         );
 
-        // Delegate to jest-image-snapshot matcher using the imported function
-        const result = (toMatchImageSnapshot as any).call(
-            this,
-            imageData,
-            options,
-        );
-
-        return result;
+        return (toMatchImageSnapshot as any).call(this, imageData, options);
     } catch (e: any) {
         return {
             pass: false,
@@ -46,7 +37,6 @@ function toMatchTextureSnapshot(
     }
 }
 
-// Override toMatchImageSnapshot to accept Texture or raw image data
 expect.extend({
     toMatchImageSnapshot: toMatchTextureSnapshot as any,
 });
