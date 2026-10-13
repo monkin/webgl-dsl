@@ -157,18 +157,56 @@ describe("Gl context loss", () => {
     });
 
     it("throws when the canvas gives no WebGL context", () => {
-        class FakeCanvas {
-            getContext() {
-                return null;
-            }
-        }
-        vi.stubGlobal("HTMLCanvasElement", FakeCanvas);
+        vi.stubGlobal("HTMLCanvasElement", FailingCanvas);
         try {
             expect(
-                () => new Gl(new FakeCanvas() as unknown as HTMLCanvasElement),
-            ).toThrow("WebGL is unavailable");
+                () =>
+                    new Gl(new FailingCanvas() as unknown as HTMLCanvasElement),
+            ).toThrow(/^WebGL is unavailable$/);
+        } finally {
+            vi.unstubAllGlobals();
+        }
+    });
+
+    it("puts the browser's reason for no WebGL context into the error", () => {
+        const reason = "disabled by enterprise policy or commandline switch";
+        vi.stubGlobal("HTMLCanvasElement", FailingCanvas);
+        try {
+            expect(
+                () =>
+                    new Gl(
+                        new FailingCanvas(
+                            reason,
+                        ) as unknown as HTMLCanvasElement,
+                    ),
+            ).toThrow(`WebGL is unavailable: ${reason}`);
         } finally {
             vi.unstubAllGlobals();
         }
     });
 });
+
+/**
+ * A canvas that gives no WebGL context. Given a `statusMessage`, it first
+ * dispatches `webglcontextcreationerror` with it, inside `getContext`, as
+ * Chrome does.
+ */
+class FailingCanvas extends EventTarget {
+    private readonly statusMessage?: string;
+
+    constructor(statusMessage?: string) {
+        super();
+        this.statusMessage = statusMessage;
+    }
+
+    getContext(): null {
+        if (this.statusMessage !== undefined) {
+            this.dispatchEvent(
+                Object.assign(new Event("webglcontextcreationerror"), {
+                    statusMessage: this.statusMessage,
+                }),
+            );
+        }
+        return null;
+    }
+}

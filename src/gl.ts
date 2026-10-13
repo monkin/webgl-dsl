@@ -72,9 +72,27 @@ export class Gl implements Disposable {
             typeof HTMLCanvasElement !== "undefined" &&
             a1 instanceof HTMLCanvasElement
         ) {
+            // The browser says why it gives no context only through this
+            // event, dispatched inside `getContext`; Chrome logs nothing.
+            let reason = "";
+            const handleCreationError = (event: Event) => {
+                reason = (event as WebGLContextEvent).statusMessage;
+            };
+            a1.addEventListener(
+                "webglcontextcreationerror",
+                handleCreationError,
+            );
             const context = a1.getContext("webgl", a2);
+            a1.removeEventListener(
+                "webglcontextcreationerror",
+                handleCreationError,
+            );
             if (context === null) {
-                throw new Error("WebGL is unavailable");
+                throw new Error(
+                    reason === ""
+                        ? "WebGL is unavailable"
+                        : `WebGL is unavailable: ${reason}`,
+                );
             }
             this.handle = context;
         } else {

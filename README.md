@@ -126,5 +126,8 @@ command made while the context is lost has no attributes, and drawing it
 throws.
 
 `new Gl(canvas)` throws `Error("WebGL is unavailable")` when the canvas gives
-no WebGL context. A `Gl` over an existing context listens on its `canvas`
+no WebGL context, followed by the browser's reason when it gives one through
+`webglcontextcreationerror` — `"WebGL is unavailable: disabled by enterprise
+policy or commandline switch"`. Chrome itself logs nothing of it to the
+console. A `Gl` over an existing context listens on its `canvas`
 when that is an `EventTarget`, and on nothing otherwise (headless-gl).
