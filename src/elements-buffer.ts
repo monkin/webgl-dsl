@@ -7,6 +7,8 @@ import { Gl } from "./gl";
  */
 export class ElementsBuffer implements Disposable {
     public readonly handle: WebGLBuffer;
+    /** The context generation it was made in; see `Gl.isDead`. */
+    private readonly generation: number;
 
     private lengthValue = 0;
 
@@ -23,6 +25,7 @@ export class ElementsBuffer implements Disposable {
         private readonly usage: BufferUsage = BufferUsage.Dynamic,
     ) {
         this.handle = gl.handle.createBuffer()!;
+        this.generation = gl.generation;
         data && this.setContent(data);
     }
 
@@ -45,6 +48,8 @@ export class ElementsBuffer implements Disposable {
     }
 
     [Symbol.dispose]() {
-        this.gl.handle.deleteBuffer(this.handle);
+        if (!this.gl.isDead(this.generation)) {
+            this.gl.handle.deleteBuffer(this.handle);
+        }
     }
 }

@@ -6,6 +6,8 @@ import { Gl } from "./gl";
  */
 export class RenderBuffer implements Disposable {
     public readonly handle: WebGLRenderbuffer;
+    /** The context generation it was made in; see `Gl.isDead`. */
+    private readonly generation: number;
 
     constructor(
         public readonly gl: Gl,
@@ -13,6 +15,7 @@ export class RenderBuffer implements Disposable {
         private heightValue: number,
     ) {
         this.handle = gl.handle.createRenderbuffer()!;
+        this.generation = gl.generation;
         gl.settings()
             .renderBuffer(this)
             .apply(() => {
@@ -53,6 +56,8 @@ export class RenderBuffer implements Disposable {
     }
 
     [Symbol.dispose]() {
-        this.gl.handle.deleteRenderbuffer(this.handle);
+        if (!this.gl.isDead(this.generation)) {
+            this.gl.handle.deleteRenderbuffer(this.handle);
+        }
     }
 }

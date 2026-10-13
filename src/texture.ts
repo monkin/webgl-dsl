@@ -40,6 +40,8 @@ export type TextureConfig = {
  */
 export class Texture implements Disposable {
     readonly handle: WebGLTexture;
+    /** The context generation it was made in; see `Gl.isDead`. */
+    private readonly generation: number;
     readonly width: number;
     readonly height: number;
     readonly format: TextureFormat;
@@ -50,6 +52,7 @@ export class Texture implements Disposable {
         config: TextureConfig,
     ) {
         this.handle = gl.handle.createTexture()!;
+        this.generation = gl.generation;
 
         this.format = config.format || TextureFormat.Rgba;
         this.filter = config.filter || TextureFilter.Nearest;
@@ -156,6 +159,8 @@ export class Texture implements Disposable {
     }
 
     [Symbol.dispose]() {
-        this.gl.handle.deleteTexture(this.handle);
+        if (!this.gl.isDead(this.generation)) {
+            this.gl.handle.deleteTexture(this.handle);
+        }
     }
 }

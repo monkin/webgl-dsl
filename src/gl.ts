@@ -26,14 +26,41 @@ import WithoutPrecision = TypeMap.WithoutPrecision;
 /**
  * The main class of this library. It provides access to WebGL context.
  * Use it to create programs, textures, buffers, and change WebGL state.
+ *
+ * It follows its context's loss and restore. The loss is always
+ * `preventDefault`ed — without that the browser never restores a context —
+ * and both ends are reported through {@link Gl.onContextLost} and
+ * {@link Gl.onContextRestored}. A restore leaves every resource made before
+ * it dead: disposing one makes no GL call, and building anew is the caller's.
  */
 export class Gl implements Disposable {
     readonly handle: WebGLRenderingContext;
-    readonly instancedArraysExtension: ANGLE_instanced_arrays;
-    private readonly srgbExtension: EXT_sRGB | null;
-    private readonly minMaxExtension: EXT_blend_minmax | null;
+    private instancedArraysExtensionValue!: ANGLE_instanced_arrays;
+    private srgbExtension: EXT_sRGB | null = null;
+    private minMaxExtension: EXT_blend_minmax | null = null;
 
     private readonly settingsCache = SettingsCache.initial();
+
+    private generationValue = 0;
+    private readonly lostListeners = new Set<() => void>();
+    private readonly restoredListeners = new Set<() => void>();
+    /**
+     * The canvas the loss events come from; `null` for a context with no
+     * canvas to listen on (headless-gl), which is never lost.
+     */
+    private readonly canvasEvents: EventTarget | null;
+
+    private readonly handleContextLost = (event: Event) => {
+        event.preventDefault();
+        for (const listener of [...this.lostListeners]) listener();
+    };
+
+    private readonly handleContextRestored = () => {
+        this.generationValue++;
+        // Extensions enabled before a loss are not restored with the context.
+        this.fetchExtensions();
+        for (const listener of [...this.restoredListeners]) listener();
+    };
 
     constructor(
         ...source:
@@ -45,18 +72,89 @@ export class Gl implements Disposable {
             typeof HTMLCanvasElement !== "undefined" &&
             a1 instanceof HTMLCanvasElement
         ) {
-            this.handle = a1.getContext("webgl", a2)!;
+            const context = a1.getContext("webgl", a2);
+            if (context === null) {
+                throw new Error("WebGL is unavailable");
+            }
+            this.handle = context;
         } else {
             this.handle = a1 as WebGLRenderingContext;
         }
 
-        this.instancedArraysExtension = this.handle.getExtension(
+        this.fetchExtensions();
+
+        const canvas: unknown = this.handle.canvas;
+        this.canvasEvents =
+            typeof (canvas as EventTarget | undefined)?.addEventListener ===
+            "function"
+                ? (canvas as EventTarget)
+                : null;
+        this.canvasEvents?.addEventListener(
+            "webglcontextlost",
+            this.handleContextLost,
+        );
+        this.canvasEvents?.addEventListener(
+            "webglcontextrestored",
+            this.handleContextRestored,
+        );
+    }
+
+    private fetchExtensions() {
+        this.instancedArraysExtensionValue = this.handle.getExtension(
             "ANGLE_instanced_arrays",
         )!;
-
         this.minMaxExtension = this.handle.getExtension("EXT_blend_minmax");
-
         this.srgbExtension = this.handle.getExtension("EXT_sRGB");
+    }
+
+    get instancedArraysExtension(): ANGLE_instanced_arrays {
+        return this.instancedArraysExtensionValue;
+    }
+
+    /**
+     * Counts the context's restores. A resource remembers the generation it
+     * was made in; once the count moves on, its handle belongs to a context
+     * that is gone.
+     */
+    get generation(): number {
+        return this.generationValue;
+    }
+
+    /**
+     * Whether a resource made in `generation` is dead: the context is lost
+     * now, or was restored since.
+     */
+    isDead(generation: number): boolean {
+        return (
+            this.handle.isContextLost() || generation !== this.generationValue
+        );
+    }
+
+    /**
+     * Calls `listener` whenever the context is lost. Every GL call is a
+     * no-op until the restore.
+     */
+    onContextLost(listener: () => void): Disposable {
+        this.lostListeners.add(listener);
+        return {
+            [Symbol.dispose]: () => {
+                this.lostListeners.delete(listener);
+            },
+        };
+    }
+
+    /**
+     * Calls `listener` whenever the context is restored. Everything made
+     * before is dead: build commands, textures and buffers again, then
+     * redraw.
+     */
+    onContextRestored(listener: () => void): Disposable {
+        this.restoredListeners.add(listener);
+        return {
+            [Symbol.dispose]: () => {
+                this.restoredListeners.delete(listener);
+            },
+        };
     }
 
     /**
@@ -257,9 +355,19 @@ export class Gl implements Disposable {
     }
 
     /**
-     * Destroy WebGL context
+     * Stop following the context's loss, then destroy the context
      */
     [Symbol.dispose]() {
+        this.canvasEvents?.removeEventListener(
+            "webglcontextlost",
+            this.handleContextLost,
+        );
+        this.canvasEvents?.removeEventListener(
+            "webglcontextrestored",
+            this.handleContextRestored,
+        );
+        this.lostListeners.clear();
+        this.restoredListeners.clear();
         const ex = this.handle.getExtension("WEBGL_lose_context");
         if (ex) {
             ex.loseContext();

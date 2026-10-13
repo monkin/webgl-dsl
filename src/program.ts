@@ -26,6 +26,8 @@ export type UniformLocation = WebGLUniformLocation;
  */
 export class Shader implements Disposable {
     readonly handle: WebGLShader;
+    /** The context generation it was made in; see `Gl.isDead`. */
+    private readonly generation: number;
 
     constructor(
         public readonly gl: Gl,
@@ -33,6 +35,7 @@ export class Shader implements Disposable {
         public readonly source: string,
     ) {
         const handle = (this.handle = gl.handle.createShader(type)!);
+        this.generation = gl.generation;
 
         gl.handle.shaderSource(handle, source);
         gl.handle.compileShader(handle);
@@ -44,7 +47,9 @@ export class Shader implements Disposable {
     }
 
     [Symbol.dispose]() {
-        this.gl.handle.deleteShader(this.handle);
+        if (!this.gl.isDead(this.generation)) {
+            this.gl.handle.deleteShader(this.handle);
+        }
     }
 }
 
@@ -62,6 +67,8 @@ export interface AttributeRecord {
 
 export class Program implements Disposable {
     readonly handle: WebGLProgram;
+    /** The context generation it was made in; see `Gl.isDead`. */
+    private readonly generation: number;
 
     readonly uniforms = new Map<string, UniformRecord>();
     readonly attributes = new Map<string, AttributeRecord>();
@@ -72,6 +79,7 @@ export class Program implements Disposable {
         public readonly fragment: Shader,
     ) {
         const handle = (this.handle = gl.handle.createProgram()!);
+        this.generation = gl.generation;
         gl.handle.attachShader(handle, vertex.handle);
         gl.handle.attachShader(handle, fragment.handle);
         gl.handle.linkProgram(handle);
@@ -158,6 +166,8 @@ export class Program implements Disposable {
     }
 
     [Symbol.dispose]() {
-        this.gl.handle.deleteProgram(this.handle);
+        if (!this.gl.isDead(this.generation)) {
+            this.gl.handle.deleteProgram(this.handle);
+        }
     }
 }

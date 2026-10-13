@@ -100,3 +100,31 @@ drawTriangles[Symbol.dispose]();
 
 > `using` requires TypeScript 5.2+, and the resources rely on native
 > `Symbol.dispose` at runtime (every 2024+ browser and Node.js 20+).
+
+## Context loss
+
+A GPU reset can take the WebGL context away. `Gl` listens on its canvas and
+always calls `preventDefault()` on `webglcontextlost` — without that the
+browser never restores the context — and reports both ends:
+
+```typescript
+const lost = gl.onContextLost(() => {
+    // Stop drawing: every GL call is a no-op until the restore.
+});
+const restored = gl.onContextRestored(() => {
+    // Everything made before the loss is dead: build commands, textures and
+    // buffers again, then redraw.
+});
+// Later: lost[Symbol.dispose](); restored[Symbol.dispose]();
+```
+
+On a restore `Gl` fetches its extensions again, but rebuilds no resource:
+their handles belonged to the context that was lost. Disposing one is safe —
+while the context is lost, or once it has been restored, a resource's
+`[Symbol.dispose]()` makes no GL call. Build only on a live context: a
+command made while the context is lost has no attributes, and drawing it
+throws.
+
+`new Gl(canvas)` throws `Error("WebGL is unavailable")` when the canvas gives
+no WebGL context. A `Gl` over an existing context listens on its `canvas`
+when that is an `EventTarget`, and on nothing otherwise (headless-gl).

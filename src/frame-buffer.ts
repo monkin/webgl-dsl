@@ -14,6 +14,8 @@ import { Texture } from "./texture";
  */
 export class FrameBuffer implements Disposable {
     readonly handle: WebGLFramebuffer;
+    /** The context generation it was made in; see `Gl.isDead`. */
+    private readonly generation: number;
 
     constructor(
         public readonly gl: Gl,
@@ -21,6 +23,7 @@ export class FrameBuffer implements Disposable {
         public readonly depthBuffer?: RenderBuffer,
     ) {
         this.handle = gl.handle.createFramebuffer()!;
+        this.generation = gl.generation;
         gl.settings()
             .frameBuffer(this)
             .apply(() => {
@@ -42,6 +45,8 @@ export class FrameBuffer implements Disposable {
     }
 
     [Symbol.dispose]() {
-        this.gl.handle.deleteFramebuffer(this.handle);
+        if (!this.gl.isDead(this.generation)) {
+            this.gl.handle.deleteFramebuffer(this.handle);
+        }
     }
 }
